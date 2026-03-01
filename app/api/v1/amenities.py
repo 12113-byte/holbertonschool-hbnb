@@ -15,14 +15,27 @@ class AmenityList(Resource):
     @api.response(400, 'Invalid input data')
     def post(self):
         """Register a new amenity"""
-        # Placeholder for the logic to register a new amenity
-        pass
+        # Logic to register a new amenity
+        data = api.payload #  dictionary from client
+        try:
+            new_amenity = facade.create_amenity(data) #  create new amenity
+            return {"id": new_amenity.id, "name": new_amenity.name}, 201
+        except ValueError as e:
+            return {"error": str(e)}, 400
+
+
 
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
         """Retrieve a list of all amenities"""
-        # Placeholder for logic to return a list of all amenities
-        pass
+        # Logic to return a list of all amenities
+        all_amenities = facade.get_all_amenities() #  call the business logic layer
+        amenities_list = [] #convert each amenity object to a dictionary
+        for amenity in all_amenities:
+            amenities_list.append({"id": amenity.id, "name": amenity.name})
+        
+        return amenities_list, 200
+
 
 @api.route('/<amenity_id>')
 class AmenityResource(Resource):
@@ -30,8 +43,13 @@ class AmenityResource(Resource):
     @api.response(404, 'Amenity not found')
     def get(self, amenity_id):
         """Get amenity details by ID"""
-        # Placeholder for the logic to retrieve an amenity by ID
-        pass
+        # Logic to retrieve an amenity by ID
+        amenity = facade.get_amenity(amenity_id) # call bll to fetch amenity
+
+        if amenity is None:
+            return {"error": "Amenity not found"}, 404
+        
+        return {"id": amenity.id, "name": amenity.name}, 200 #  return amenity as dictionary
 
     @api.expect(amenity_model)
     @api.response(200, 'Amenity updated successfully')
@@ -39,5 +57,16 @@ class AmenityResource(Resource):
     @api.response(400, 'Invalid input data')
     def put(self, amenity_id):
         """Update an amenity's information"""
-        # Placeholder for the logic to update an amenity by ID
-        pass
+        # Logic to update an amenity by ID
+        data = api.payload #  get JSON from client
+
+        try: #  try to update via BLL
+            updated_amenity = facade.update_amenity(amenity_id, data)
+
+            if updated_amenity is None:
+                return {"error": "Amenity not found"}, 404
+            
+            return {"id": updated_amenity.id, "name": updated_amenity.name}, 200
+        
+        except ValueError as e:
+            return {"error": str(e)}, 400 # handles invalid input
