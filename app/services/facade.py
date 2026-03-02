@@ -10,8 +10,9 @@ class HBnBFacade:
 
     # Placeholder method for creating a user
     def create_user(self, data):
+# CREATE a new user
         existing = self.user_repo.find_by("email", data.get("email", "").strip().lower())
-        if existing:
+        if existing: # blocks creation if email already exists
             raise ValueError("A user with this email already exists.")
         user = User(
             first_name=data.get("first_name"),
@@ -19,18 +20,18 @@ class HBnBFacade:
             email=data.get("email"),
             password=data.get("password"),
             admin=data.get("admin", False)
-        )
-        return self.user_repo.save(user)
+        ) #created a user object
+        return self.user_repo.save(user) # saved to repo and returned
 
-    def get_all_users(self):
+    def get_all_users(self): #GET all users 
         return self.user_repo.get_all()
 
-    def get_user(self, user_id):
-        return self.user_repo.get(user_id)
+    def get_user(self, user_id): #GET ONE user by unique id
+        return self.user_repo.get(user_id) 
     
-    def update_user(self, uid, user_data):
-        user = self.user_repo.get(uid)
-        if not user:
+    def update_user(self, uid, user_data): # UPDATE user by unique id
+        user = self.user_repo.get(uid) # fetch user from repo
+        if not user:  
             return None
         if "first_name" in user_data and user_data["first_name"]:
             user.first_name = user_data["first_name"].strip()
@@ -43,7 +44,7 @@ class HBnBFacade:
             user.email = user_data["email"].strip().lower()
         if "password" in user_data and user_data["password"]:
             user.password = user._hash_password(user_data["password"])
-        return self.user_repo.update(user)
+        return self.user_repo.update(user) # Save updated user and return it
 
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
