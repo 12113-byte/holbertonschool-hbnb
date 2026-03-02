@@ -14,17 +14,16 @@ class AmenityList(Resource):
     @api.response(201, 'Amenity successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
-        """Register a new amenity"""
-        # Logic to register a new amenity
-        data = api.payload #  dictionary from client
+        data = api.payload
         try:
             new_amenity = facade.create_amenity(data) #  create new amenity
             return {"id": new_amenity.id, "name": new_amenity.name}, 201
-        except ValueError as e:
+        except Exception as e:
             return {"error": str(e)}, 400
 
-
-
+    """
+        Get All Amenities
+    """
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
         """Retrieve a list of all amenities"""
@@ -68,5 +67,5 @@ class AmenityResource(Resource):
             
             return {"id": updated_amenity.id, "name": updated_amenity.name}, 200
         
-        except ValueError as e:
+        except Exception as e:
             return {"error": str(e)}, 400 # handles invalid input

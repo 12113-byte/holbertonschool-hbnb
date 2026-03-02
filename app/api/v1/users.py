@@ -17,7 +17,6 @@ class UserList(Resource):
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
     def post(self):
-        """Register a new user"""
         user_data = api.payload
 
         # Simulate email uniqueness check (to be replaced by real validation with persistence)
