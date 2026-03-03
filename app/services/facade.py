@@ -123,28 +123,60 @@ class HBnBFacade:
         Review
     """
     def create_review(self, review_data):
-        # Placeholder for logic to create a review, including validation for user_id, place_id, and rating
-        pass
+        #Checking that user is associated with the review exists
+        user = self.user_repo.get(review_data.get("user_id"))
+        if not user:
+            raise Exception("User not found")
+
+        #Checking that place is associated with the review exists
+        place = self.place_repo.get(review_data.get("place_id"))
+        if not place:
+            raise Exception("Place not found")
+
+        #Checking review text is not empty or missing
+        if not review_data.get('text'):
+            raise Exception("Review text is required")
+        
+        #Ensuring rating is an integer between 1 and 5
+        rating = review_data.get('rating', 0)
+        if not (1 <= rating <= 5):
+            raise Exception("Rating must be between 1 and 5")
 
     def get_review(self, review_id):
         # Placeholder for logic to retrieve a review by ID
-        pass
+        return self.review_repo.get(review_id)
 
     def get_all_reviews(self):
         # Placeholder for logic to retrieve all reviews
-        pass
+        return self.review_repo.get_all()
 
     def get_reviews_by_place(self, place_id):
         # Placeholder for logic to retrieve all reviews for a specific place
-        pass
+        # r for reviews
+        return [r for r in self.review_repo.get_all() if r.place_id == place_id]
 
     def update_review(self, review_id, review_data):
         # Placeholder for logic to update a review
-        pass
+        review = self.review_repo.get(review_id)
+        if not review:
+            return None
+        
+        #Dynamically update review attributes based on provided data
+        for key, value in review_data.items():
+            setattr(review, key, value)
+
+        #save updated review back to repository
+        return self.review_repo.update(review_id, review)
 
     def delete_review(self, review_id):
         # Placeholder for logic to delete a review
-        pass
+        # Verifies the review exists before attempt
+        review = self.review_repo.get(review_id)
+        if not review:
+            return None #review not found
+        
+        #Delete review from repository
+        return self.review_repo.delete(review_id)
 
 
     def string_validation(self, string, input_name, length):

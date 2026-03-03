@@ -27,7 +27,7 @@ class UserList(Resource):
         return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email}, 201
 
         #except Exception as e:
-          #  api.abort(400, str(e))
+        #  api.abort(400, str(e))
     
 @api.route('/<user_id>')
 class UserResource(Resource):
