@@ -6,16 +6,15 @@ api = Namespace('places', description='Place operations')
 
 #Amenity output format
 amenity_model = api.model('PlaceAmenity', {
-    'id': fields.String,
-    'name': fields.String
+    'id': fields.String(description='Amenity ID'),
+    'name': fields.String(description='Name of the amenity')
 })
 
-#Owner output format
 user_model = api.model('PlaceUser', {
-    'id': fields.String,
-    'first_name': fields.String,
-    'last_name': fields.String,
-    'email': fields.String
+    'id': fields.String(description='User ID'),
+    'first_name': fields.String(description='First name of the owner'),
+    'last_name': fields.String(description='Last name of the owner'),
+    'email': fields.String(description='Email of the owner')
 })
 
 #Review format
@@ -42,13 +41,14 @@ place_model = api.model('Place', {
 #Places
 @api.route('/')
 class PlaceList(Resource):
-    @api.expect(place_model)
+    @api.expect(place_model, validate=True)
     @api.response(201, 'Place created')
     @api.response(400, 'Invalid data')
     def post(self):
-        #Creates new place
+        """Creates new Place"""
+        data = api.payload
         try:
-            data = api.payload
+
             place = facade.create_place(data)
             # Return minimal response
             return {
@@ -58,7 +58,7 @@ class PlaceList(Resource):
                 "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude,
-                "owner_id": place.owner.id
+                "owner_id": place.owner_id
             }, 201
 
         except Exception as e:
@@ -68,6 +68,7 @@ class PlaceList(Resource):
 
     @api.response(200, 'Places retrieved')
     def get(self):
+        """Get all Places"""
         places = facade.get_all_places()
 
         return [{
@@ -83,33 +84,42 @@ class PlaceResource(Resource):
     @api.response(200, 'Place found')
     @api.response(404, 'Place not found')
     def get(self, place_id):
-        #Get detailed place info
+        """Get a specific Place"""
         place = facade.get_place(place_id)
 
         if not place:
             return {"error": "Place not found"}, 404
 
         return {
-            "id": place.id,
-            "title": place.title,
-            "description": place.description,
-            "latitude": place.latitude,
-            "longitude": place.longitude,
-
+            "place": {
+                "id": place_id,
+                "title": place.title,
+                "description": place.description,
+                "latitude": place.latitude,
+                "longitude": place.longitude
+            },
             # Owner relationship
             "owner": {
-                "id": place.owner.id,
-                "first_name": place.owner.first_name,
-                "last_name": place.owner.last_name,
-                "email": place.owner.email
+                "id": place.owner_id,
+                "first_name": place.owner_first_name,
+                "last_name": place.owner_last_name,
+                "email": place.owner_email
             },
-
-            # Amenities relationship
+            "reviews" : [
+            {
+                "id": r.id,
+                "text": r.text,
+                "rating": r.rating,
+                "user_id": r.user_id
+            } for r in reviews
+            ],
             "amenities": [
-                {"id": a.id, "name": a.name}
-                for a in place.amenities
+            {
+                "id": a.id,
+                "name": a.name,
+            } for a in place.amenities
             ]
-        }, 200
+            }, 200
 
     # ---------------------------------
 

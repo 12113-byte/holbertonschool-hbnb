@@ -43,6 +43,20 @@ class HBnBFacade:
             raise Exception(m)
         return self.user_repo.get_by_attribute("email", email)
 
+    def update_user(self, user_id, user_data):
+        b, m = self.string_validation(user_data['first_name'], "first_name", 50)
+        if (b is False):
+            raise Exception(m)
+        b, m = self.string_validation(user_data['last_name'], "last_name", 50)
+        if (b is False):
+            raise Exception(m)
+        b, m = self.email_validation(user_data['email'])
+        if (b is False):
+            raise Exception(m)
+
+        return self.user_repo.update(user_id, user_data)
+
+
     """
         Places
     """
@@ -92,14 +106,13 @@ class HBnBFacade:
         if (b is False):
             raise Exception(m)
 
-        return self.amenity_repo.update(place_id, place_data)
+        return self.place_repo.update(place_id, place_data)
 
     """
         Amenities
     """
     def create_amenity(self, amenity_data):
         b, m = self.string_validation(amenity_data['name'], "name", 50)
-        print(b, m)
         if (b is False):
             raise Exception(m)
 
@@ -124,21 +137,21 @@ class HBnBFacade:
     """
     def create_review(self, review_data):
         #Checking that user is associated with the review exists
-        user = self.user_repo.get(review_data.get("user_id"))
+        user = self.user_repo.get(review_data['user_id'])
         if not user:
             raise Exception("User not found")
 
         #Checking that place is associated with the review exists
-        place = self.place_repo.get(review_data.get("place_id"))
+        place = self.place_repo.get(review_data['place_id'])
         if not place:
             raise Exception("Place not found")
 
         #Checking review text is not empty or missing
-        if not review_data.get('text'):
+        if not review_data['text']:
             raise Exception("Review text is required")
         
         #Ensuring rating is an integer between 1 and 5
-        rating = review_data.get('rating', 0)
+        rating = review_data['rating']
         if not (1 <= rating <= 5):
             raise Exception("Rating must be between 1 and 5")
 
@@ -156,14 +169,9 @@ class HBnBFacade:
         return [r for r in self.review_repo.get_all() if r.place_id == place_id]
 
     def update_review(self, review_id, review_data):
-        # Placeholder for logic to update a review
         review = self.review_repo.get(review_id)
         if not review:
             return None
-        
-        #Dynamically update review attributes based on provided data
-        for key, value in review_data.items():
-            setattr(review, key, value)
 
         #save updated review back to repository
         return self.review_repo.update(review_id, review)
@@ -178,7 +186,9 @@ class HBnBFacade:
         #Delete review from repository
         return self.review_repo.delete(review_id)
 
-
+    """
+        Validation Methods
+    """
     def string_validation(self, string, input_name, length):
         if isinstance(string, str) is False:
             return False, f"{input_name} must be a string"

@@ -17,7 +17,7 @@ class ReviewList(Resource):
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
-        #creates a new review
+        """Create a new reviews"""
         data = api.payload
         try:
             new_review = facade.create_review(data) #create review using facade method including validation
