@@ -3,59 +3,211 @@ from app.models.user import User
 from app.models.place import Place
 from app.models.review import Review
 from app.models.amenity import Amenity
+import re
 
 
 class HBnBFacade:
-	def __init__(self):
-		self.user_repo = InMemoryRepository()
-		self.place_repo = InMemoryRepository()
-		self.review_repo = InMemoryRepository()
-		self.amenity_repo = InMemoryRepository()
+    def __init__(self):
+        self.user_repo = InMemoryRepository()
+        self.place_repo = InMemoryRepository()
+        self.review_repo = InMemoryRepository()
+        self.amenity_repo = InMemoryRepository()
 
-	"""
-		Users
-	"""
-	def create_user(self, user_data):
-		user = User(**user_data)
-		self.user_repo.add(user)
-		return user
+    """
+        Users
+    """
+    # Create a new User
+    def create_user(self, user_data):
+        b, m = self.string_validation(user_data['first_name'], "first_name", 50)
+        if (b is False):
+            raise Exception(m)
+        b, m = self.string_validation(user_data['last_name'], "last_name", 50)
+        if (b is False):
+            raise Exception(m)
+        b, m = self.email_validation(user_data['email'])
+        if (b is False):
+            raise Exception(m)
 
-	def get_user(self, user_id):
-		return self.user_repo.get(user_id)
+        user = User(**user_data)
+        self.user_repo.add(user)
+        return user
 
-	def get_user_by_email(self, email):
-		return self.user_repo.get_by_attributes('email', email)
+    # Get user by User uuid
+    def get_user(self, user_id):
+        return self.user_repo.get(user_id)
 
-	def create_place(self, place_data):
-		place = Place(**place_data)
-		self.place_repo.add(place)
-		return place
+    # Get user by User email
+    def get_user_by_email(self, email):
+        b, m = self.email_validation(email)
+        if (b is False):
+            raise Exception(m)
+        return self.user_repo.get_by_attribute("email", email)
 
-	"""
-		Places
-	"""
-	def get_place(self, place_id):
-		return self.place_repo.get(place_id)
+    """
+        Places
+    """
+    # Create a new place
+    def create_place(self, place_data):
+        b, m = self.string_validation(place_data['title'], "title", 100)
+        if (b is False):
+            raise Exception(m)
+        b, m = self.price_validation(place_data['price'])
+        if (b is False):
+            raise Exception(m)
 
-	def get_all_places(self):
-		return self.place_repo.get_all()
+        b, m = self.latitude_validation(place_data['latitude'])
+        if (b is False):
+            raise Exception(m)
 
-	def update_place(self, place_id, place_data):
-		return self.amenity_repo.update(place_id, place_data)
+        b, m = self.longitude_validation(place_data['longitude'])
+        if (b is False):
+            raise Exception(m)
 
-	"""
-		Amenities
-	"""
-	def create_amenity(self, amenity_data):
-		amenity = Amenity(**amenity_data)
-		self.amenity_repo.add(amenity)
-		return amenity
+        place = Place(**place_data)
+        self.place_repo.add(place)
+        return place
 
-	def get_amenity(self, amenity_id):
-		return self.amenity_repo.get(amenity_id)
+    # Get place by place id
+    def get_place(self, place_id):
+        return self.place_repo.get(place_id)
 
-	def get_all_amenities(self):
-		return self.amenity_repo.get_all()
+    # return all places in the memory repo
+    def get_all_places(self):
+        return self.place_repo.get_all()
 
-	def update_amenity(self, amenity_id, amenity_data):
-		return self.amenity_repo.update(amenity_id, amenity_data)
+    # update a place's data
+    def update_place(self, place_id, place_data):
+        b, m = self.string_validation(place_data['title'], "title", 100)
+        if (b is False):
+            raise Exception(m)
+        b, m = self.price_validation(place_data['price'])
+        if (b is False):
+            raise Exception(m)
+
+        b, m = self.latitude_validation(place_data['latitude'])
+        if (b is False):
+            raise Exception(m)
+
+        b, m = self.longitude_validation(place_data['longitude'])
+        if (b is False):
+            raise Exception(m)
+
+        return self.amenity_repo.update(place_id, place_data)
+
+    """
+        Amenities
+    """
+    def create_amenity(self, amenity_data):
+        b, m = self.string_validation(amenity_data['name'], "name", 50)
+        print(b, m)
+        if (b is False):
+            raise Exception(m)
+
+        amenity = Amenity(**amenity_data)
+        self.amenity_repo.add(amenity)
+        return amenity
+
+    def get_amenity(self, amenity_id):
+        return self.amenity_repo.get(amenity_id)
+
+    def get_all_amenities(self):
+        return self.amenity_repo.get_all()
+
+    def update_amenity(self, amenity_id, amenity_data):
+        b, m = self.string_validation(amenity_data['name'], "name", 50)
+        if (b is False):
+            raise Exception(m)
+        return self.amenity_repo.update(amenity_id, amenity_data)
+
+    """
+        Review
+    """
+    def create_review(self, review_data):
+        # Placeholder for logic to create a review, including validation for user_id, place_id, and rating
+        pass
+
+    def get_review(self, review_id):
+        # Placeholder for logic to retrieve a review by ID
+        pass
+
+    def get_all_reviews(self):
+        # Placeholder for logic to retrieve all reviews
+        pass
+
+    def get_reviews_by_place(self, place_id):
+        # Placeholder for logic to retrieve all reviews for a specific place
+        pass
+
+    def update_review(self, review_id, review_data):
+        # Placeholder for logic to update a review
+        pass
+
+    def delete_review(self, review_id):
+        # Placeholder for logic to delete a review
+        pass
+
+
+    def string_validation(self, string, input_name, length):
+        if isinstance(string, str) is False:
+            return False, f"{input_name} must be a string"
+
+        if len(string) == 0:
+            return False, f"{input_name} cannot be empty"
+
+        if len(string) > length:
+            return False, f"{input_name} cannot be greater than {length}"
+
+        return True, "success"
+
+    def sring_no_max_validation(self, string, input_name):
+        if isinstance(string, str) is False:
+            return False, f"{input_name} must be a string"
+
+        if len(string) == 0:
+            return False, f"{input_name} cannot be empty"
+
+        return True
+
+    def email_validation(self, email):
+        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        if re.match(pattern, email) is not None:
+            return True, "success"
+
+        return False, "invalid email address"
+
+    def price_validation(self, price):
+        if isinstance(price, float) is False:
+            return False, "price must be a positive number"
+
+        if price < 1:
+            return False, "price must be a positive number"
+
+        return True, "success"
+
+    def latitude_validation(self, latitude):
+        if isinstance(latitude, float) is False:
+            return False, "latitude must be a float"
+
+        if latitude < -90 or latitude > 90:
+            return False, "latitude must be valid (between -90 and 90)"
+
+        return True, "success"
+
+    def longitude_validation(self, longitude):
+        if isinstance(longitude, float) is False:
+            return False, "longitude must be a float"
+
+        if longitude < -180 or longitude > 180:
+            return False, "longitude must be valid (between -180 and 180)"
+
+        return True, "success"
+
+    def rating_validation(self, rating):
+        if isinstance(rating, int) is False:
+            return False, "rating must be an integer"
+
+        if rating < 1 or rating > 5:
+            return False, "rating must be between 1 and 5"
+
+        return True, "success"
+
