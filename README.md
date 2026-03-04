@@ -32,7 +32,7 @@ This repository contains the backend implementation responsible for managing app
 
 
 -----------------------------------------------------------------------
-+ 1.0 File Structure
+# 1.0 File Structure
 -------------------------------------------------------------
 
 ```
@@ -69,7 +69,7 @@ This repository contains the backend implementation responsible for managing app
 ```
 
 -------------------------------------------------------------
-+ 2.0 Architecture 
+# 2.0 Architecture 
 -------------------------------------------------------------
 
 API (Presentation Layer): Handles HTTP requests and responses,Defines API endpoints,Validates request input,Calls the Facade layer
@@ -79,7 +79,7 @@ Facade  + Models [Place , Users , Amenity]  (Business Logic Layer): Data validat
 Repository (Persistence Layer): Abstracts data storage using repositories
 
 ---------------------------------------------------------------
-+ 3.0 How to Run!
+# 3.0 How to Run!
 -------------------------------------------------------------
 
 
@@ -105,10 +105,10 @@ Repository (Persistence Layer): Abstracts data storage using repositories
 
 
 --------------------------------------------------------------
-+ 4.0 Features Implemented 
+# 4.0 Features Implemented 
 -------------------------------------------------------------
 
-++ 4.1.1 Users Endpoints
+## 4.1.1 Users Endpoints
 
 
 File in Repo —--> app/api/v1/users.py
@@ -127,7 +127,7 @@ File in Repo —--> app/api/v1/users.py
 - Email uniqueness enforces (no duplicates)
 - Password hashing for security
 
-++ 4.1.2 User Model
+## 4.1.2 User Model
 
 File in Repo —-> app/models/user.py
 
@@ -142,7 +142,7 @@ File in Repo —-> app/models/user.py
 - Places (a user can own multiple places)
 - Reviews (a user can write multiple reviews)
 
-++ 4.2.1 Amenities API endpoints
+## 4.2.1 Amenities API endpoints
 
 File in Repo —-> app/api/v1/amenities.py
 
@@ -160,7 +160,7 @@ File in Repo —-> app/api/v1/amenities.py
 - Input validation for data
 - Consistent API response structure
 
-++ 4.2.2 Amenity Model
+## 4.2.2 Amenity Model
 
 File  in Repo  —->  app/models/amenity.py
 
@@ -173,7 +173,7 @@ File  in Repo  —->  app/models/amenity.py
 - Amenities can be associated with multiple Place entities.
 - Acts as a reusable feature descriptor for places (e.g., Wi-Fi, Parking, Air Conditioning).
 
-++ 4.3.1 Places API Endpoints
+## 4.3.1 Places API Endpoints
 
 FIle in Repo -----> app/api/v1/places.py
 
@@ -189,7 +189,7 @@ FIle in Repo -----> app/api/v1/places.py
 - Facade integration
 - Owner & amenities included in responses
 
-++ 4.3.2 Place Model
+## 4.3.2 Place Model
 
 File in Repo -----> app/models/place.py
 
@@ -207,7 +207,7 @@ File in Repo -----> app/models/place.py
 - Amenities list
 - Responsibilities:
 
-++ 4.4.1 Reviews API Endpoints
+## 4.4.1 Reviews API Endpoints
 
 File in Repo —-> app/api/v1/reviews.py
 
@@ -226,7 +226,7 @@ DELETE  	/api/v1/reviews/ <review_id>  		Update a review|
 - Only entity in the project that supports DELETE
 - Validates user and place exist before creating review
 
-++ 4.4.2 Review model
+## 4.4.2 Review model
 
 File in Repo —-> app/models/review.py
 
@@ -243,12 +243,12 @@ File in Repo —-> app/models/review.py
 - Place (subject of the review)
 
 --------------------------------------------------------------
-5.0 Facade Layer
+# 5.0 Facade Layer
 --------------------------------------------------------------
 
 The HBnBFacade acts as the central coordination layer between the API (Presentation Layer), Business Logic, and Persistence Layer.
 
-++ 5.1.1 User Management
+## 5.1.1 User Management
 
 ### Implemented Methods:
 - create_user()
@@ -268,7 +268,7 @@ The HBnBFacade acts as the central coordination layer between the API (Presentat
 - Business rule orchestration
 - Separation between API and persistence layers
 
-++ 5.2.1 Place Management
+## 5.2.1 Place Management
 
 ### Implemented Methods
 - create_place()
@@ -288,7 +288,7 @@ The HBnBFacade acts as the central coordination layer between the API (Presentat
 - Repository abstraction
 - Centralised business coordination
 
-++ 5.3.1 Amenity Management
+## 5.3.1 Amenity Management
 
 ### Implemented Methods:
 - create_amenity()
@@ -306,7 +306,7 @@ The HBnBFacade acts as the central coordination layer between the API (Presentat
 - Repository integration
 - Business logic encapsulation
 
-++ 5.4.1 Review Management
+## 5.4.1 Review Management
 
 ### Implemented Methods
 - create_review()
@@ -327,7 +327,7 @@ The HBnBFacade acts as the central coordination layer between the API (Presentat
 - Data integrity enforcement
 
 --------------------------------------------------------------
-6.0 Testing 
+# 6.0 Testing 
 --------------------------------------------------------------
 
 Endpoints can be tested using:
@@ -338,7 +338,7 @@ curl -X GET http://localhost:5000/api/v1/places/
 Test Plan 
 
 ------------------------------------
-1.0 Users
+## 1.0 Users
 -------------------------------------
 
 Case 1 - Create a User 
@@ -363,7 +363,7 @@ Expected output(201):
 }
 ```
 ------------------------------------
-2.0 Amenities
+# 2.0 Amenities
 -------------------------------------
 
 Case 1 : create amenity
@@ -436,7 +436,7 @@ Response:
 ```
 
 ---------------------------------
-3.0 Places
+# 3.0 Places
 ---------------------------------
 
 
@@ -563,7 +563,7 @@ Status Codes
 
 
 --------------------------------
-4.0 ReviewS
+# 4.0 ReviewS
 ----------------------------------
 
 
