@@ -34,7 +34,7 @@ This repository contains the backend implementation responsible for managing app
 + 1.0 File Structure
 -------------------------------------------------------------
 
-
+```
 /hbnb
 ├── /app
 │   ├── /api
@@ -65,7 +65,7 @@ This repository contains the backend implementation responsible for managing app
 ├── run.py                         # Application entry point
 ├── requirements.txt               # Python dependencies
 └── README.md                      # Project documentation
-
+```
 
 -------------------------------------------------------------
 + 2.0 Architecture 
