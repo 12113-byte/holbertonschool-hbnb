@@ -103,7 +103,9 @@ Repository (Persistence Layer) : Abstracts data storage using repositories
 
 File in Repo —--> app/api/v1/users.py
 
-| Method |	Endpoint |					          Description|
+| Method |	Endpoint | Description|
+|--------|-----------|------------|
+
 
 |POST  	|	/api/v1/users/ 			|			  Create a new user|
 | GET  	|	/api/v1/users/ 				|		  Get all users|
