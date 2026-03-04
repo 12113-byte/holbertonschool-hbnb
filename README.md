@@ -4,7 +4,7 @@ README!!!
 
 =======================================================================================================
 
-HBnB is a backend web application inspired by accommodation platforms such as Airbnb.
+HBnB part 2 is a backend web application inspired by the accommodation platforms Airbnb.
 The goal of this project is to design and implement a layered API using:
 
 - Flask + Flask-RESTx
