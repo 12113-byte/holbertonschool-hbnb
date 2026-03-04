@@ -103,12 +103,12 @@ Repository (Persistence Layer) : Abstracts data storage using repositories
 
 File in Repo —--> app/api/v1/users.py
 
-| Method |	|Endpoint |					          |Description|
-
-POST  		/api/v1/users/ 						  Create a new user
-GET  		/api/v1/users/ 						  Get all users
-GET  		/api/v1/users/<user_id> 			  Get a user by ID
-PUT  		/api/v1/users/<user_id> 			  Update a user
+| Method |	Endpoint | Description|
+|--------|-----------|------------|
+| POST |/api/v1/users/ | Create a new user|
+| GET |/api/v1/users/ | Get all users|
+| GET |/api/v1/users/<user_id> | Get a user by ID|
+| PUT |/api/v1/users/<user_id> | Update a user|
 
 Features:
 	–-Request validation using Flask-Restx models
@@ -139,11 +139,12 @@ Features:
 File in Repo —-> app/api/v1/amenities.py
 
 
-|Method|	|Endpoint|							|Description|
-POST		/api/v1/amenities/					Create a new amenity
-GET			/api/v1/amenities/					Retrieve all amenities
-GET			/api/v1/amenities/<amenity_id>		Retrieve amenity details
-PUT			/api/v1/amenities/<amenity_id>		Update an amenity
+|Method | Endpoint|	Description|
+|-------|---------|------------|
+| POST | /api/v1/amenities/	| Create a new amenity | 
+| GET | /api/v1/amenities/ | Retrieve all amenities |
+| GET | /api/v1/amenities/<amenity_id> | Retrieve amenity details |
+| PUT | /api/v1/amenities/<amenity_id> | Update an amenity |
 
 Features
  --Request validation using Flask-RESTx models
@@ -170,11 +171,11 @@ Features:
 
 FIle in Repo -----> app/api/v1/places.py
 
-| Method |		|Endpoint |					    |Description|
-POST			/api/v1/places/					Create a new place
-GET				/api/v1/places/					Retrieve all places
-GET				/api/v1/places/<place_id>		Retrieve place details
-PUT				/api/v1/places/<place_id>		Update a place 
+| Method | Endpoint | Description|
+| POST| /api/v1/places/ | Create a new place |
+| GET | /api/v1/places/ | Retrieve all places |
+| GET | /api/v1/places/<place_id> |	Retrieve place details |
+| PUT | /api/v1/places/<place_id> | Update a place |
 
 Features:
 	--Request validation using Flask-RESTx models
