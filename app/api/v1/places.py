@@ -44,11 +44,11 @@ class PlaceList(Resource):
     @api.expect(place_model, validate=True)
     @api.response(201, 'Place created')
     @api.response(400, 'Invalid data')
+    @api.response(404, 'User not found')
     def post(self):
         """Creates new Place"""
         data = api.payload
         try:
-
             place = facade.create_place(data)
             # Return minimal response
             return {
@@ -58,7 +58,7 @@ class PlaceList(Resource):
                 "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude,
-                "owner_id": place.owner_id
+                "owner_id": place.owner.id
             }, 201
 
         except Exception as e:
@@ -100,10 +100,10 @@ class PlaceResource(Resource):
             },
             # Owner relationship
             "owner": {
-                "id": place.owner_id,
-                "first_name": place.owner_first_name,
-                "last_name": place.owner_last_name,
-                "email": place.owner_email
+                "id": place.owner.id,
+                "first_name": place.owner.first_name,
+                "last_name": place.owner.last_name,
+                "email": place.owner.email
             },
             "reviews" : [
             {
@@ -111,7 +111,7 @@ class PlaceResource(Resource):
                 "text": r.text,
                 "rating": r.rating,
                 "user_id": r.user_id
-            } for r in reviews
+            } for r in place.reviews
             ],
             "amenities": [
             {
@@ -162,6 +162,6 @@ class PlaceReviewList(Resource):
                 "id": r.id,
                 "text": r.text,
                 "rating": r.rating,
-                "user_id": r.user_id
+                "user_id": r.user.id
             } for r in reviews
         ], 200

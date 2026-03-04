@@ -21,7 +21,7 @@ class ReviewList(Resource):
         data = api.payload
         try:
             new_review = facade.create_review(data) #create review using facade method including validation
-            return {"id": new_review.id, "rating": new_review.rating, "place": new_review.place, "user": new_review.user}
+            return {"id": new_review.id, "rating": new_review.rating, "place": new_review.place.id, "user": new_review.user.id}, 201
         except Exception as e:
             return {"error": str(e)}, 400 # handles invalid input
 
@@ -33,8 +33,8 @@ class ReviewList(Resource):
             "id": r.id,
             "text": r.text,
             "rating": r.rating,
-            "user_id": r.user_id,
-            "place_id": r.place_id
+            "user_id": r.user.id,
+            "place_id": r.place.id
         } for r in reviews], 200
 
 @api.route('/<review_id>')
@@ -53,8 +53,8 @@ class ReviewResource(Resource):
             "id": review.id,
             "text": review.text,
             "rating": review.rating,
-            "user_id": review.user_id,
-            "place_id": review.place_id
+            "user_id": review.user.id,
+            "place_id": review.place.id
         }, 200 #successful retrieval of review details
 
     @api.expect(review_model)
@@ -78,9 +78,9 @@ class ReviewResource(Resource):
     def delete(self, review_id):
         """Delete a review"""
         # Placeholder for the logic to delete a review
-        result = facade.delete_review(review_id) # Attempt to delete the review using the facade method
+        try:
+            facade.delete_review(review_id) # Attempt to delete the review using the facade method
+        except Exception as e:
+            return {"error": str(e)}, 400 # handles invalid input
 
-        # Return 404 if review not found
-        if not result:
-            return {"error": "Review not found"}, 404
         return {"message": "Review deleted successfully"}, 200 #successful deletion of review

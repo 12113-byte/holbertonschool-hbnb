@@ -77,7 +77,11 @@ class HBnBFacade:
         if (b is False):
             raise Exception(m)
 
-        place = Place(**place_data)
+        get_user = self.user_repo.get(place_data['owner_id'])
+        if get_user is None:
+            raise Exception("User not found")
+
+        place = Place(place_data['title'], place_data['description'], place_data['price'], place_data['latitude'], place_data['longitude'], get_user)
         self.place_repo.add(place)
         return place
 
@@ -155,6 +159,11 @@ class HBnBFacade:
         if not (1 <= rating <= 5):
             raise Exception("Rating must be between 1 and 5")
 
+        review = Review(review_data['text'], review_data['rating'], place, user)
+        self.review_repo.add(review)
+        place.add_review(review)
+        return review
+
     def get_review(self, review_id):
         # Placeholder for logic to retrieve a review by ID
         return self.review_repo.get(review_id)
@@ -166,10 +175,10 @@ class HBnBFacade:
     def get_reviews_by_place(self, place_id):
         # Placeholder for logic to retrieve all reviews for a specific place
         # r for reviews
-        return [r for r in self.review_repo.get_all() if r.place_id == place_id]
+        return [r for r in self.review_repo.get_all() if r.place.id == place_id]
 
     def update_review(self, review_id, review_data):
-        review = self.review_repo.get(review_id)
+        review = self.get_review(review_id)
         if not review:
             return None
 
@@ -181,9 +190,10 @@ class HBnBFacade:
         # Verifies the review exists before attempt
         review = self.review_repo.get(review_id)
         if not review:
-            return None #review not found
+            raise Exception("review not found") #review not found
         
-        #Delete review from repository
+        place = self.place_repo.get(review.place.id)
+        place.remove_review(review)
         return self.review_repo.delete(review_id)
 
     """
@@ -218,7 +228,7 @@ class HBnBFacade:
         return False, "invalid email address"
 
     def price_validation(self, price):
-        if isinstance(price, float) is False:
+        if isinstance(price, (float, int)) is False:
             return False, "price must be a positive number"
 
         if price < 1:
@@ -227,8 +237,8 @@ class HBnBFacade:
         return True, "success"
 
     def latitude_validation(self, latitude):
-        if isinstance(latitude, float) is False:
-            return False, "latitude must be a float"
+        if isinstance(latitude, (float, int)) is False:
+            return False, "latitude must be a number"
 
         if latitude < -90 or latitude > 90:
             return False, "latitude must be valid (between -90 and 90)"
@@ -236,20 +246,10 @@ class HBnBFacade:
         return True, "success"
 
     def longitude_validation(self, longitude):
-        if isinstance(longitude, float) is False:
-            return False, "longitude must be a float"
+        if isinstance(longitude, (float, int)) is False:
+            return False, "longitude must be a number"
 
         if longitude < -180 or longitude > 180:
             return False, "longitude must be valid (between -180 and 180)"
 
         return True, "success"
-
-    def rating_validation(self, rating):
-        if isinstance(rating, int) is False:
-            return False, "rating must be an integer"
-
-        if rating < 1 or rating > 5:
-            return False, "rating must be between 1 and 5"
-
-        return True, "success"
-

@@ -15,5 +15,19 @@ class Place(BaseModel):
     def add_review(self, review):
         self.reviews.append(review)
 
+    def remove_review(self, review):
+        self.reviews.remove(review)
+
+    def update_review(self, review):
+        self.remove_review(review)
+        self.add_review(review)
+
     def add_amenity(self, amenity):
         self.amenities.append(amenity)
+
+    def remove_amenity(self, amenity):
+        self.amenities.remove(amenity)
+
+    def update_amenity(self, amenity):
+        self.remove_amenity(amenity)
+        self.add_amenity(amenity)
