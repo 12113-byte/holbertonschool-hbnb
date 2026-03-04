@@ -212,12 +212,12 @@ File in Repo -----> app/models/place.py
 File in Repo —-> app/api/v1/reviews.py
 
 | Method | Endpoint | Description|
-
-POST  		/api/v1/reviews/ 					Create a new review|
-GET  		/api/v1/reviews/   					Get all reviews|
-GET 		/api/v1/reviews/ <review_id>  		Get a review by ID|
-PUT  		/api/v1/reviews/ <review_id>>  		Update a review|
-DELETE  	/api/v1/reviews/ <review_id>  		Update a review|
+|--------|----------|------------|
+| POST | /api/v1/reviews/ | Create a new review |
+| GET | /api/v1/reviews/ | Get all reviews |
+| GET | /api/v1/reviews/<review_id> | Get a review by ID |
+| PUT | /api/v1/reviews/ <review_id>> | Update a review |
+| DELETE | /api/v1/reviews/ <review_id> | Update a review |
 
 ### Features:
 - Request validation using Flask-Restx models
