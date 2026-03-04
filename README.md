@@ -2,7 +2,7 @@ README!!!
 
 **Authors - Max Brook , Pavith Raj , Karen Andrianaharison , Joleen Thelen
 
-============================================================================================================
+========================================================================================================
 HBnB is a backend web application inspired by accommodation platforms such as Airbnb.
 The goal of this project is to design and implement a layered API using:
 
@@ -27,7 +27,7 @@ This repository contains the backend implementation responsible for managing app
 
 - Reviews
 
-===========================================================================================================
+========================================================================================================
 
 
 -----------------------------------------------------------------------
@@ -398,9 +398,10 @@ Response:
 ```
 
 Case 3: Get one amenity
-```
+
 	Returns a specific amenity by ID
 
+```
 GET /api/vi/amenities/amenity_id
 
 % curl -X 'GET' \
@@ -439,9 +440,10 @@ Response:
 
 
 case 1 : Create Place
-```
+
 	Creates a new place associated with an owner and amenities.
 
+```
 curl -X POST \
 http://127.0.0.1:5000/api/v1/places/ \
 -H "accept: application/json" \
@@ -472,9 +474,10 @@ Status Codes
 ```
 
 Case 2 : Get All Places
-```
+
 	Returns a list of all registered places.
 
+```
 curl -X GET \
 http://127.0.0.1:5000/api/v1/places/ \
 -H "accept: application/json"
@@ -493,9 +496,10 @@ Status Codes
 ```
 
 Case 3 : Get Place Details
-```
+
 	Retrieves full details of a place, including its owner and amenities.
 
+```
 curl -X GET \
 http://127.0.0.1:5000/api/v1/places/1fa85f64-5717-4562-b3fc-2c963f66afa6 \
 -H "accept: application/json"
