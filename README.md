@@ -178,6 +178,7 @@ File  in Repo  —->  app/models/amenity.py
 FIle in Repo -----> app/api/v1/places.py
 
 | Method | Endpoint | Description|
+|--------|----------|------------|
 | POST| /api/v1/places/ | Create a new place |
 | GET | /api/v1/places/ | Retrieve all places |
 | GET | /api/v1/places/<place_id> |	Retrieve place details |
