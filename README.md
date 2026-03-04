@@ -171,11 +171,11 @@ Features:
 
 FIle in Repo -----> app/api/v1/places.py
 
-| Method |		|Endpoint |					    |Description|
-POST			/api/v1/places/					Create a new place
-GET				/api/v1/places/					Retrieve all places
-GET				/api/v1/places/<place_id>		Retrieve place details
-PUT				/api/v1/places/<place_id>		Update a place 
+| Method | Endpoint | Description|
+| POST| /api/v1/places/ | Create a new place |
+| GET | /api/v1/places/ | Retrieve all places |
+| GET | /api/v1/places/<place_id> |	Retrieve place details |
+| PUT | /api/v1/places/<place_id> | Update a place |
 
 Features:
 	--Request validation using Flask-RESTx models
