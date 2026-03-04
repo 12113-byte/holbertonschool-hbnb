@@ -2,7 +2,8 @@ README!!!
 
 **Authors - Max Brook , Pavith Raj , Karen Andrianaharison , Joleen Thelen
 
-========================================================================================================
+=======================================================================================================
+
 HBnB is a backend web application inspired by accommodation platforms such as Airbnb.
 The goal of this project is to design and implement a layered API using:
 
@@ -27,7 +28,7 @@ This repository contains the backend implementation responsible for managing app
 
 - Reviews
 
-========================================================================================================
+=======================================================================================================
 
 
 -----------------------------------------------------------------------
@@ -138,8 +139,8 @@ File in Repo —-> app/models/user.py
 - Password is hashed before storage
 
 ### Relationships:
-	Places (a user can own multiple places)
-	Reviews (a user can write multiple reviews)
+- Places (a user can own multiple places)
+- Reviews (a user can write multiple reviews)
 
 ++ 4.2.1 Amenities API endpoints
 
@@ -202,9 +203,9 @@ File in Repo -----> app/models/place.py
 - Maintains entity integrity
 
 ### Relationships:
-		Owner (User)
-		Amenities list
-		Responsibilities:
+- Owner (User)
+- Amenities list
+- Responsibilities:
 
 ++ 4.4.1 Reviews API Endpoints
 
@@ -238,8 +239,8 @@ File in Repo —-> app/models/review.py
 - Place_id must reference existing place
 
 ### Relationships:
-		User (author of the review)
-		Place (subject of the review)
+- User (author of the review)
+- Place (subject of the review)
 
 --------------------------------------------------------------
 5.0 Facade Layer
