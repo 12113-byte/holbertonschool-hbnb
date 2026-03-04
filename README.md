@@ -139,11 +139,12 @@ Features:
 File in Repo —-> app/api/v1/amenities.py
 
 
-|Method|	|Endpoint|							|Description|
-POST		/api/v1/amenities/					Create a new amenity
-GET			/api/v1/amenities/					Retrieve all amenities
-GET			/api/v1/amenities/<amenity_id>		Retrieve amenity details
-PUT			/api/v1/amenities/<amenity_id>		Update an amenity
+|Method | Endpoint|	Description|
+|-------|---------|------------|
+| POST | /api/v1/amenities/	| Create a new amenity | 
+| GET | /api/v1/amenities/ | Retrieve all amenities |
+| GET | /api/v1/amenities/<amenity_id> | Retrieve amenity details |
+| PUT | /api/v1/amenities/<amenity_id> | Update an amenity |
 
 Features
  --Request validation using Flask-RESTx models
