@@ -6,26 +6,26 @@ README!!!
 HBnB is a backend web application inspired by accommodation platforms such as Airbnb.
 The goal of this project is to design and implement a layered API using:
 
---Flask + Flask-RESTx
+- Flask + Flask-RESTx
 
---Facade Pattern
+- Facade Pattern
 
---Repository Pattern
+- Repository Pattern
 
---Object-Oriented Design
+- Object-Oriented Design
 
---Clean Architecture 
+- Clean Architecture 
  
  
 This repository contains the backend implementation responsible for managing application entities such as:
 
---Users
+- Users
 
---Places
+- Places
 
---Amenities
+- Amenities
 
---Reviews
+- Reviews
 
 ===========================================================================================================
 
@@ -71,11 +71,11 @@ This repository contains the backend implementation responsible for managing app
 + 2.0 Architecture 
 -------------------------------------------------------------
 
-API (Presentation Layer) : Handles HTTP requests and responses,Defines API endpoints,Validates request input,Calls the Facade layer
+API (Presentation Layer): Handles HTTP requests and responses,Defines API endpoints,Validates request input,Calls the Facade layer
          
-Facade  + Models [Place , Users , Amenity]  (Business Logic Layer) : Data validation,Relationship handling,Business rules enforcemet
+Facade  + Models [Place , Users , Amenity]  (Business Logic Layer): Data validation,Relationship handling,Business rules enforcemet
          
-Repository (Persistence Layer) : Abstracts data storage using repositories
+Repository (Persistence Layer): Abstracts data storage using repositories
 
 ---------------------------------------------------------------
 + 3.0 How to Run!
@@ -119,25 +119,25 @@ File in Repo —--> app/api/v1/users.py
 | GET |/api/v1/users/<user_id> | Get a user by ID|
 | PUT |/api/v1/users/<user_id> | Update a user|
 
-**Features:**
-	– Request validation using Flask-Restx models
-	– Proper HTTP status codes
-	- Facade integration
-	- Email uniqueness enforces (no duplicates)
-	- Password hashing for security
+### Features:
+– Request validation using Flask-Restx models
+– Proper HTTP status codes
+- Facade integration
+- Email uniqueness enforces (no duplicates)
+- Password hashing for security
 
 ++ 4.1.2 User Model
 
 File in Repo —-> app/models/user.py
 
-**Features:**
-	- User entity definition
-	- Attribute validation via property setters
-	- Email must contain @ and be unique 
-	- First_name and last_name cannot be empty
-	- Password is hashed before storage
+### Features:
+- User entity definition
+- Attribute validation via property setters
+- Email must contain @ and be unique 
+- First_name and last_name cannot be empty
+- Password is hashed before storage
 
-**Relationships:**
+### Relationships:
 	Places (a user can own multiple places)
 	Reviews (a user can write multiple reviews)
 
@@ -152,25 +152,25 @@ File in Repo —-> app/api/v1/amenities.py
 | GET | /api/v1/amenities/<amenity_id> | Retrieve amenity details |
 | PUT | /api/v1/amenities/<amenity_id> | Update an amenity |
 
-**Features**
-    - Request validation using Flask-RESTx models
-    - Proper RESTful HTTP status codes
-    - Integration with the HBnB Facade
-    - Input validation for data
-    - Consistent API response structure
+### Features
+- Request validation using Flask-RESTx models
+- Proper RESTful HTTP status codes
+- Integration with the HBnB Facade
+- Input validation for data
+- Consistent API response structure
 
 ++ 4.2.2 Amenity Model
 
 File  in Repo  —->  app/models/amenity.py
 
-**Features:**
-    - Amenity entity definition
-    - Validation for required attributes
-    - Integration with persistence layer through the Facade
+### Features:
+- Amenity entity definition
+- Validation for required attributes
+- Integration with persistence layer through the Facade
 
-**Relationships**
-	- Amenities can be associated with multiple Place entities.
-	- Acts as a reusable feature descriptor for places (e.g., Wi-Fi, Parking, Air Conditioning).
+### Relationships
+- Amenities can be associated with multiple Place entities.
+- Acts as a reusable feature descriptor for places (e.g., Wi-Fi, Parking, Air Conditioning).
 
 ++ 4.3.1 Places API Endpoints
 
@@ -182,26 +182,26 @@ FIle in Repo -----> app/api/v1/places.py
 | GET | /api/v1/places/<place_id> |	Retrieve place details |
 | PUT | /api/v1/places/<place_id> | Update a place |
 
-**Features:**
-	- Request validation using Flask-RESTx models
-	- Proper HTTP status codes
-	- Facade integration
-	- Owner & amenities included in responses
+### Features:
+- Request validation using Flask-RESTx models
+- Proper HTTP status codes
+- Facade integration
+- Owner & amenities included in responses
 
 ++ 4.3.2 Place Model
 
 File in Repo -----> app/models/place.py
 
-**Features:**
-	- Place entity definition
-	- Attribute validation via property setters
-		price ≥ 0
-		latitude between -90 and 90
-		longitude between -180 and 180
-	- Enforces business rules
-	- Maintains entity integrity
+### Features:
+- Place entity definition
+- Attribute validation via property setters
+	price ≥ 0
+	latitude between -90 and 90
+	longitude between -180 and 180
+- Enforces business rules
+- Maintains entity integrity
 
-**Relationships:**
+### Relationships:
 		Owner (User)
 		Amenities list
 		Responsibilities:
@@ -218,26 +218,26 @@ GET 		/api/v1/reviews/ <review_id>  		Get a review by ID|
 PUT  		/api/v1/reviews/ <review_id>>  		Update a review|
 DELETE  	/api/v1/reviews/ <review_id>  		Update a review|
 
-***Features:**
-	– Request validation using Flask-Restx models
-	- Proper HTTP status codes
-	- Facade integration
-	- Only entity in the project that supports DELETE
-	- Validates user and place exist before creating review
+### Features:
+- Request validation using Flask-Restx models
+- Proper HTTP status codes
+- Facade integration
+- Only entity in the project that supports DELETE
+- Validates user and place exist before creating review
 
 ++ 4.4.2 Review model
 
 File in Repo —-> app/models/review.py
 
-***Features:**
-    – Review entity definition
-    – Attribute validation via property setters
-    - Rating must be between 1 and 5
-    - Text cannot be empty
-    - User_id must reference an existing user
-    - Place_id must reference existing place
+### Features:
+- Review entity definition
+- Attribute validation via property setters
+- Rating must be between 1 and 5
+- Text cannot be empty
+- User_id must reference an existing user
+- Place_id must reference existing place
 
-**Relationships:**
+### Relationships:
 		User (author of the review)
 		Place (subject of the review)
 
@@ -249,81 +249,81 @@ The HBnBFacade acts as the central coordination layer between the API (Presentat
 
 ++ 5.1.1 User Management
 
-**Implemented Methods:**
-	- create_user()
-	- get_user()
-	- get_all_users()
-	- update_user()
+### Implemented Methods:
+- create_user()
+- get_user()
+- get_all_users()
+- update_user()
 
-**Responsibilities**
-	- Validates user input data before creation
-	- Coordinates repository operations
-	- Ensures user entity integrity
-	- Acts as the single entry point for user-related operations
+### Responsibilities
+- Validates user input data before creation
+- Coordinates repository operations
+- Ensures user entity integrity
+- Acts as the single entry point for user-related operations
 
-**Features**
-    - Repository integration
-    - Centralised validation handling
-    - Business rule orchestration
-    - Separation between API and persistence layers
+### Features
+- Repository integration
+- Centralised validation handling
+- Business rule orchestration
+- Separation between API and persistence layers
 
 ++ 5.2.1 Place Management
 
-**Implemented Methods**
-	- create_place()
-	- get_place()
-	- get_all_places()
-	- update_place()
+### Implemented Methods
+- create_place()
+- get_place()
+- get_all_places()
+- update_place()
 
-**Responsibilities**
-	- Validates place attributes (price, latitude, longitude)
-	- Verifies owner existence
-	- Links amenities to places
-	- Coordinates persistence operations
+### Responsibilities
+- Validates place attributes (price, latitude, longitude)
+- Verifies owner existence
+- Links amenities to places
+- Coordinates persistence operations
 
-**Features**
-	- Relationship handling (Owner + Amenities)
-	- Validation orchestration
-	- Repository abstraction
-	- Centralised business coordination
+### Features
+- Relationship handling (Owner + Amenities)
+- Validation orchestration
+- Repository abstraction
+- Centralised business coordination
 
 ++ 5.3.1 Amenity Management
 
-**Implemented Methods:**
-	- create_amenity()
-	- get_amenity()
-	- get_all_amenities()
-	- update_amenity()
+### Implemented Methods:
+- create_amenity()
+- get_amenity()
+- get_all_amenities()
+- update_amenity()
 
-**Responsibilities:**
-	- Validates amenity data
-	- Manages amenity lifecycle
-	- Interfaces with persistence repositories
+### Responsibilities:
+- Validates amenity data
+- Manages amenity lifecycle
+- Interfaces with persistence repositories
 
-**Features:**
-	- Input validation
-	- Repository integration
-	- Business logic encapsulation
+### Features:
+- Input validation
+- Repository integration
+- Business logic encapsulation
 
 ++ 5.4.1 Review Management
 
-**Implemented Methods:**
-	- create_review()
-	- get_review()
-	- get_all_reviews()
-	- update_review()
+### Implemented Methods
+- create_review()
+- get_review()
+- get_all_reviews()
+- update_review()
 
-**Responsibilities
-	Validates review data (rating, content)
-	Ensures referenced user and place exist
-	Coordinates review persistence
-	Maintains relationships between users and places
+### Responsibilities
+- Validates review data (rating, content)
+- Ensures referenced user and place exist
+- Coordinates review persistence
+- Maintains relationships between users and places
 
-**Features
-	--Relationship validation (User ↔ Place)
-	--Centralised business logic
-	--Repository coordination
-	--Data integrity enforcement
+### Features
+- Relationship validation (User ↔ Place)
+- Centralised business logic
+- Repository coordination
+- Data integrity enforcement
 
 --------------------------------------------------------------
 6.0 Testing 
