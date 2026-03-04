@@ -106,9 +106,9 @@ File in Repo —--> app/api/v1/users.py
 | Method |	|Endpoint |					          |Description|
 
 |POST  	|	/api/v1/users/ 			|			  Create a new user|
-GET  	|	/api/v1/users/ 				|		  Get all users|
-GET  	|	/api/v1/users/<user_id> 		|	  Get a user by ID|
-PUT  	|	/api/v1/users/<user_id> 		|	  Update a user|
+| GET  	|	/api/v1/users/ 				|		  Get all users|
+| GET  	|	/api/v1/users/<user_id> 		|	  Get a user by ID|
+| PUT  	|	/api/v1/users/<user_id> 		|	  Update a user|
 
 Features:
 	–-Request validation using Flask-Restx models
