@@ -2,7 +2,7 @@ README!!!
 
 **Authors - Max Brook , Pavith Raj , Karen Andrianaharison , Joleen Thelen
 
-=========================================================================================================================
+============================================================================================================
 HBnB is a backend web application inspired by accommodation platforms such as Airbnb.
 The goal of this project is to design and implement a layered API using:
 
@@ -83,16 +83,25 @@ Repository (Persistence Layer) : Abstracts data storage using repositories
 
 
  Step 1 : create virtual environment
+ ```
 			python3 -m venv venv
+```
 
  Step 2 : activate
+```
 			source venv/bin/activate
+```
 
  Step 3 : install dependencies
+ ```
 			pip install -r requirements.txt
+```
 
  Step 4 : run server
+ ```
 			python run.py
+```
+
 
 --------------------------------------------------------------
 + 4.0 Features Implemented 
@@ -110,7 +119,7 @@ File in Repo —--> app/api/v1/users.py
 | GET |/api/v1/users/<user_id> | Get a user by ID|
 | PUT |/api/v1/users/<user_id> | Update a user|
 
-Features:
+**Features:
 	–-Request validation using Flask-Restx models
 	–-Proper HTTP status codes
 	-–Facade integration
@@ -121,7 +130,7 @@ Features:
 
 File in Repo —-> app/models/user.py
 
-Features:
+**Features:
 	-–User entity definition
 	-–Attribute validation via property setters
 	--Email must contain @ and be unique 
@@ -146,7 +155,7 @@ File in Repo —-> app/api/v1/amenities.py
 | GET | /api/v1/amenities/<amenity_id> | Retrieve amenity details |
 | PUT | /api/v1/amenities/<amenity_id> | Update an amenity |
 
-Features
+**Features
  --Request validation using Flask-RESTx models
  --Proper RESTful HTTP status codes
  --Integration with the HBnB Facade
@@ -157,15 +166,14 @@ Features
 
 File  in Repo  —->  app/models/amenity.py
 
-Features:
+**Features:
  --Amenity entity definition
  --Validation for required attributes
  --Integration with persistence layer through the Facade
- 
+
 **Relationships
 	--Amenities can be associated with multiple Place entities.
 	--Acts as a reusable feature descriptor for places (e.g., Wi-Fi, Parking, Air Conditioning).
-
 
 ++ 4.3.1 Places API Endpoints
 
@@ -177,7 +185,7 @@ FIle in Repo -----> app/api/v1/places.py
 | GET | /api/v1/places/<place_id> |	Retrieve place details |
 | PUT | /api/v1/places/<place_id> | Update a place |
 
-Features:
+**Features:
 	--Request validation using Flask-RESTx models
 	--Proper HTTP status codes
 	--Facade integration
@@ -187,7 +195,7 @@ Features:
 
 File in Repo -----> app/models/place.py
 
-Features:
+**Features:
 	--Place entity definition
 	--Attribute validation via property setters
 		price ≥ 0
@@ -201,7 +209,6 @@ Features:
 		Amenities list
 		Responsibilities:
 
-
 ++ 4.4.1 Reviews API Endpoints
 
 File in Repo —-> app/api/v1/reviews.py
@@ -214,7 +221,7 @@ GET 		/api/v1/reviews/ <review_id>  		Get a review by ID|
 PUT  		/api/v1/reviews/ <review_id>>  		Update a review|
 DELETE  	/api/v1/reviews/ <review_id>  		Update a review|
 
-Features:
+***Features:
 	-–Request validation using Flask-Restx models
 	-–Proper HTTP status codes
 	-–Facade integration
@@ -225,7 +232,7 @@ Features:
 
 File in Repo —-> app/models/review.py
 
-Features:
+***Features:
  -–Review entity definition
  -–Attribute validation via property setters
  --Rating must be between 1 and 5
@@ -236,7 +243,6 @@ Features:
 **Relationships:
 		User (author of the review)
 		Place (subject of the review)
-
 
 --------------------------------------------------------------
 5.0 Facade Layer
@@ -341,7 +347,7 @@ Test Plan
 -------------------------------------
 
 Case 1 - Create a User 
-
+```
 curl -X 'POST' \
   'http://127.0.0.1:5000/api/v1/users/' \
   -H 'accept: application/json' \
@@ -360,12 +366,13 @@ Expected output(201):
   "email": "janedoee@email.com",
   "password": "strongpassword"
 }
-
+```
 ------------------------------------
 2.0 Amenities
 -------------------------------------
 
 Case 1 : create amenity
+```
 	POST /api/vi/amenities
 
 %curl -X 'POST' \
@@ -380,8 +387,10 @@ Case 1 : create amenity
 Response:
 201 Amenity successfully created
 400 Invalid input data
+```
 
 Case 2 : Get all amenities
+```
 	GET /api/vi/amenities/
 
 %curl -X 'GET' \
@@ -392,8 +401,10 @@ Case 2 : Get all amenities
 
 Response:
 	200 List of amenities retrieved successfully
+```
 
 Case 3: Get one amenity
+```
 	Returns a specific amenity by ID
 
 GET /api/vi/amenities/amenity_id
@@ -406,9 +417,11 @@ GET /api/vi/amenities/amenity_id
 Response:
 200 Amenity details retrieved successfully
 404 Amenity not found
+```
 
 Case 4: Update amenity
-	**STILL UNDER TESTING, CAN’T GET A SUCCESSFUL RESULT** 
+```
+	Updates an existing amenity
 
 PUT /amenities/<amenity_id>
 
@@ -424,7 +437,7 @@ Response:
 200 Amenity updated successfully
 400 Invalid input data
 404 Amenity not found
-
+```
 
 ---------------------------------
 3.0 Places
@@ -432,6 +445,7 @@ Response:
 
 
 case 1 : Create Place
+```
 	Creates a new place associated with an owner and amenities.
 
 curl -X POST \
@@ -461,8 +475,10 @@ Successful Response
 Status Codes
 	-201 Created — Place successfully created
 	-400 Bad Request — Invalid input data
+```
 
 Case 2 : Get All Places
+```
 	Returns a list of all registered places.
 
 curl -X GET \
@@ -480,8 +496,10 @@ Example Response
 
 Status Codes
 	200 OK — List of places retrieved successfully
+```
 
 Case 3 : Get Place Details
+```
 	Retrieves full details of a place, including its owner and amenities.
 
 curl -X GET \
@@ -511,8 +529,10 @@ Example Response
 Status Codes
 	200 OK — Place retrieved successfully
 	404 Not Found — Place does not exist
+```
 
 Case 4 : Update Place
+```
 	Updates an existing place. Only provided fields are modified.
 
 curl -X PUT \
@@ -532,6 +552,7 @@ Status Codes
 	400 Bad Request — Invalid input data
 
 404 Not Found — Place not found
+```
 
 **Validation Rules For places
 	--Handled in the Place Model:
@@ -547,6 +568,7 @@ Status Codes
 
 
 Case 1  - Create a Review
+```
 curl -X 'POST' \
   'http://127.0.0.1:5000/api/v1/review/' \
   -H 'accept: application/json' \
@@ -565,3 +587,4 @@ Expected output(201):
   "user_id": "string",
   "place_id": "string"
 }'
+```
