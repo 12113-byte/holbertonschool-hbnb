@@ -1,3 +1,13 @@
+"""
+Places API endpoint
+Handles CRUD operations for places:
+- POST /places: Create a new place
+- GET /places: Retrieve all places
+- GET /places/ <place_id>: Retrieve a place by ID
+- PUT /places/ <place_id>: Update a place
+- DELETE /places/ <place_id>: Delete a place
+"""
+
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 
@@ -113,12 +123,7 @@ class PlaceResource(Resource):
                 "user_id": r.user_id
             } for r in place.reviews
             ],
-            "amenities": [
-            {
-                "id": a.id,
-                "name": a.name,
-            } for a in place.amenities
-            ]
+            "amenities": [a.id for a in place.amenities],
             }, 200
 
     # ---------------------------------
@@ -128,7 +133,7 @@ class PlaceResource(Resource):
     @api.response(404, 'Not found')
     @api.response(400, 'Error Updating Place')
     def put(self, place_id):
-        #updates the place
+        #updates allowed fields for the specified place
         data = api.payload
         try:
             place = facade.update_place(place_id, data)

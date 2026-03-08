@@ -1,3 +1,13 @@
+"""
+Amenities API endpoint
+Handles CRUD operations for amenities:
+- POST /amenities: Create a new amenity
+- GET /amenities: Retrieve all amenities
+- GET /amenities/ <amenity_id>: Retrieve an amenity by ID
+- PUT /amenities/ <amenity_id>: Update an amenity
+- DELETE /amenities/ <amenity_id>: Delete an amenity
+"""
+
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 

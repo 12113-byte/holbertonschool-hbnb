@@ -1,3 +1,13 @@
+"""
+Reviews API endpoint
+Handles CRUD operations for reviews:
+- POST /reviews: Create a new review
+- GET /reviews: Retrieve all reviews
+- GET /reviews/ <review_id>: Retrieve a review by ID
+- PUT /reviews/ <review_id> :Update a review (only text and rating)
+- DELETE /reviews/ <review_id>: Delete a review
+"""
+
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 
@@ -9,6 +19,12 @@ review_model = api.model('Review', {
     'rating': fields.Integer(required=True, description='Rating of the place (1-5)'),
     'user_id': fields.String(required=True, description='ID of the user'),
     'place_id': fields.String(required=True, description='ID of the place')
+})
+
+# Input model for updating a review (only text and rating allowed)
+review_update_model = api.model('ReviewUpdate', {
+    'text': fields.String(description='Text of the review'),
+    'rating': fields.Integer(description='Rating of the place (1-5)'),
 })
 
 @api.route('/')
@@ -57,7 +73,7 @@ class ReviewResource(Resource):
             "place_id": review.place.id
         }, 200 #successful retrieval of review details
 
-    @api.expect(review_model)
+    @api.expect(review_update_model)
     @api.response(200, 'Review updated successfully')
     @api.response(404, 'Review not found')
     @api.response(400, 'Invalid input data')
@@ -65,6 +81,8 @@ class ReviewResource(Resource):
         """Update a review's information"""
         # Placeholder for the logic to update a review by ID
         data = api.payload
+        allowed_fields = {'text', 'rating'}
+        data = {k: v for k, v in data.items() if k in allowed_fields} # Filter input to only allowed fields
         # Attempt to update the review using the facade method
         review = facade.update_review(review_id, data)
 
