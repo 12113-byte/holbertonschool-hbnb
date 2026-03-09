@@ -16,4 +16,8 @@ def create_app():
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
     # Additional namespaces for places, reviews, and amenities will be added later
 
+    @app.route('/')
+    def homepage():
+        return 'Welcome to HBnB'
+
     return app
