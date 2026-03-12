@@ -5,8 +5,14 @@ from app.api.v1.places import api as places_ns
 from app.api.v1.reviews import api as review_ns
 from app.api.v1.amenities import api as amenities_ns
 
-def create_app():
+def create_app(config_class="config.DevelopmentConfig"): 
+    #  accepts a config class as parameter, default is DevelopementConfig
+    #  makes function flexible to pass different config later for testing or production
     app = Flask(__name__)
+    #  app.config is a dictionary that Flask uses to store settings (needed for jwt tokens)
+    #  from_object() scans the config class for UPPERCASE attributes (signals Flask "this is a setting") 
+    #  and copies them into app.config, making them accessible anywhere in app
+    app.config.from_object(config_class)
 
     # Blueprint created to group all api routes under /api/v1 prefix
     #  keeps api isolated from rest of app and prevents flask-restx from hijacking '/' route
