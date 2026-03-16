@@ -81,7 +81,7 @@ class ReviewResource(Resource):
         """Update a review's information"""
         # Placeholder for the logic to update a review by ID
         data = api.payload
-        allowed_fields = {'text', 'rating'}
+        allowed_fields = {'text', 'rating'} #change the text and the rating based on the review id
         data = {k: v for k, v in data.items() if k in allowed_fields} # Filter input to only allowed fields
         # Attempt to update the review using the facade method
         review = facade.update_review(review_id, data)
