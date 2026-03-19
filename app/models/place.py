@@ -1,6 +1,7 @@
-from app import db, bcrypt
 from sqlalchemy.orm import relationship
-from .basemodel import BaseModel, AssociationTable
+from .basemodel import BaseModel
+from .associationtable import AssociationTable
+#from app import db
 
 class Place(BaseModel):
     __tablename__ = 'places'

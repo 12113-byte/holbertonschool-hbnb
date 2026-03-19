@@ -1,5 +1,5 @@
-from app import db, bcrypt
 from .basemodel import BaseModel
+#from app import db
 
 
 class Review(BaseModel):

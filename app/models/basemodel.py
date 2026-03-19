@@ -9,13 +9,6 @@ class BaseModel(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-
-class AssociationTable(BaseModel):
-    __tablename__ = 'amenityplacemap'
-
-    place_id = db.Column(db.String(36), ForeignKey('places.id'), nullable=False)
-    amenity_id = db.Column(db.String(36), ForeignKey('amenities.id'), nullable=False)
-
 """
 -- BaseModel from part 2 (In memory repo)
 class BaseModel:
