@@ -1,17 +1,23 @@
-from app.persistence.repository import InMemoryRepository
-from app.models.user import User
-from app.models.place import Place
-from app.models.review import Review
-from app.models.amenity import Amenity
+from app.persistence.user_repository import UserRepository
+from app.persistence.place_repository import PlaceRepository
+from app.persistence.review_repository import ReviewRepository
+from app.persistence.amenity_repository import AmenityRepository
 import re
 
 
 class HBnBFacade:
     def __init__(self):
+        self.user_repo = UserRepository()
+        self.place_repo = PlaceRepository()
+        self.review_repo = ReviewRepository()
+        self.amenity_repo = AmenityRepository()
+        """
+        ## InMemoryRepo depreciated
         self.user_repo = InMemoryRepository()
         self.place_repo = InMemoryRepository()
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
+        """
 
     """
         Users
@@ -29,6 +35,7 @@ class HBnBFacade:
             raise Exception(m)
 
         user = User(**user_data)
+        user.hash_password(user_data['password'])
         self.user_repo.add(user)
         return user
 
@@ -41,7 +48,7 @@ class HBnBFacade:
         b, m = self.email_validation(email)
         if (b is False):
             raise Exception(m)
-        return self.user_repo.get_by_attribute("email", email)
+        return self.user_repo.get_user_by_email(email)
 
     def update_user(self, user_id, user_data):
         b, m = self.string_validation(user_data['first_name'], "first_name", 50)
