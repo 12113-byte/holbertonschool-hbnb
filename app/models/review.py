@@ -1,5 +1,5 @@
 from .basemodel import BaseModel
-#from app import db
+from app import db
 
 
 class Review(BaseModel):

@@ -1,5 +1,5 @@
-from app import db
 import uuid
+from app import db
 from datetime import datetime
 
 class BaseModel(db.Model):

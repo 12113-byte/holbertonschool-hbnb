@@ -1,6 +1,7 @@
 from sqlalchemy.orm import relationship
-#from app import db
-from .basemodel import BaseModel, AssociationTable
+from app import db
+from .basemodel import BaseModel
+from .associationtable import AssociationTable
 
 
 class Amenity(BaseModel):

@@ -1,14 +1,14 @@
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_restx import Api
-from flask_sqlalchemy import SQLAlchemy
+from app.databaseimport import db
 from flask_bcrypt import Bcrypt
 from app.api.v1.users import api as users_ns
 from app.api.v1.places import api as places_ns
 from app.api.v1.reviews import api as review_ns
 from app.api.v1.amenities import api as amenities_ns
 
-db = SQLAlchemy()
 bcrypt = Bcrypt()
+
 
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
@@ -25,8 +25,10 @@ def create_app(config_class="config.DevelopmentConfig"):
     api.add_namespace(amenities_ns, path='/amenities')
     app.register_blueprint(api_bp)
 
+    @app.route('/')
+    def homepage():
+        return 'Welcome to HBnB!'
+
+
     return app
 
-@app.route('/')
-def homepage():
-    return 'Welcome to HBnB!'

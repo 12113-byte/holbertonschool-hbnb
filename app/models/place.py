@@ -1,7 +1,7 @@
 from sqlalchemy.orm import relationship
 from .basemodel import BaseModel
+from app import db
 from .associationtable import AssociationTable
-#from app import db
 
 class Place(BaseModel):
     __tablename__ = 'places'
@@ -11,7 +11,7 @@ class Place(BaseModel):
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    user_id = db.Column(db.String(36), ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     reviews = relationship('Review', backref='place', lazy=True)
     amenities = relationship('Amenity', secondary=AssociationTable, backref='place', lazy=True)
 
