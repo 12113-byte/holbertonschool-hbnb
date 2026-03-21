@@ -3,6 +3,7 @@ from flask_restx import Namespace, Resource, fields
 # get_jwt: retrieves everything in token, including is_admin
 from flask_jwt_extended import jwt_required, get_jwt
 from app.services import facade
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 api = Namespace('users', description='User operations')
 
@@ -68,6 +69,7 @@ class UserResource(Resource):
     @api.response(403, 'Unauthorised action')
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def put(self, user_id):
         """Update a user by ID"""
         # get who is making request from token

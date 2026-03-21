@@ -4,11 +4,16 @@ from app.api.v1.users import api as users_ns
 from app.api.v1.places import api as places_ns
 from app.api.v1.reviews import api as review_ns
 from app.api.v1.amenities import api as amenities_ns
+from app.api.v1.auth import api as auth_ns
+from flask_jwt_extended import JWTManager
+jwt = JWTManager()
 
 def create_app(config_class="config.DevelopmentConfig"): 
     #  accepts a config class as parameter, default is DevelopementConfig
     #  makes function flexible to pass different config later for testing or production
     app = Flask(__name__)
+    app.config['JWT_SECRET_KEY']='super-secret-key'
+    jwt.init_app(app)
     #  app.config is a dictionary that Flask uses to store settings (needed for jwt tokens)
     #  from_object() scans the config class for UPPERCASE attributes (signals Flask "this is a setting") 
     #  and copies them into app.config, making them accessible anywhere in app

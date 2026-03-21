@@ -14,6 +14,10 @@ from flask_restx import Namespace, Resource, fields
 # get_jwt: retrieves everything in token, including is_admin
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
+<<<<<<< HEAD
+from flask_jwt_extended import jwt_required, get_jwt_identity
+=======
+>>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
 
 #Created namespace
 api = Namespace('places', description='Place operations')
@@ -59,6 +63,10 @@ class PlaceList(Resource):
     @api.response(201, 'Place created')
     @api.response(400, 'Invalid data')
     @api.response(404, 'User not found')
+<<<<<<< HEAD
+    @jwt_required()
+=======
+>>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
     def post(self):
         """Creates new Place"""
         # get_jwt_identity() reads the user ID which was stored in token at login
@@ -148,6 +156,10 @@ class PlaceResource(Resource):
     @api.response(403, 'Unauthorised action')
     @api.response(404, 'Not found')
     @api.response(400, 'Error Updating Place')
+<<<<<<< HEAD
+    @jwt_required()
+=======
+>>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
     def put(self, place_id):
         """Update a Place"""
         # get ID of whoever is making this request from token
