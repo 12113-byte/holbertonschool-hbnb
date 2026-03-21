@@ -15,6 +15,7 @@ from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 #Created namespace
 api = Namespace('places', description='Place operations')
@@ -61,7 +62,6 @@ class PlaceList(Resource):
     @api.response(400, 'Invalid data')
     @api.response(404, 'User not found')
     @jwt_required()
-
     def post(self):
         """Creates new Place"""
         # get_jwt_identity() reads the user ID which was stored in token at login
@@ -152,7 +152,6 @@ class PlaceResource(Resource):
     @api.response(404, 'Not found')
     @api.response(400, 'Error Updating Place')
     @jwt_required()
-
     def put(self, place_id):
         """Update a Place"""
         # get ID of whoever is making this request from token
