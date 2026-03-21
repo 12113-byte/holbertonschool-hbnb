@@ -1,3 +1,13 @@
+"""
+Amenities API endpoint
+Handles CRUD operations for amenities:
+- POST /amenities: Create a new amenity
+- GET /amenities: Retrieve all amenities
+- GET /amenities/ <amenity_id>: Retrieve an amenity by ID
+- PUT /amenities/ <amenity_id>: Update an amenity
+- DELETE /amenities/ <amenity_id>: Delete an amenity
+"""
+
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 
@@ -14,17 +24,16 @@ class AmenityList(Resource):
     @api.response(201, 'Amenity successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
-        """Register a new amenity"""
-        # Logic to register a new amenity
-        data = api.payload #  dictionary from client
+        data = api.payload
         try:
             new_amenity = facade.create_amenity(data) #  create new amenity
             return {"id": new_amenity.id, "name": new_amenity.name}, 201
-        except ValueError as e:
+        except Exception as e:
             return {"error": str(e)}, 400
 
-
-
+    """
+        Get All Amenities
+    """
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
         """Retrieve a list of all amenities"""
@@ -57,16 +66,14 @@ class AmenityResource(Resource):
     @api.response(400, 'Invalid input data')
     def put(self, amenity_id):
         """Update an amenity's information"""
-        # Logic to update an amenity by ID
-        data = api.payload #  get JSON from client
+        data = api.payload
+        amenity = facade.get_amenity(amenity_id)
+        if amenity is None:
+            return {"error": "Amenity not found"}, 404
 
-        try: #  try to update via BLL
-            updated_amenity = facade.update_amenity(amenity_id, data)
-
-            if updated_amenity is None:
-                return {"error": "Amenity not found"}, 404
-            
-            return {"id": updated_amenity.id, "name": updated_amenity.name}, 200
+        try:
+            facade.update_amenity(amenity_id, data)
+            return "Amenity updated successfully", 200
         
-        except ValueError as e:
+        except Exception as e:
             return {"error": str(e)}, 400 # handles invalid input
