@@ -81,7 +81,11 @@ class ReviewResource(Resource):
         """Update a review's information"""
         # Placeholder for the logic to update a review by ID
         data = api.payload
+<<<<<<< HEAD
+        allowed_fields = {'text', 'rating'} #change the text and the rating based on the review id
+=======
         allowed_fields = {'text', 'rating'}
+>>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
         data = {k: v for k, v in data.items() if k in allowed_fields} # Filter input to only allowed fields
         # Attempt to update the review using the facade method
         review = facade.update_review(review_id, data)
@@ -101,4 +105,8 @@ class ReviewResource(Resource):
         except Exception as e:
             return {"error": str(e)}, 400 # handles invalid input
 
+<<<<<<< HEAD
         return {"message": "Review deleted successfully"}, 200 #successful deletion of review
+=======
+        return {"message": "Review deleted successfully"}, 200 #successful deletion of review
+>>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
