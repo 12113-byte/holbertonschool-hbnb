@@ -1,22 +1,82 @@
-from app.persistence.repository import InMemoryRepository
+<<<<<<< HEAD
+#from app.persistence.repository import InMemoryRepository #might need to remove this
+from app.persistence.sqlalchemy_repository import SQLAlchemyRepository #new sqlalchemy repo
+=======
+from app.persistence.user_repository import UserRepository
+from app.persistence.place_repository import PlaceRepository
+from app.persistence.review_repository import ReviewRepository
+from app.persistence.amenity_repository import AmenityRepository
+>>>>>>> Max
 from app.models.user import User
-from app.models.place import Place
 from app.models.review import Review
+from app.models.place import Place
 from app.models.amenity import Amenity
 import re
 
 
 class HBnBFacade:
     def __init__(self):
+<<<<<<< HEAD
+
+        # Replace in-memory repo with SQLAlchemy repo
+        self.user_repo = SQLAlchemyRepository(User)
+
+        
+        #self.user_repo = InMemoryRepository()
+        #self.place_repo = InMemoryRepository()
+        #self.review_repo = InMemoryRepository()
+        #self.amenity_repo = InMemoryRepository()
+=======
+        self.user_repo = UserRepository()
+        self.place_repo = PlaceRepository()
+        self.review_repo = ReviewRepository()
+        self.amenity_repo = AmenityRepository()
+        """
+        ## InMemoryRepo depreciated
         self.user_repo = InMemoryRepository()
         self.place_repo = InMemoryRepository()
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
+        """
+>>>>>>> Max
 
     """
         Users
     """
-    # Create a new User
+
+def create_user(self, user_data):
+    
+
+        # Create User object
+        user = User(
+            first_name=user_data["first_name"],
+            last_name=user_data["last_name"],
+            email=user_data["email"]
+        )
+
+        # Hash password before saving (IMPORTANT)
+        user.hash_password(user_data["password"])
+
+        # Save to database
+        self.user_repo.add(user)
+
+        return user
+
+    # Get User by ID
+    # -------------------------------
+    def get_user(self, user_id):
+        
+        #Retrieve a user by ID.
+        return self.user_repo.get(user_id)
+
+    
+    # Get all users
+    def get_all_users(self):
+        return self.user_repo.get_all()
+
+    
+    
+   """ # Create a new User
     def create_user(self, user_data):
         b, m = self.string_validation(user_data['first_name'], "first_name", 50)
         if (b is False):
@@ -29,6 +89,7 @@ class HBnBFacade:
             raise Exception(m)
 
         user = User(**user_data)
+        user.hash_password(user_data['password'])
         self.user_repo.add(user)
         return user
 
@@ -41,7 +102,7 @@ class HBnBFacade:
         b, m = self.email_validation(email)
         if (b is False):
             raise Exception(m)
-        return self.user_repo.get_by_attribute("email", email)
+        return self.user_repo.get_user_by_email(email)
 
     def update_user(self, user_id, user_data):
         b, m = self.string_validation(user_data['first_name'], "first_name", 50)
@@ -56,7 +117,7 @@ class HBnBFacade:
 
         return self.user_repo.update(user_id, user_data)
 
-
+   """
     """
         Places
     """
@@ -78,10 +139,10 @@ class HBnBFacade:
             raise Exception(m)
 
         get_user = self.user_repo.get(place_data['owner_id'])
-        if get_user is None:
+        if (get_user is None):
             raise Exception("User not found")
 
-        place = Place(place_data['title'], place_data['description'], place_data['price'], place_data['latitude'], place_data['longitude'], get_user)
+        place = Place(place_data['title'], place_data['description'], place_data['price'], place_data['latitude'], place_data['longitude'], place_data['owner_id'])
         self.place_repo.add(place)
         return place
 
@@ -159,7 +220,7 @@ class HBnBFacade:
         if not (1 <= rating <= 5):
             raise Exception("Rating must be between 1 and 5")
 
-        review = Review(review_data['text'], review_data['rating'], place, user)
+        review = Review(**review_data)
         self.review_repo.add(review)
         place.add_review(review)
         return review
@@ -253,3 +314,58 @@ class HBnBFacade:
             return False, "longitude must be valid (between -180 and 180)"
 
         return True, "success"
+
+"""
+
+
+from app.persistence.user_repository import UserRepository
+from app.models.user import User
+
+
+class HBnBFacade:
+ 
+    def __init__(self):
+       
+        self.user_repo = UserRepository()
+
+ 
+    def create_user(self, user_data):
+      
+
+        # Create user object
+        user = User(
+            first_name=user_data["first_name"],
+            last_name=user_data["last_name"],
+            email=user_data["email"]
+        )
+
+      
+       
+     
+        user.hash_password(user_data["password"])
+
+        # Save to database
+        self.user_repo.add(user)
+
+        return user
+
+   
+    # Get user by ID 
+    def get_user(self, user_id):
+        return self.user_repo.get(user_id)
+
+    # Get all users
+    def get_all_users(self):
+        return self.user_repo.get_all()
+
+    
+    # Fetches user by email
+    def get_user_by_email(self, email):
+        return self.user_repo.get_user_by_email(email)
+
+
+
+
+
+
+"""

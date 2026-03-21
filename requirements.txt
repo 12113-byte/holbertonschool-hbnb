@@ -1,3 +1,10 @@
 flask
 flask-restx
+<<<<<<< HEAD
 fask-jwt-extended
+=======
+flask-jwt-extended
+flask-bcrypt
+sqlalchemy
+flask-sqlalchemy
+>>>>>>> Max
