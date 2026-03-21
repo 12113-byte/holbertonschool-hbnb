@@ -9,6 +9,9 @@ Handles CRUD operations for amenities:
 """
 
 from flask_restx import Namespace, Resource, fields
+# jwt_required: blocks endpoint if no valid token is provided
+# get_jwt: retrieves everything in token, including is_admin
+from flask_jwt_extended import jwt_required, get_jwt
 from app.services import facade
 
 api = Namespace('amenities', description='Amenity operations')
@@ -20,10 +23,18 @@ amenity_model = api.model('Amenity', {
 
 @api.route('/')
 class AmenityList(Resource):
+    @jwt_required() # only admin has access
     @api.expect(amenity_model)
+    @api.response(403, 'Unauthorised action')
     @api.response(201, 'Amenity successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
+        # get whoever is making request from token
+        current_user = get_jwt()
+        # access only for admin
+        if not current_user.get('is_admin'):
+            return {"error": "Admin privileges required"}, 403
+
         data = api.payload
         try:
             new_amenity = facade.create_amenity(data) #  create new amenity
@@ -60,12 +71,20 @@ class AmenityResource(Resource):
         
         return {"id": amenity.id, "name": amenity.name}, 200 #  return amenity as dictionary
 
+    @jwt_required() # only admin has access
     @api.expect(amenity_model)
     @api.response(200, 'Amenity updated successfully')
+    @api.response(403, 'Unauthorised action')
     @api.response(404, 'Amenity not found')
     @api.response(400, 'Invalid input data')
     def put(self, amenity_id):
         """Update an amenity's information"""
+        # get whoever is making request from token
+        current_user = get_jwt()
+        # access only for admin
+        if not current_user.get('is_admin'):
+            return {"error": "Admin privileges required"}, 403
+
         data = api.payload
         amenity = facade.get_amenity(amenity_id)
         if amenity is None:

@@ -9,6 +9,10 @@ Handles CRUD operations for places:
 """
 
 from flask_restx import Namespace, Resource, fields
+# jwt_required: blocks endpoint if no valid token is provided
+# get_jwt_identity: retrieves user ID stored inside JWT token
+# get_jwt: retrieves everything in token, including is_admin
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
 <<<<<<< HEAD
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -46,8 +50,7 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
-    'owner': fields.Nested(user_model, description='Owner of the place'),
+    # owner_id removed - now comes from JWT token, not request
     'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
     'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
@@ -55,6 +58,7 @@ place_model = api.model('Place', {
 #Places
 @api.route('/')
 class PlaceList(Resource):
+    @jwt_required() # blocks request if no valid JWT token is provided in the header
     @api.expect(place_model, validate=True)
     @api.response(201, 'Place created')
     @api.response(400, 'Invalid data')
@@ -65,7 +69,16 @@ class PlaceList(Resource):
 >>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
     def post(self):
         """Creates new Place"""
+        # get_jwt_identity() reads the user ID which was stored in token at login
+        # safer than trusting owner_id from request body
+        current_user_id = get_jwt_identity()
+
         data = api.payload
+
+        # setting owner_id from token, not what client sent
+        # prevents users from creating places on behalf of other users
+        data['owner_id'] = current_user_id
+
         try:
             place = facade.create_place(data)
             # Return minimal response
@@ -83,7 +96,7 @@ class PlaceList(Resource):
             return {"error": str(e)}, 400
 
     # ---------------------------------
-
+    # GET is public, no jwt_required needed
     @api.response(200, 'Places retrieved')
     def get(self):
         """Get all Places"""
@@ -99,6 +112,7 @@ class PlaceList(Resource):
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
+    # GET is public, anyone can view a place's details
     @api.response(200, 'Place found')
     @api.response(404, 'Place not found')
     def get(self, place_id):
@@ -136,8 +150,10 @@ class PlaceResource(Resource):
 
     # ---------------------------------
 
+    @jwt_required() # only authenticated users can update a place
     @api.expect(place_model)
     @api.response(200, 'Updated')
+    @api.response(403, 'Unauthorised action')
     @api.response(404, 'Not found')
     @api.response(400, 'Error Updating Place')
 <<<<<<< HEAD
@@ -145,13 +161,29 @@ class PlaceResource(Resource):
 =======
 >>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
     def put(self, place_id):
-        #updates allowed fields for the specified place
+        """Update a Place"""
+        # get ID of whoever is making this request from token
+        current_user = get_jwt()
+        # checking if user is admin
+        is_admin = current_user.get('is_admin', False)
+        # extracting id
+        user_id = current_user.get('id')
+
+        # fetch place from database
+        place = facade.get_place(place_id)
+
+        if not place:
+            return {"error": "Place not found"}, 404
+
+        # ownership check: does place belong to this user? if no: block them
+        # place.owner_id is who owns the place, user_id is who's asking
+        # bypass for admin
+        if not is_admin and place.owner_id != user_id:
+            return {"error": "Unauthorised action"}, 403
+        
         data = api.payload
         try:
-            place = facade.update_place(place_id, data)
-            if not place:
-                return {"error": "Place not found"}, 404
-
+            updated = facade.update_place(place_id, data)
             return {"message": "Place updated successfully"}, 200
 
         except Exception as e:
