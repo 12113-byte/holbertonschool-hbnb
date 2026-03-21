@@ -8,7 +8,7 @@ class Amenity(BaseModel):
     __tablename__ = 'amenities'
 
     text = db.Column(db.String(50), nullable=False)
-    places = relationship('Place', secondary=AssociationTable, backref='amenity')
+    places = relationship('Place', secondary=AssociationTable.__table__)
 
 """
 # IN REPO

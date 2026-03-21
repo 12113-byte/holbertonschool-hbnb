@@ -12,8 +12,21 @@ class Place(BaseModel):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    owner = relationship('User', backref='user', lazy=True)
     reviews = relationship('Review', backref='place', lazy=True)
-    amenities = relationship('Amenity', secondary=AssociationTable, backref='place', lazy=True)
+    amenities = relationship('Amenity', secondary=AssociationTable.__table__, backref='place', lazy=True)
+
+
+    def __init__(self, title, description, price, latitude, longitude, user_id):
+        super().__init__()
+        self.title = title
+        self.description = description
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.user_id = user_id
+        self.reviews = []
+        self.amenities = []
 
 """
 # IN REPO

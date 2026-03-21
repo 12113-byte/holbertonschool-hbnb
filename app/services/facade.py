@@ -2,6 +2,10 @@ from app.persistence.user_repository import UserRepository
 from app.persistence.place_repository import PlaceRepository
 from app.persistence.review_repository import ReviewRepository
 from app.persistence.amenity_repository import AmenityRepository
+from app.models.user import User
+from app.models.review import Review
+from app.models.place import Place
+from app.models.amenity import Amenity
 import re
 
 
@@ -85,10 +89,10 @@ class HBnBFacade:
             raise Exception(m)
 
         get_user = self.user_repo.get(place_data['owner_id'])
-        if get_user is None:
+        if (get_user is None):
             raise Exception("User not found")
 
-        place = Place(place_data['title'], place_data['description'], place_data['price'], place_data['latitude'], place_data['longitude'], get_user)
+        place = Place(place_data['title'], place_data['description'], place_data['price'], place_data['latitude'], place_data['longitude'], place_data['owner_id'])
         self.place_repo.add(place)
         return place
 
