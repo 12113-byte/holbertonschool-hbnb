@@ -10,6 +10,10 @@ Handles CRUD operations for places:
 
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
+<<<<<<< HEAD
+from flask_jwt_extended import jwt_required, get_jwt_identity
+=======
+>>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
 
 #Created namespace
 api = Namespace('places', description='Place operations')
@@ -55,6 +59,10 @@ class PlaceList(Resource):
     @api.response(201, 'Place created')
     @api.response(400, 'Invalid data')
     @api.response(404, 'User not found')
+<<<<<<< HEAD
+    @jwt_required()
+=======
+>>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
     def post(self):
         """Creates new Place"""
         data = api.payload
@@ -132,6 +140,10 @@ class PlaceResource(Resource):
     @api.response(200, 'Updated')
     @api.response(404, 'Not found')
     @api.response(400, 'Error Updating Place')
+<<<<<<< HEAD
+    @jwt_required()
+=======
+>>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
     def put(self, place_id):
         #updates allowed fields for the specified place
         data = api.payload
