@@ -1,4 +1,4 @@
-''''mermaid'
+```mermaid
 erDiagram
 User {
     string id 
