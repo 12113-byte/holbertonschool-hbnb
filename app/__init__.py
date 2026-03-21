@@ -8,6 +8,33 @@ from app.api.v1.auth import api as auth_ns
 from flask_jwt_extended import JWTManager
 jwt = JWTManager()
 
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+
+def create_app():
+    app = Flask(__name__)
+    # Create global instances                                                                                                                      
+    db = SQLAlchemy()
+    bcrypt = Bcrypt()
+    api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc='/api/v1/')
+
+
+    
+    # Initialize extensions                                                                                                                        
+    db.init_app(app)
+    bcrypt.init_app(app)
+
+    
+    
+    # Placeholder for API namespaces (endpoints will be added later)
+    api.add_namespace(users_ns, path='/api/v1/users')
+    api.add_namespace(places_ns, path='/api/v1/places')
+    api.add_namespace(review_ns, path='/api/v1/review')
+    api.add_namespace(amenities_ns, path='/api/v1/amenities')
+    # Additional namespaces for places, reviews, and amenities will be added later
+
+    
+    
 def create_app(config_class="config.DevelopmentConfig"): 
     #  accepts a config class as parameter, default is DevelopementConfig
     #  makes function flexible to pass different config later for testing or production
@@ -47,3 +74,9 @@ def create_app(config_class="config.DevelopmentConfig"):
 
     #  returns fully configured app
     return app
+
+
+
+
+
+    
