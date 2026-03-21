@@ -77,8 +77,8 @@ class ReviewList(Resource):
             "id": r.id,
             "text": r.text,
             "rating": r.rating,
-            "user_id": r.user.id,
-            "place_id": r.place.id
+            "user_id": r.user_id,
+            "place_id": r.place_id
         } for r in reviews], 200
 
 @api.route('/<review_id>')
@@ -98,8 +98,8 @@ class ReviewResource(Resource):
             "id": review.id,
             "text": review.text,
             "rating": review.rating,
-            "user_id": review.user.id,
-            "place_id": review.place.id
+            "user_id": review.user_id,
+            "place_id": review.place_id
         }, 200 #successful retrieval of review details
 
     @jwt_required() # only authenticated users can update reviews
@@ -128,11 +128,7 @@ class ReviewResource(Resource):
             return {"error": "Unauthorised action"}, 403
 
         data = api.payload
-<<<<<<< HEAD
         allowed_fields = {'text', 'rating'} #change the text and the rating based on the review id
-=======
-        allowed_fields = {'text', 'rating'}
->>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
         data = {k: v for k, v in data.items() if k in allowed_fields} # Filter input to only allowed fields
         # Attempt to update the review using the facade method
         review = facade.update_review(review_id, data)
@@ -170,8 +166,5 @@ class ReviewResource(Resource):
         except Exception as e:
             return {"error": str(e)}, 400 # handles invalid input
 
-<<<<<<< HEAD
         return {"message": "Review deleted successfully"}, 200 #successful deletion of review
-=======
-        return {"message": "Review deleted successfully"}, 200 #successful deletion of review
->>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
+
