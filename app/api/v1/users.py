@@ -48,10 +48,7 @@ class UserResource(Resource):
     @api.response(200, 'User updated')
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input data')
-<<<<<<< HEAD
     @jwt_required()
-=======
->>>>>>> db4e54a5eb36a9cea3e77632a08b5ae56eb459f8
     def put(self, user_id):
         """Update a user by ID"""
         user = facade.get_user(user_id)
