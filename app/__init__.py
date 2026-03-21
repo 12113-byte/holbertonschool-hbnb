@@ -10,8 +10,19 @@ from flask_bcrypt import Bcrypt
 
 def create_app():
     app = Flask(__name__)
+    # Create global instances                                                                                                                      
+    db = SQLAlchemy()
+    bcrypt = Bcrypt()
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc='/api/v1/')
 
+
+    
+    # Initialize extensions                                                                                                                        
+    db.init_app(app)
+    bcrypt.init_app(app)
+
+    
+    
     # Placeholder for API namespaces (endpoints will be added later)
     api.add_namespace(users_ns, path='/api/v1/users')
     api.add_namespace(places_ns, path='/api/v1/places')
@@ -19,21 +30,12 @@ def create_app():
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
     # Additional namespaces for places, reviews, and amenities will be added later
 
+    
+    
     return app
 
-#check this
-
-# Create global instances
-db = SQLAlchemy()
-bcrypt = Bcrypt()
 
 
-def create_app(config_class):
-    app = Flask(__name__)
-    app.config.from_object(config_class)
 
-    # Initialize extensions
-    db.init_app(app)
-    bcrypt.init_app(app)
 
-    return app
+    

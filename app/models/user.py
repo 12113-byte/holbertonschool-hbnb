@@ -70,3 +70,49 @@ class User(BaseModel):
             "email": self.email,
             "is_admin": self.is_admin
         }
+
+
+##
+    __tablename__ = "users"
+
+    # Columns (Database fields)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+
+    # Unique email 
+    email = db.Column(db.String(120), nullable=False, unique=True)
+
+    # Store hashed password ONLY
+    password = db.Column(db.String(128), nullable=False)
+
+    is_admin = db.Column(db.Boolean, default=False)
+
+    
+    # Email validation
+    def validate_email(self):
+        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        if not re.match(pattern, self.email):
+            raise ValueError("Invalid email format.")
+
+    # Password hashing
+    def hash_password(self, password):
+        if not password or len(password) < 6:
+            raise ValueError("Password must be at least 6 characters long.")
+
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    # Password verification
+    def verify_password(self, password):
+    
+        return bcrypt.check_password_hash(self.password, password)
+
+    # Safe response 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "is_admin": self.is_admin
+        }
+    

@@ -292,3 +292,58 @@ def create_user(self, user_data):
             return False, "longitude must be valid (between -180 and 180)"
 
         return True, "success"
+
+"""
+
+
+from app.persistence.user_repository import UserRepository
+from app.models.user import User
+
+
+class HBnBFacade:
+ 
+    def __init__(self):
+       
+        self.user_repo = UserRepository()
+
+ 
+    def create_user(self, user_data):
+      
+
+        # Create user object
+        user = User(
+            first_name=user_data["first_name"],
+            last_name=user_data["last_name"],
+            email=user_data["email"]
+        )
+
+      
+       
+     
+        user.hash_password(user_data["password"])
+
+        # Save to database
+        self.user_repo.add(user)
+
+        return user
+
+   
+    # Get user by ID 
+    def get_user(self, user_id):
+        return self.user_repo.get(user_id)
+
+    # Get all users
+    def get_all_users(self):
+        return self.user_repo.get_all()
+
+    
+    # Fetches user by email
+    def get_user_by_email(self, email):
+        return self.user_repo.get_user_by_email(email)
+
+
+
+
+
+
+"""
