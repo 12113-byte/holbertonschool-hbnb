@@ -1,7 +1,7 @@
-from sqlalchemy.orm import relationship
 from .basemodel import BaseModel
 from app import db
 from .associationtable import AssociationTable
+
 
 class Place(BaseModel):
     __tablename__ = 'places'
@@ -11,11 +11,13 @@ class Place(BaseModel):
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    owner = relationship('User', backref='user', lazy=True)
-    reviews = relationship('Review', backref='place', lazy=True)
-    amenities = relationship('Amenity', secondary=AssociationTable.__table__, backref='place', lazy=True)
 
+    # relationships
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    #user = relationship('User', lazy=True)
+    reviews = db.relationship('Review', backref='place', lazy=True)
+    amenities = db.relationship('Amenity', secondary=AssociationTable.__table__, backref='place', lazy=True)
+    # relationships
 
     def __init__(self, title, description, price, latitude, longitude, user_id):
         super().__init__()
@@ -25,20 +27,6 @@ class Place(BaseModel):
         self.latitude = latitude
         self.longitude = longitude
         self.user_id = user_id
-        self.reviews = []
-        self.amenities = []
-
-"""
-# IN REPO
-class Place(BaseModel):
-    def __init__(self, title, description, price, latitude, longitude, owner):
-        super().__init__()
-        self.title = title
-        self.description = description
-        self.price = price
-        self.latitude = latitude
-        self.longitude = longitude
-        self.owner = owner
         self.reviews = []
         self.amenities = []
 
@@ -61,4 +49,3 @@ class Place(BaseModel):
     def update_amenity(self, amenity):
         self.remove_amenity(amenity)
         self.add_amenity(amenity)
-"""

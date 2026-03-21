@@ -68,7 +68,7 @@ class PlaceList(Resource):
                 "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude,
-                "owner_id": place.owner.id
+                "owner_id": place.user.id
             }, 201
 
         except Exception as e:
@@ -110,10 +110,10 @@ class PlaceResource(Resource):
             },
             # Owner relationship
             "owner": {
-                "id": place.owner.id,
-                "first_name": place.owner.first_name,
-                "last_name": place.owner.last_name,
-                "email": place.owner.email
+                "id": place.user.id,
+                "first_name": place.user.first_name,
+                "last_name": place.user.last_name,
+                "email": place.user.email
             },
             "reviews" : [
             {

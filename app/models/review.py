@@ -1,4 +1,3 @@
-from sqlalchemy.orm import relationship
 from .basemodel import BaseModel
 from app import db
 
@@ -11,8 +10,8 @@ class Review(BaseModel):
 	user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
 	place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
 
-	user = relationship('User', backref='user', lazy=True)
-	place = relationship('Place', backref='place', lazy=True)
+	#user = db.relationship('User', lazy=True)
+	#place = db.relationship('Place', lazy=True)
 
 	def __init__(self, text, rating, place_id, user_id):
 		super().__init__()
@@ -20,7 +19,6 @@ class Review(BaseModel):
 		self.rating = rating
 		self.place_id = place_id
 		self.user_id = user_id
-
 
 """
 # IN REPO

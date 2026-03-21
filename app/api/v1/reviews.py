@@ -49,8 +49,8 @@ class ReviewList(Resource):
             "id": r.id,
             "text": r.text,
             "rating": r.rating,
-            "user_id": r.user.id,
-            "place_id": r.place.id
+            "user_id": r.user_id,
+            "place_id": r.place_id
         } for r in reviews], 200
 
 @api.route('/<review_id>')
@@ -69,8 +69,8 @@ class ReviewResource(Resource):
             "id": review.id,
             "text": review.text,
             "rating": review.rating,
-            "user_id": review.user.id,
-            "place_id": review.place.id
+            "user_id": review.user_id,
+            "place_id": review.place_id
         }, 200 #successful retrieval of review details
 
     @api.expect(review_update_model)
