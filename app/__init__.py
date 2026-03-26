@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, render_template
 from flask_restx import Api
 from app.databaseimport import db, bcrypt, jwt
 
@@ -49,7 +49,8 @@ def create_app(config_class="config.DevelopmentConfig"):
     #  due to flask-restx being mounted on api_bp and not on app, no conflicts
     @app.route('/')
     def homepage():
-        return 'Welcome to HBnB!'
+        #return 'Welcome to HBnB!'
+        return render_template('index.html')
 
     #  returns fully configured app
     return app
