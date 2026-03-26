@@ -33,7 +33,8 @@ def create_app(config_class="config.DevelopmentConfig"):
     db.init_app(app)
     bcrypt.init_app(app)
     jwt.init_app(app)
-
+    with app.app_context():
+        db.create_all()
 
     # registration of each namespace with the api
     # dealt with prefix above

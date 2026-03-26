@@ -14,7 +14,6 @@ class Place(BaseModel):
 
     # relationships
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    #user = relationship('User', lazy=True)
     reviews = db.relationship('Review', backref='place', lazy=True)
     amenities = db.relationship('Amenity', secondary=AssociationTable.__table__, backref='place', lazy=True)
     # relationships
