@@ -137,7 +137,7 @@ class PlaceResource(Resource):
                 "user_id": r.user_id
             } for r in place.reviews
             ],
-            "amenities": [a.id for a in place.amenities],
+            "amenities": [{"id": a.id, "name": a.name} for a in place.amenities],
             }, 200
 
     # ---------------------------------
