@@ -1,6 +1,13 @@
 flask
 flask-restx
+<<<<<<< HEAD
 flask-jwt-extended
 flask-bcrypt
 sqlalchemy
 flask-sqlalchemy
+=======
+flask-sqlalchemy
+flask-jwt-extended
+flask-bcrypt
+sqlalchemy
+>>>>>>> main

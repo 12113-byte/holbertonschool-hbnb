@@ -9,7 +9,15 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///development.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+class TestingConfig(Config):
+    DEBUG = True
+
+class ProductionConfig(Config):
+    pass
+
 config = {
     'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'production': ProductionConfig,
     'default': DevelopmentConfig
 }

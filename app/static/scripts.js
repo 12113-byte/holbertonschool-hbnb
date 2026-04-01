@@ -70,5 +70,3 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Iterate over the places and show/hide them based on the selected price
 	});
 });
-
-
