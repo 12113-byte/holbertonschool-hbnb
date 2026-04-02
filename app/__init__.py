@@ -52,5 +52,10 @@ def create_app(config_class="config.DevelopmentConfig"):
         #return 'Welcome to HBnB!'
         return render_template('index.html')
 
+    @app.route('/login')
+    def log():
+        #return 'Welcome to HBnB!'
+        return render_template('login.html')
+
     #  returns fully configured app
     return app
