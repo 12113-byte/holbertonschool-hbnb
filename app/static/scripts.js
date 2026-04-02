@@ -55,14 +55,18 @@ function displayPlaces(places) {
 		let place_title = document.createElement("p");
 		let place_desc = document.createElement("p");
 		let place_price = document.createElement("p");
+		let place_price_span = document.createElement("span");
 		let place_lat = document.createElement("p");
 		let place_long = document.createElement("p");
+
 		place_title.innerHTML = "name: " + places[i].title;
 		place_desc.innerHTML = "description: " + places[i].description;
-		place_price.innerHTML = "price: " + places[i].price;
+		place_price.innerHTML = "price: ";
+		place_price_span.innerHTML = places[i].price;
+		place_price.append(place_price_span)
 		place_lat.innerHTML = "lat: " + places[i].latitude;
 		place_long.innerHTML = "long: " + places[i].longitude;
-		place.append(place_txt);
+		place.append(place_title);
 		place.append(place_desc);
 		place.append(place_price);
 		place.append(place_lat);
@@ -81,21 +85,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		const place_list = document.body.getElementsByTagName('div')
 		for(let i = 0; i < place_list.length; i++)
 		{
-			if (price_set == 10)
-			{
-
-			}
-			else if (price_set == 50)
-			{
-
-			}
-			else if (price_set == 100)
-			{
-
-			}
-			else
+			if (price_set == "All")
 			{
 				place_list[i].style.display = "block";
+			}
+			let price_val = place_list[i].getElementsByTagName('span')[0].innerHTML;
+			if (price_val != undefined)
+			{
+				if (price_val < price_set)
+				{
+					console.log
+					place_list[i].style.display = "none";
+				}
+				else
+				{
+					place_list[i].style.display = "block";
+				}
 			}
 		}
 
