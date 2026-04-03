@@ -1,7 +1,7 @@
 /* 
-  This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks. 
-  You'll probably need to override some of theese styles.
-*/
+ * This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks.
+ * You'll probably need to override some of theese styles.
+ */
 
 * {
     box-sizing: border-box;
@@ -30,10 +30,39 @@ nav a {
 main {
     padding: 2rem;
 }
+#places-list {
+display: flex;
+flex-wrap: wrap;
+}
 
 .place-card {
+    display: flex;
+    flex-direction: column;
     margin: 20px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 10px;
+    width: 250px;
+    height: 350px;
+}
+
+.place-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 10px rgba(150, 150, 150, 0.75);
+    cursor: pointer;
+}
+
+.place-card p.place-desc {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+}
+
+.place-card p.place-price {
+    margin-top:auto;
+    font-size: 1.5rem;
+    align-self: center;
 }
