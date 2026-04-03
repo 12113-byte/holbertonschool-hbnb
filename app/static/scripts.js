@@ -1,19 +1,19 @@
 /* 
-  This is a SAMPLE FILE to get you started.
-  Please, follow the project instructions to complete the tasks.
+    This is a SAMPLE FILE to get you started.
+    Please, follow the project instructions to complete the tasks.
 */
 
 document.addEventListener('DOMContentLoaded', () => {
     /* DO SOMETHING */
-  });
+    });
 
 
 const placeId = getPlaceIdFromURL(); // global variable
 
 function getPlaceIdFromURL() {
-  const queryParams = new URLSearchParams(window.location.search);
-  const placeId = queryParams.get('id');
-  return placeId
+    const queryParams = new URLSearchParams(window.location.search);
+    const placeId = queryParams.get('id');
+    return placeId
 }
 
 function checkAuthentication() {
@@ -34,7 +34,7 @@ function getCookie(name) {
     const cookies = document.cookie.split('; ');
     const token = cookies.find(cookie => cookie.startsWith(name + '='));
     if (!token) {
-      return null
+        return null
     }
     const extracted_name = token.split('=');
     return extracted_name[1]
@@ -45,21 +45,21 @@ async function fetchPlaceDetails(token, placeId) {
     // Include the token in the Authorization header
     // Handle the response and pass the data to displayPlaceDetails function
     try {
-      const response = await fetch(`http://127.0.1:5000/api/v1/places/${placeId}`, {
+        const response = await fetch(`http://127.0.1:5000/api/v1/places/${placeId}`, {
         method: 'GET',
         headers: {
           'Authorization': token ? `Bearer ${token}` : '', // if token exists, send it, otherwise send empty string
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
-      });
+        });
 
-      if (!response.ok) {
+        if (!response.ok) {
         throw new Error(`HHTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      displayPlaceDetails(data);
+        }
+        const data = await response.json();
+        displayPlaceDetails(data);
     } catch (error) {
-      console.error('Fetch error:', error);
+        console.error('Fetch error:', error);
     }
 }
 
@@ -97,9 +97,9 @@ function displayPlaceDetails(place) {
 
     const amenitiesList = document.createElement('ul');
     place.amenities.forEach(amenity => {
-      const item = document.createElement('li');
-      item.textContent = amenity;
-      amenitiesList.appendChild(amenitiesList);
+        const item = document.createElement('li');
+        item.textContent = amenity;
+        amenitiesList.appendChild(amenitiesList);
     });
     placeDetails.appendChild(amenitiesList);
 
@@ -109,9 +109,9 @@ function displayPlaceDetails(place) {
     placeDetails.appendChild(reviewsTitle);
 
     place.reviews.forEach(review => {
-      const reviewDiv = document.createElement('div');
-      reviewDiv.textContent = `Rating: ${review.rating} - ${review.text}`;
-      placeDetails.appendChild(reviewDiv);
+        const reviewDiv = document.createElement('div');
+        reviewDiv.textContent = `Rating: ${review.rating} - ${review.text}`;
+        placeDetails.appendChild(reviewDiv);
     });
 }
 
@@ -186,3 +186,5 @@ function checkAuthentication() {
             alert('Failed to submit review');
         }
     }
+
+
