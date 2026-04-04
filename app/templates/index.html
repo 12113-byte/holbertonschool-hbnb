@@ -5,14 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List of Places</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script  src="{{ url_for('static', filename='scripts.js')}}"></script>
+    <script  src="{{ url_for('static', filename='index_script.js')}}"></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="login.html" id="login-link">Login</a>
-        </nav>
-    </header>
+    {% include 'header.html' %}
     <main>
         <section id="filter">
             <label for="price-filter">Max Price:</label>
@@ -21,9 +17,34 @@
             </select>
         </section>
         <section id="places-list">
+            <div class="place-card">
+                <h2>test title of a really long title that needs to be</h2>
+                <p class="place-desc">test description of a really long text, this is really long because I felt that in order to properly covey the reason why YOU should stay at this place is because when I was just a young boy, I had a dream, yes a dream, but not a normal dream of flolicking in flowers or something, an amazing dream - wait what am I writing here?</p>
+                <p class="place-price">price: <span>15</span></p>
+            </div>
+            <div class="place-card">
+                <h2>test title</h2>
+                <p class="place-desc">test description</p>
+                <p class="place-price">price: <span>15</span></p>
+            </div>
+            <div class="place-card">
+                <h2>test title</h2>
+                <p class="place-desc">test description</p>
+                <p class="place-price">price: <span>15</span></p>
+            </div>
+            <div class="place-card">
+                <h2>test title</h2>
+                <p class="place-desc">test description</p>
+                <p class="place-price">price: <span>15</span></p>
+            </div>
+            <div class="place-card">
+                <h2>test title</h2>
+                <p class="place-desc">test description</p>
+                <p class="place-price">price: <span>15</span></p>
+            </div>
             <!-- List of places will be populated dynamically -->
         </section>
     </main>
-    <script src="scripts.js"></script>
+    {% include 'footer.html' %}
 </body>
 </html>

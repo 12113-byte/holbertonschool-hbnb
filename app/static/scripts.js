@@ -24,17 +24,6 @@ function checkAuthentication() {
     fetchPlaceDetails(token, placeId);
 }
 
-function getCookie(name) {
-    // Function to get a cookie value by its name
-    const cookies = document.cookie.split('; ');
-    const token = cookies.find(cookie => cookie.startsWith(name + '='));
-    if (!token) {
-      return null
-    }
-    const extracted_name = token.split('=');
-    return extracted_name[1]
-}
-
 async function fetchPlaceDetails(token, placeId) {
     // Make a GET request to fetch place details
     // Include the token in the Authorization header
@@ -122,3 +111,8 @@ function displayPlaceDetails(place) {
       placeDetails.appendChild(reviewDiv);
     });
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+});

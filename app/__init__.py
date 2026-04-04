@@ -38,11 +38,11 @@ def create_app(config_class="config.DevelopmentConfig"):
 
     # registration of each namespace with the api
     # dealt with prefix above
-    api.add_namespace(users_ns, path='/api/v1/users')
-    api.add_namespace(places_ns, path='/api/v1/places')
-    api.add_namespace(review_ns, path='/api/v1/reviews')
-    api.add_namespace(amenities_ns, path='/api/v1/amenities')
-    api.add_namespace(auth_ns, path='/api/v1/auth')
+    api.add_namespace(users_ns, path='/users')
+    api.add_namespace(places_ns, path='/places')
+    api.add_namespace(review_ns, path='/reviews')
+    api.add_namespace(amenities_ns, path='/amenities')
+    api.add_namespace(auth_ns, path='/auth')
 
 
     #  defining homepage route directly on app (not blueprint)
@@ -51,6 +51,15 @@ def create_app(config_class="config.DevelopmentConfig"):
     def homepage():
         #return 'Welcome to HBnB!'
         return render_template('index.html')
+
+    @app.route('/login')
+    def log():
+        #return 'Welcome to HBnB!'
+        return render_template('login.html')
+
+    @app.route('/place')
+    def place():
+        return render_template('place.html')
 
     #  returns fully configured app
     return app
