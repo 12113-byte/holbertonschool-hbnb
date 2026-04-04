@@ -1,10 +1,5 @@
-/* 
-  This is a SAMPLE FILE to get you started.
-  Please, follow the project instructions to complete the tasks.
-*/
-
 document.addEventListener('DOMContentLoaded', () => {
-    /* DO SOMETHING */
+    checkAuthentication();
   });
 
 
@@ -73,32 +68,44 @@ function displayPlaceDetails(place) {
     // title
     const title = document.createElement('h2');
     title.textContent = place.place.title;
+    title.classList.add('title');
     placeDetails.appendChild(title);
+
+    // images
+    const images = document.createElement('img');
+    images.src = place.image;
+    images.classList.add('img');
+    placeDetails.appendChild(images);
 
     // description
     const description = document.createElement('p')
-    description.textContent = `Description: ${place.place.description}`;
+    description.textContent = "Description:" + place.place.description;
+    description.classList.add('description');
     placeDetails.appendChild(description);
 
     // price
     const price = document.createElement('p');
-    price.textContent = `Price per night: ${place.place.price}`;
+    price.textContent = "Price per night" + place.place.price;
+    price.classList.add('price');
     placeDetails.appendChild(price);
 
     // owner
     const owner = document.createElement('p');
-    owner.textContent = `Owner: ${place.owner.first_name} ${place.owner.last_name}`;
+    owner.textContent = "Owner" + place.owner.first_name + " "+ place.owner.last_name;
+    owner.classList.add('owner');
     placeDetails.appendChild(owner);
 
     // amenities
     const amenitiesTitle = document.createElement('h3');
     amenitiesTitle.textContent = 'Amenities';
+    amenitiesTitle.classList.add('amenities-title');
     placeDetails.appendChild(amenitiesTitle);
 
     const amenitiesList = document.createElement('ul');
     place.amenities.forEach(amenity => {
       const item = document.createElement('li');
       item.textContent = amenity;
+      item.classList.add(item);
       amenitiesList.appendChild(amenitiesList);
     });
     placeDetails.appendChild(amenitiesList);
@@ -106,6 +113,7 @@ function displayPlaceDetails(place) {
     // reviews
     const reviewsTitle = document.createElement('h3');
     reviewsTitle.textContent = 'Reviews';
+    reviewsTitle.classList.add('review-title');
     placeDetails.appendChild(reviewsTitle);
 
     place.reviews.forEach(review => {
