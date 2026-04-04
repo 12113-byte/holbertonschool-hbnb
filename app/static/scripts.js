@@ -11,6 +11,16 @@ function getPlaceIdFromURL() {
   return placeId
 }
 
+function getCookie(name) {
+    const cookies = document.cookie.split('; ');
+    const token = cookies.find(cookie => cookie.startsWith(name + '='));
+    if (!token) {
+      return null;
+    }
+    const extracted_name = token.split('=');
+    return extracted_name[1];
+}
+
 function checkAuthentication() {
     const token = getCookie('token');
     const addReviewSection = document.getElementById('add-review');
@@ -80,7 +90,7 @@ function displayPlaceDetails(place) {
 
     // owner
     const owner = document.createElement('p');
-    owner.textContent = "Owner" + place.owner.first_name + " "+ place.owner.last_name;
+    owner.textContent = "Owner" + place.owner.first_name + " " + place.owner.last_name;
     owner.classList.add('owner');
     placeDetails.appendChild(owner);
 
@@ -94,8 +104,8 @@ function displayPlaceDetails(place) {
     place.amenities.forEach(amenity => {
       const item = document.createElement('li');
       item.textContent = amenity;
-      item.classList.add(item);
-      amenitiesList.appendChild(amenitiesList);
+      item.classList.add('amenity-item');
+      amenitiesList.appendChild(item);
     });
     placeDetails.appendChild(amenitiesList);
 
@@ -111,8 +121,3 @@ function displayPlaceDetails(place) {
       placeDetails.appendChild(reviewDiv);
     });
 }
-
-
-document.addEventListener('DOMContentLoaded', () => {
-
-});
