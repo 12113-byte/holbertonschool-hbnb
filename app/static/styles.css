@@ -17,26 +17,21 @@ body {
 
 header {
     background-color: #f4f4f4;
-header, footer {
-    background-color: #333;
-    color: #fff;
+    color:#333;
     padding: 1rem;
-}
-header {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
 }
+
 footer {
     position: fixed;
     bottom: 0px;
     width: 100%;
 }
 
-nav a {
-    color: #fff;
-    text-decoration: none;
-    margin-left: 1rem;
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 main {
@@ -53,18 +48,27 @@ ul {
     padding: 0;
     display: flex;
     justify-content: center;
+    width: 100%;
 }
-
 ul li a {
     display: block;
     color:#333;
     padding: 14px 16px;
     text-decoration: none;
 }
-
 ul li a:hover {
-    background-color:rgba(133, 55, 206, 0.911);
+    border: 1px solid purple;
+    border-radius: 10px;
 }
+.search-bar {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid purple;
+}
+.search-bar:focus {
+    border-color: purple;
+}
+
 #places-list {
 display: flex;
 flex-wrap: wrap;
@@ -92,6 +96,7 @@ flex-wrap: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
 
 }
@@ -100,4 +105,85 @@ flex-wrap: wrap;
     margin-top:auto;
     font-size: 1.5rem;
     align-self: center;
+}
+
+/**
+* Places Part
+*/
+
+#place-details {
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    border: 1px solid purple;
+}
+.back-button {
+    display: inline-block;
+    color: purple;
+    font-weight: bold;
+    padding: 10px;
+}
+.title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.place-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+.description {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+}
+.place-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+.owner {
+    font-size: 0.85rem;
+}
+.amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0;
+}
+.amenity-item {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+}
+.review {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid purple;
+}
+#reviews {
+    max-width: 900px;
+    margin: 2rem auto;
+}
+.price {
+    font-weight: bold;
+}
+#add-review button {
+    background-color: purple;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    cursor: pointer;
+}
+hr {
+    border: purple;
+    border-top: 1px solid purple;
+    margin: 1rem 0;
 }
