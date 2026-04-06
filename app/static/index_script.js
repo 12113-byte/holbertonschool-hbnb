@@ -15,10 +15,12 @@ function checkAuthentication() {
 
 	if (!token) {
 		loginLink.style.display = 'block';
+		fetchPlaces("");
 	} else {
 		loginLink.style.display = 'none';
+		fetchPlaces(token);
 	}
-	fetchPlaces(token);
+
 }
 
 function SetPriceVals(){
@@ -34,7 +36,7 @@ function SetPriceVals(){
 async function fetchPlaces(token) {
 	await fetch("/api/v1/places", {
 		method: "GET",
-		headers: {"Authorization": token ? 'Bearer ' + token : ''}
+		headers: {"Authorization": token}
 	}).then(function (response){
 		return response.json();
 	}).then(function (response){
@@ -49,8 +51,10 @@ function displayPlaces(places) {
 	 *		places_list.removeChild(places_list.firstChild);
 		}
 */
+	console.log(places);
 	for(let i = 0; i < places.length; i++)
 	{
+
 		let place = document.createElement("div");
 		let place_title = document.createElement("h2");
 		let place_desc = document.createElement("p");

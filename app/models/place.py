@@ -7,8 +7,8 @@ class Place(BaseModel):
     __tablename__ = 'places'
 
     title = db.Column(db.String(50), nullable=False)
-    image = db.Column(db.String(260), nullable=True)
-    description = db.Column(db.String(100), nullable=False)
+    image_url = db.Column(db.String(255), nullable=True)
+    description = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)

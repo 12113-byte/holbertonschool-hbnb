@@ -5,8 +5,8 @@
 
 * {
     box-sizing: border-box;
-    margin: 20px;
-    padding: 10px;
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
 }
 
@@ -38,7 +38,6 @@ main {
     display:flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
     padding: 2rem;
 }
 
@@ -73,6 +72,10 @@ ul li a:hover {
     border-color: purple;
 }
 
+/*
+ Places/index page
+ */
+
 #places-list {
 display: flex;
 flex-wrap: wrap;
@@ -82,7 +85,38 @@ flex-wrap: wrap;
     display: flex;
     flex-direction: column;
     margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 250px;
+    height: 350px;
 }
+
+.place-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 10px rgba(150, 150, 150, 0.75);
+    cursor: pointer;
+}
+
+.place-card p.place-desc {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+}
+
+.place-card p.place-price {
+    margin-top:auto;
+    font-size: 1.5rem;
+    align-self: center;
+}
+/*
+ Places/index page
+ */
+
 #review-form {
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -145,21 +179,7 @@ flex-wrap: wrap;
     background-color: #0056b3
 }
 
-.place-card p.place-desc {
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
 
-}
-
-.place-card p.place-price {
-    margin-top:auto;
-    font-size: 1.5rem;
-    align-self: center;
-}
 
 /**
 * Places Part
