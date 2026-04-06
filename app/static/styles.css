@@ -1,7 +1,7 @@
 /* 
-    This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks. 
-    You'll probably need to override some of theese styles.
-*/
+ * This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks.
+ * You'll probably need to override some of theese styles.
+ */
 
 * {
     box-sizing: border-box;
@@ -16,9 +16,21 @@ body {
 }
 
 header {
+    background-color: #f4f4f4;
+header, footer {
     background-color: #333;
     color: #fff;
     padding: 1rem;
+}}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
 }
 
 nav a {

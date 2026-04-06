@@ -14,8 +14,6 @@ from flask_restx import Namespace, Resource, fields
 # get_jwt: retrieves everything in token, including is_admin
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 #Created namespace
 api = Namespace('places', description='Place operations')
@@ -48,7 +46,7 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    # user_id removed - now comes from JWT token, not request
+    # owner_id removed - now comes from JWT token, not request
     'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
     'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
@@ -61,18 +59,17 @@ class PlaceList(Resource):
     @api.response(201, 'Place created')
     @api.response(400, 'Invalid data')
     @api.response(404, 'User not found')
-    @jwt_required()
     def post(self):
         """Creates new Place"""
         # get_jwt_identity() reads the user ID which was stored in token at login
-        # safer than trusting user_id from request body
+        # safer than trusting owner_id from request body
         current_user_id = get_jwt_identity()
 
         data = api.payload
 
-        # setting user_id from token, not what client sent
+        # setting owner_id from token, not what client sent
         # prevents users from creating places on behalf of other users
-        data['user_id'] = current_user_id
+        data['owner_id'] = current_user_id
 
         try:
             place = facade.create_place(data)
@@ -84,7 +81,7 @@ class PlaceList(Resource):
                 "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude,
-                "user_id": place.user.id
+                "owner_id": place.user_id
             }, 201
 
         except Exception as e:
@@ -100,6 +97,8 @@ class PlaceList(Resource):
         return [{
             "id": p.id,
             "title": p.title,
+            "description": p.description,
+            "price": p.price,
             "latitude": p.latitude,
             "longitude": p.longitude
         } for p in places], 200
@@ -122,6 +121,7 @@ class PlaceResource(Resource):
                 "id": place_id,
                 "title": place.title,
                 "description": place.description,
+                "price": p.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude
             },
@@ -140,7 +140,7 @@ class PlaceResource(Resource):
                 "user_id": r.user_id
             } for r in place.reviews
             ],
-            "amenities": [a.id for a in place.amenities],
+            "amenities": [{"id": a.id, "name": a.name} for a in place.amenities],
             }, 200
 
     # ---------------------------------
@@ -151,7 +151,6 @@ class PlaceResource(Resource):
     @api.response(403, 'Unauthorised action')
     @api.response(404, 'Not found')
     @api.response(400, 'Error Updating Place')
-    @jwt_required()
     def put(self, place_id):
         """Update a Place"""
         # get ID of whoever is making this request from token
@@ -159,7 +158,7 @@ class PlaceResource(Resource):
         # checking if user is admin
         is_admin = current_user.get('is_admin', False)
         # extracting id
-        user_id = current_user.get('id')
+        user_id = get_jwt_identity()
 
         # fetch place from database
         place = facade.get_place(place_id)
@@ -168,7 +167,7 @@ class PlaceResource(Resource):
             return {"error": "Place not found"}, 404
 
         # ownership check: does place belong to this user? if no: block them
-        # place.user_id is who owns the place, user_id is who's asking
+        # place.owner_id is who owns the place, user_id is who's asking
         # bypass for admin
         if not is_admin and place.user_id != user_id:
             return {"error": "Unauthorised action"}, 403
@@ -203,6 +202,6 @@ class PlaceReviewList(Resource):
                 "id": r.id,
                 "text": r.text,
                 "rating": r.rating,
-                "user_id": r.user.id
+                "user_id": r.user_id
             } for r in reviews
         ], 200

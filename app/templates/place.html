@@ -4,18 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Details</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script  src="{{ url_for('static', filename='scripts.js')}}"></script>
+    <link rel="stylesheet" href="../static/styles.css">
+    <script src="scripts.js"></script>
 </head>
 <body>
+    <!-- header -->
+    <header>
+        <nav>
+            <a href="index.html">
+                <img src="images/logo.png" alt="HBnB" class="logo">
+            </a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="place.html">All Places</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
     <main>
         <section id="place-details">
             <!-- Place details will be populated dynamically -->
+            <h2>${place.place.title}</h2>
         </section>
         <section id="reviews">
             <!-- Reviews will be populated dynamically -->
         </section>
         <section id="add-review">
+            <a href="./app/templates/add_review.html">Add Review</a>
             <h2>Add a Review</h2>
             <form id="review-form">
                 <label for="review-text">Review:</label>
