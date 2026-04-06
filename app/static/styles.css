@@ -53,7 +53,7 @@ ul {
 ul li a {
     display: block;
     color:#333;
-    padding: 14px 16px;
+    padding: 14px 18px;
     text-decoration: none;
 }
 ul li a:hover {
@@ -144,6 +144,16 @@ flex-wrap: wrap;
     display: flex;
     justify-content: space-between;
     margin: 1rem 0;
+}
+.booking-button {
+    background-color: purple;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .owner {
     font-size: 0.85rem;

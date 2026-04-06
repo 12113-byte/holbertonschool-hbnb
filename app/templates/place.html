@@ -9,21 +9,7 @@
 </head>
 <body>
     <!-- header -->
-     <header>
-        <nav>
-            <a href="index.html">
-                <img src="../static/images/logo.png" alt="HBnB" class="logo">
-            </a>
-            
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="place.html">All Places</a></li>
-                <li><a href="login.html">Login</a></li>
-                <input type="text" placeholder="Search places..." class="search-bar">
-            </ul>
-        
-        </nav>
-     </header>
+    {% include 'header.html' %}
     <main>
         <a href="index.html" class="back-button">← See all places</a>
         <section id="place-details">
@@ -57,11 +43,13 @@
             <p>Rating: 5 - Great place!</p>
         </div>
 
-        <section id="add-review">
-            <button onclickf="window.location.href='./app/templates/add_review.html'">Add Review</button>
+        <section id="add-review" style="display: none;">
+            <button onclick="window.location.href='./app/templates/add_review.html'">Add Review</button>
             </section>
         </section>
     </main>
     <script src="scripts.js"></script>
+    <!-- footer -->
+    {% include 'footer.html' %}
 </body>
 </html>
