@@ -186,5 +186,3 @@ function checkAuthentication() {
             alert('Failed to submit review');
         }
     }
-
-
