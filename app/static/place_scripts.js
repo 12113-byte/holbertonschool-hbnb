@@ -72,7 +72,7 @@ function displayPlaceDetails(place) {
 
     // images
     const images = document.createElement('img');
-    images.src = place.image;
+    images.src = place.place.image;
     images.classList.add('img');
     placeDetails.appendChild(images);
 
@@ -103,7 +103,7 @@ function displayPlaceDetails(place) {
     const amenitiesList = document.createElement('ul');
     place.amenities.forEach(amenity => {
       const item = document.createElement('li');
-      item.textContent = amenity;
+      item.textContent = amenity.name;
       item.classList.add('amenity-item');
       amenitiesList.appendChild(item);
     });
