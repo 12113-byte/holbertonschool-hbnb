@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS Place (
     id CHAR(36) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
+    image_url VARCHAR(260),
     price DECIMAL(10, 2) NOT NULL,
     latitude FLOAT NOT NULL,
     longitude FLOAT NOT NULL,

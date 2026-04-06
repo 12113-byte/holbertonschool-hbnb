@@ -42,6 +42,7 @@ review_model = api.model('PlaceReview', {
 #Place Format
 place_model = api.model('Place', {
     'title': fields.String(required=True, description='Title of the place'),
+    'image': fields.String(required=False, description='Image of the place'),
     'description': fields.String(description='Description of the place'),
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
@@ -77,6 +78,7 @@ class PlaceList(Resource):
             return {
                 "id": place.id,
                 "title": place.title,
+                "image": place.image,
                 "description": place.description,
                 "price": place.price,
                 "latitude": place.latitude,
@@ -97,6 +99,7 @@ class PlaceList(Resource):
         return [{
             "id": p.id,
             "title": p.title,
+            "image": p.image,
             "description": p.description,
             "price": p.price,
             "latitude": p.latitude,
@@ -120,8 +123,9 @@ class PlaceResource(Resource):
             "place": {
                 "id": place_id,
                 "title": place.title,
+                "image": place.image,
                 "description": place.description,
-                "price": p.price,
+                "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude
             },
