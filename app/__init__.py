@@ -48,7 +48,7 @@ def create_app(config_class="config.DevelopmentConfig"):
     #  defining homepage route directly on app (not blueprint)
     #  due to flask-restx being mounted on api_bp and not on app, no conflicts
     @app.route('/')
-    def homepage():
+    def index():
         #return 'Welcome to HBnB!'
         return render_template('index.html')
 
@@ -60,6 +60,10 @@ def create_app(config_class="config.DevelopmentConfig"):
     @app.route('/place')
     def place():
         return render_template('place.html')
+    
+    @app.route('/homepage')
+    def homepage():
+        return render_template('homepage.html')
 
     #  returns fully configured app
     return app

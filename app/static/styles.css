@@ -271,3 +271,41 @@ hr {
     border-top: 1px solid purple;
     margin: 1rem 0;
 }
+
+.welcome {
+    text-align: center;
+    padding: 80px 2rem;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 12px;
+}
+
+.welcome p {
+    color: #777;
+    max-width: 460px;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.welcome a {
+    display: inline-block;
+    margin-top: 24px;
+    background-color: purple;
+    color: white;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+.welcome a:hover { opacity: 0.85; }
