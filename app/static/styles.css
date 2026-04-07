@@ -15,31 +15,67 @@ body {
     color: #333;
 }
 
-header, footer {
-    background-color: #333;
-    color: #fff;
-    padding: 1rem;
-}
 header {
-    display: flex;
-    justify-content: space-between;
+    background-color: #f4f4f4;
+    color:#333;
+    padding: 1rem;
     align-items: center;
 }
+
 footer {
     position: fixed;
     bottom: 0px;
     width: 100%;
 }
 
-nav a {
-    color: #fff;
-    text-decoration: none;
-    margin-left: 1rem;
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 main {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
     padding: 2rem;
 }
+
+/**
+Review styles
+*/
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+ul li a {
+    display: block;
+    color:#333;
+    padding: 14px 18px;
+    text-decoration: none;
+}
+ul li a:hover {
+    border: 1px solid purple;
+    border-radius: 10px;
+}
+.search-bar {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid purple;
+}
+.search-bar:focus {
+    border-color: purple;
+}
+
+/*
+ Places/index page
+ */
+
 #places-list {
 display: flex;
 flex-wrap: wrap;
@@ -67,6 +103,7 @@ flex-wrap: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
 
 }
@@ -76,3 +113,199 @@ flex-wrap: wrap;
     font-size: 1.5rem;
     align-self: center;
 }
+/*
+ Places/index page
+ */
+
+#review-form {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 70px;
+    margin: 20px auto;
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+}
+
+#review-form h2 {
+    margin-bottom: 10px;
+}
+
+#review-form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#review-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-top: 6px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 80px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#review-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-top: 6px;
+    font-size: 14px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#review-form button {
+    background-color: #9d07ee;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 14px;
+    font-size: 14px;
+}
+
+#review-form button:hover {
+    background-color: #0056b3
+}
+
+
+
+/**
+* Places Part
+*/
+
+#place-details {
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    border: 1px solid purple;
+}
+.back-button {
+    display: inline-block;
+    color: purple;
+    font-weight: bold;
+    padding: 10px;
+}
+.title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.place-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+.description {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+}
+.place-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+.booking-button {
+    background-color: purple;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.owner {
+    font-size: 0.85rem;
+}
+.amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0;
+}
+.amenity-item {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+}
+.review {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid purple;
+}
+#reviews {
+    max-width: 900px;
+    margin: 2rem auto;
+}
+.price {
+    font-weight: bold;
+}
+#add-review button {
+    background-color: purple;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    cursor: pointer;
+}
+hr {
+    border: purple;
+    border-top: 1px solid purple;
+    margin: 1rem 0;
+}
+
+.welcome {
+    text-align: center;
+    padding: 80px 2rem;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 12px;
+}
+
+.welcome p {
+    color: #777;
+    max-width: 460px;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.welcome a {
+    display: inline-block;
+    margin-top: 24px;
+    background-color: purple;
+    color: white;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+.welcome a:hover { opacity: 0.85; }

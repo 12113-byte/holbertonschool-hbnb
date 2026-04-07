@@ -14,8 +14,6 @@ from flask_restx import Namespace, Resource, fields
 # get_jwt: retrieves everything in token, including is_admin
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 #Created namespace
 api = Namespace('places', description='Place operations')
@@ -44,6 +42,7 @@ review_model = api.model('PlaceReview', {
 #Place Format
 place_model = api.model('Place', {
     'title': fields.String(required=True, description='Title of the place'),
+    'image_url': fields.String(required=False, description='Image of the place'),
     'description': fields.String(description='Description of the place'),
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
@@ -61,7 +60,6 @@ class PlaceList(Resource):
     @api.response(201, 'Place created')
     @api.response(400, 'Invalid data')
     @api.response(404, 'User not found')
-    @jwt_required()
     def post(self):
         """Creates new Place"""
         # get_jwt_identity() reads the user ID which was stored in token at login
@@ -80,11 +78,12 @@ class PlaceList(Resource):
             return {
                 "id": place.id,
                 "title": place.title,
+                "image_url": place.image_url,
                 "description": place.description,
                 "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude,
-                "user_id": place.user.id
+                "user_id": place.user_id
             }, 201
 
         except Exception as e:
@@ -100,6 +99,7 @@ class PlaceList(Resource):
         return [{
             "id": p.id,
             "title": p.title,
+            "image_url": p.image_url,
             "description": p.description,
             "price": p.price,
             "latitude": p.latitude,
@@ -123,8 +123,9 @@ class PlaceResource(Resource):
             "place": {
                 "id": place_id,
                 "title": place.title,
+                "image_url": place.image_url,
                 "description": place.description,
-                "price": p.price,
+                "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude
             },
@@ -143,7 +144,7 @@ class PlaceResource(Resource):
                 "user_id": r.user_id
             } for r in place.reviews
             ],
-            "amenities": [a.id for a in place.amenities],
+            "amenities": [{"id": a.id, "name": a.name} for a in place.amenities],
             }, 200
 
     # ---------------------------------
@@ -154,7 +155,6 @@ class PlaceResource(Resource):
     @api.response(403, 'Unauthorised action')
     @api.response(404, 'Not found')
     @api.response(400, 'Error Updating Place')
-    @jwt_required()
     def put(self, place_id):
         """Update a Place"""
         # get ID of whoever is making this request from token
@@ -162,7 +162,7 @@ class PlaceResource(Resource):
         # checking if user is admin
         is_admin = current_user.get('is_admin', False)
         # extracting id
-        user_id = current_user.get('id')
+        user_id = get_jwt_identity()
 
         # fetch place from database
         place = facade.get_place(place_id)
@@ -206,6 +206,6 @@ class PlaceReviewList(Resource):
                 "id": r.id,
                 "text": r.text,
                 "rating": r.rating,
-                "user_id": r.user.id
+                "user_id": r.user_id
             } for r in reviews
         ], 200
