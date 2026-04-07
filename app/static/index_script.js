@@ -46,11 +46,10 @@ async function fetchPlaces(token) {
 
 function displayPlaces(places) {
 	const places_list = document.getElementById('places-list');
-	/*
-	 *	while(places_list.firstChild){
-	 *		places_list.removeChild(places_list.firstChild);
-		}
-*/
+	while(places_list.firstChild){
+		places_list.removeChild(places_list.firstChild);
+	}
+
 	console.log(places);
 	for(let i = 0; i < places.length; i++)
 	{

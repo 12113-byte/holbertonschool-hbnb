@@ -8,6 +8,7 @@
     <script  src="{{ url_for('static', filename='scripts.js')}}"></script>
 </head>
 <body>
+    {% include 'header.html' %}
     <main>
         <form id="login-form">
             <h2>Login</h2>
@@ -21,6 +22,6 @@
             <button type="submit">Login</button>
         </form>
     </main>
-    <script src="scripts.js"></script>
+    {% include 'footer.html' %}
 </body>
 </html>

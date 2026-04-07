@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Details</title>
     <link rel="stylesheet" href="../static/styles.css">
-    <script src="scripts.js"></script>
+     <script  src="{{ url_for('static', filename='place_scripts.js')}}"></script>
 </head>
 <body>
     <!-- header -->
@@ -48,7 +48,6 @@
             </section>
         </section>
     </main>
-    <script src="scripts.js"></script>
     <!-- footer -->
     {% include 'footer.html' %}
 </body>
