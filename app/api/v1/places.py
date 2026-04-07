@@ -123,7 +123,7 @@ class PlaceResource(Resource):
             "place": {
                 "id": place_id,
                 "title": place.title,
-                "image_url": p.image_url,
+                "image_url": place.image_url,
                 "description": place.description,
                 "price": place.price,
                 "latitude": place.latitude,
