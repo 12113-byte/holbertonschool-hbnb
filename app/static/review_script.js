@@ -1,13 +1,4 @@
 //Scritpts for add_review
-//Check authentication - redirect if no token
-function checkAuthentication() {
-        const token = getCookie('token');
-        if (!token) {
-            window.location.href = '/';
-        }
-        return token;
-    }
-
     //Helper: get cookie by name
     function getCookie(name) {
         const cookies = document.cookie.split(';');
@@ -17,6 +8,15 @@ function checkAuthentication() {
             if (key == name) return value;
         }
         return null;
+    }
+
+//Check authentication - redirect if no token
+function checkAuthentication() {
+        const token = getCookie('token');
+        if (!token) {
+            window.location.href = '/';
+        }
+        return token;
     }
 
     //Get place ID from URL query parameters
@@ -37,15 +37,16 @@ function checkAuthentication() {
             reviewForm.addEventListener('submit', async (event) => {
                 event.preventDefault();
                 const reviewText = document.getElementById('review').value;
-                await submitReview(token, placeId, reviewText);
+                const rating = document.getElementByID('rating').value;
+                await submitReview(token, placeId, reviewText, rating);
             });
         }
     });
 
     //Make AJAX request to submit review
-        async function submitReview(token, placeId, reviewText) {
+        async function submitReview(token, placeId, reviewText, rating) {
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/v1/reviews', {
+            const response = await fetch('/api/v1/reviews', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
