@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Details</title>
     <link rel="stylesheet" href="../static/styles.css">
-    <script src="place_scripts.js"></script>
+     <script  src="{{ url_for('static', filename='place_scripts.js')}}"></script>
 </head>
 <body>
     <!-- header -->
     {% include 'header.html' %}
     <main>
-        <a href="" class="back-button">← See all places</a>
+        <a href="/" class="back-button">← See all places</a>
         <section id="place-details">
             <!-- Place details will be populated dynamically -->
              <h2 class="title">Beautiful Apartment</h2>
@@ -48,7 +48,6 @@
             </section>
         </section>
     </main>
-    <script src="scripts.js"></script>
     <!-- footer -->
     {% include 'footer.html' %}
 </body>

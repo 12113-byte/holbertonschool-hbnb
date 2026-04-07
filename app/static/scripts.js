@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    checkAuthentication();
-    });
+    setupLoginForm();
+    setupPlaceDetailsPage();
+});
 
 
-const placeId = getPlaceIdFromURL(); // global variable
+ // global variable
 
 function getPlaceIdFromURL() {
     const queryParams = new URLSearchParams(window.location.search);
@@ -17,21 +18,85 @@ function getCookie(name) {
     if (!token) {
       return null;
     }
-    const extracted_name = token.split('=');
-    return extracted_name[1];
+    return token.split('=')[1];
 }
 
-function checkAuthentication() {
-    const token = getCookie('token');
+function setCookie(name, value, maxAgeSeconds) {
+    document.cookie = `${name}=${value}; path=/; max-age=${maxAgeSeconds}; SameSite=Lax`;
+}
+
+function showLoginError(message) {
+    const errorElement = document.getElementById('login-error');
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+}
+
+function clearLoginError() {
+    const errorElement = document.getElementById('login-error');
+    if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+    }
+}
+
+function setupLoginForm() {
+    const loginForm = document.getElementById('login-form');
+    if (!loginForm) {
+        return;
+    }
+
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        clearLoginError();
+
+        const email = document.getElementById('email')?.value.trim();
+        const password = document.getElementById('password')?.value;
+
+        try {
+            const response = await fetch('/api/v1/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+            if (!response.ok || !data.access_token) {
+                showLoginError(data.error || 'Invalid email or password.');
+                return;
+            }
+
+            // Keep both names for compatibility with existing scripts.
+            setCookie('access_token', data.access_token, 86400);
+            setCookie('token', data.access_token, 86400);
+            window.location.href = '/';
+        } catch (error) {
+            console.error('Login request failed:', error);
+            showLoginError('Unable to login right now. Please try again.');
+        }
+    });
+}
+
+function setupPlaceDetailsPage() {
+    const placeDetailsSection = document.getElementById('place-details');
+    if (!placeDetailsSection) {
+        return;
+    }
+
+    const placeId = getPlaceIdFromURL();
+    const token = getCookie('access_token') || getCookie('token');
     const addReviewSection = document.getElementById('add-review');
 
-    if (!token) {
-        addReviewSection.style.display = 'none';
-    } else {
-        addReviewSection.style.display = 'block';
+    if (addReviewSection) {
+        addReviewSection.style.display = token ? 'block' : 'none';
     }
-    // fetching place details independently of guest or admin
-    fetchPlaceDetails(token, placeId);
+
+    if (placeId) {
+        fetchPlaceDetails(token, placeId);
+    }
 }
 
 async function fetchPlaceDetails(token, placeId) {
@@ -39,16 +104,18 @@ async function fetchPlaceDetails(token, placeId) {
     // Include the token in the Authorization header
     // Handle the response and pass the data to displayPlaceDetails function
     try {
-        const response = await fetch(`http://127.0.1:5000/api/v1/places/${placeId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': token ? `Bearer ${token}` : '', // if token exists, send it, otherwise send empty string
-            'Content-Type': 'application/json'
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
         }
+
+        const response = await fetch(`/api/v1/places/${placeId}`, {
+            method: 'GET',
+            headers
         });
 
         if (!response.ok) {
-        throw new Error(`HHTP error! Status: ${response.status}`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
         displayPlaceDetails(data);

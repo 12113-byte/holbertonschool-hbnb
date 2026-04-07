@@ -8,7 +8,7 @@ const placeId = getPlaceIdFromURL(); // global variable
 function getPlaceIdFromURL() {
   const queryParams = new URLSearchParams(window.location.search);
   const placeId = queryParams.get('id');
-  return placeId
+  return placeId;
 }
 
 function getCookie(name) {
@@ -44,7 +44,7 @@ async function fetchPlaceDetails(token, placeId) {
     // Include the token in the Authorization header
     // Handle the response and pass the data to displayPlaceDetails function
     try {
-      const response = await fetch(`http://127.0.1:5000/api/v1/places/${placeId}`, {
+      const response = await fetch('/api/v1/places/' +  placeId, {
         method: 'GET',
         headers: {
           'Authorization': token ? `Bearer ${token}` : '', // if token exists, send it, otherwise send empty string
