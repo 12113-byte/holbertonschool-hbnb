@@ -21,6 +21,11 @@ function getCookie(name) {
     return extracted_name[1];
 }
 
+// function for stars
+function getStars(rating) {
+return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+}
+
 function checkAuthentication() {
     const token = getCookie('token');
     const addReviewSection = document.getElementById('add-review');
@@ -117,7 +122,7 @@ function displayPlaceDetails(place) {
 
     place.reviews.forEach(review => {
       const reviewDiv = document.createElement('div');
-      reviewDiv.textContent = `Rating: ${review.rating} - ${review.text}`;
+      reviewDiv.textContent = `Rating: ${getStars(review.rating)} - ${review.text}`;
       placeDetails.appendChild(reviewDiv);
     });
 }
