@@ -168,8 +168,6 @@ class HBnBFacade:
             raise Exception("Rating must be between 1 and 5")
 
         review = Review(**review_data)
-        print("new review made")
-        print(review)
         self.review_repo.add(review)
         place.add_review(review)
         return review

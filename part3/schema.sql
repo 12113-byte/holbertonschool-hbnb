@@ -1,4 +1,5 @@
 -- Create tables
+/*
 CREATE TABLE IF NOT EXISTS users (
     id CHAR(36) PRIMARY KEY,
     first_name VARCHAR(50),
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS amenityplacemap (
     FOREIGN KEY (place_id) REFERENCES Place(id),
     FOREIGN KEY (amenity_id) REFERENCES Amenity(id)
 );
-
+*/
 -- inserting admin user 
 INSERT INTO users (id, first_name, last_name, email, password, is_admin)
 VALUES (
@@ -53,6 +54,16 @@ VALUES (
     '$2b$12$oAFoH6mmuyGqM0hNZu.aOezz64eD0lzwk6CspMChsstPHkw1pJfH6',
     TRUE
 );
+INSERT INTO users (id, first_name, last_name, email, password, is_admin)
+VALUES (
+    '36y9050e-zzz4-4c3b-9731-9f487208bhc2',
+    'User',
+    'Example',
+    'user@hbnb.io',
+    '$2b$12$oAFoH6mmuyGqM0hNZu.aOezz64eD0lzwk6CspMChsstPHkw1pJfH6',
+    FALSE
+);
+
 INSERT INTO places (id, title, description, image_url, price, latitude, longitude, user_id)
 VALUES (
     '36b7050e-aaa3-4c3b-9731-9f487208zzy2',
@@ -69,3 +80,5 @@ VALUES (
 INSERT INTO amenities (id, name) VALUES ('78c49624-1d50-4b6b-a909-a83a82bbb08b', 'WiFi');
 INSERT INTO amenities (id, name) VALUES ('e92d4244-823f-48e2-b4f2-d02e3f64845e', 'Swimming Pool');
 INSERT INTO amenities (id, name) VALUES ('058d929a-a677-4eff-8db0-ea88f4c20bba', 'Air Conditioning');
+
+

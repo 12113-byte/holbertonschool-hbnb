@@ -1,7 +1,7 @@
 import os
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key_that_is_too_short_apparently')
     DEBUG = False
 
 class DevelopmentConfig(Config):
