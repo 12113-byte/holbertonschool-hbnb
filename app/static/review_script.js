@@ -12,7 +12,7 @@
 
 //Check authentication - redirect if no token
 function checkAuthentication() {
-		const token = getCookie('token');
+		const token = getCookie('access_token');
 		if (!token) {
 			window.location.href = '/';
 		}
@@ -22,7 +22,7 @@ function checkAuthentication() {
 	//Get place ID from URL query parameters
 	function getPlaceIdFromURL() {
 		const params = new URLSearchParams(window.location.search);
-		return params.get('place_id');
+		return params.get('id');
 	}
 
 	//Setup event listener for review form
@@ -46,7 +46,7 @@ function checkAuthentication() {
 	//Make AJAX request to submit review
 		async function submitReview(token, placeId, reviewText, rating) {
 		try {
-			const response = await fetch('/api/v1/reviews', {
+			const response = await fetch('/api/v1/reviews/', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ function checkAuthentication() {
 	}
 
 	//Handle API response
-		function handleResponse(response) {
+		async function handleResponse(response) {
 		if (response.ok) {
 			alert('Review submitted successfully!');
 			document.getElementById('review-form').reset();
