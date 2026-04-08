@@ -300,21 +300,17 @@ async function submitReview(token, placeId, reviewText, rating) {
 				rating: parseInt(rating)
 			})
 		});
-		handleResponse(response);
-	} catch (err) {
-		console.error('Error submitting review', err);
-		alert('Failed to submit review');
-	}
-}
-
-//Handle API response
-function handleResponse(response) {
-	if (response.ok) {
+		console.log(response);
+		if (!response.ok)
+		{
+			throw new Error(response)
+		}
 		alert('Review submitted successfully!');
 		document.getElementById('review-form').reset();
 		window.location.href = "/";
-	} else {
-		alert('Failed to submit review');
+	} catch (err) {
+		console.error('Error submitting review', err);
+		alert(err.status + " - " + err.statusText);
 	}
 }
 /*
@@ -343,7 +339,7 @@ function setupLoginForm() {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ email, password })
+				body: JSON.stringify({email, password })
 			});
 
 			const data = await response.json();

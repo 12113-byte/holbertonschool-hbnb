@@ -42,7 +42,6 @@ class ReviewList(Resource):
         # get who is making the request from their token
         current_user_id = get_jwt_identity()
         data = api.payload
-        print("DATA RECEIVED:", data)
 
         #get place being reviewd to check ownership
         place = facade.get_place(data['place_id'])
