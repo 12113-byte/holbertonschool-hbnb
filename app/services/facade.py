@@ -154,9 +154,9 @@ class HBnBFacade:
             raise Exception("User not found")
 
         #Checking that place is associated with the review exists
-        place = self.place_repo.get(review_data['place_id'])
-        if not place:
-            raise Exception("Place not found")
+       # place = self.place_repo.get(review_data['place_id'])
+       # if not place:
+       #     raise Exception("Place not found")
 
         #Checking review text is not empty or missing
         if not review_data['text']:
@@ -168,6 +168,8 @@ class HBnBFacade:
             raise Exception("Rating must be between 1 and 5")
 
         review = Review(**review_data)
+        print("new review made")
+        print(review)
         self.review_repo.add(review)
         place.add_review(review)
         return review

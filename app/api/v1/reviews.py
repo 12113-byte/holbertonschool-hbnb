@@ -38,10 +38,10 @@ class ReviewList(Resource):
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
+        print("review post started - checking information")
         """Create a new reviews"""
         # get who is making the request from their token
         current_user_id = get_jwt_identity()
-
         data = api.payload
 
         #get place being reviewd to check ownership
@@ -50,7 +50,7 @@ class ReviewList(Resource):
             return {"error": "Place not found"}, 404
         
         #users cannot review their own place
-        if place.owner_id == current_user_id:
+        if place.user_id == current_user_id:
             return {"error": "You cannot review your own place"}, 400
         
         # check if user already reviewed this place
@@ -63,9 +63,11 @@ class ReviewList(Resource):
         data['user_id'] = current_user_id
 
         try:
+            print("create new review")
             new_review = facade.create_review(data) #create review using facade method including validation
-            return {"id": new_review.id, "rating": new_review.rating, "place": new_review.place.id, "user": new_review.user.id}, 201
+            return {"id": new_review.id, "rating": new_review.rating, "place_id": new_review.place_id, "user_id": new_review.user_id}, 201
         except Exception as e:
+            print("error on returning data")
             return {"error": str(e)}, 400 # handles invalid input
 
     # GET is public, anyone can see all reviews
