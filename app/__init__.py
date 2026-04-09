@@ -65,5 +65,9 @@ def create_app(config_class="config.DevelopmentConfig"):
     def homepage():
         return render_template('homepage.html')
 
+    @app.route('/add_review')
+    def add_review():
+        return render_template('add_review.html')
+
     #  returns fully configured app
     return app
