@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Details</title>
     <link rel="stylesheet" href="../static/styles.css">
-     <script  src="{{ url_for('static', filename='place_scripts.js')}}"></script>
+    <script src="{{ url_for('static', filename='place_scripts.js')}}"></script>
 </head>
 <body>
     <!-- header -->
@@ -14,24 +14,22 @@
         <a href="/" class="back-button">← See all places</a>
         <section id="place-details">
             <!-- Place details will be populated dynamically -->
-             <h2 class="title">Beautiful Apartment</h2>
-        
-             <img src="../static/images/place-image-01.jpg" alt=""Place Image" class="place-image">
+             <h2 class="title"></h2>
+
+            <img src="/static/images/place-image-01.jpg" alt="Place Image" class="place-image">
         <div class="place-info">
             <div class="place-left">
-                <p class="description">A lovely place in the city</p>
-                <p class="owner">Owner: John Doe</p>
+                <p class="description"></p>
+                <p class="owner"></p>
             </div>
             <div class="place-right">
-                <p class="price">$100 per night</p>
+                <p class="price"></p>
                 <button class="booking-button">Book Now</button>
             </div>
         </div>
         <hr>
         <h3 class="amenities-title">Amenities</h3>
         <ul class="amenities-list">
-            <li class="amenity-item">WiFi</li>
-            <li class="amenity-item">Pool</li>
         </ul>
 
         </section>
