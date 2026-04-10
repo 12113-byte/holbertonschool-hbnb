@@ -206,6 +206,7 @@ function displayPlaceDetails(place) {
 	title.classList.add('title');
 	placeDetails.appendChild(title);
 
+
 	// images
 	const images = document.createElement('img');
 	images.src = place.place.image_url;
@@ -213,14 +214,19 @@ function displayPlaceDetails(place) {
 	placeDetails.appendChild(images);
 
 	// description
-	const description = document.createElement('p')
+	const place_desc_div = document.createElement('div');
+	place_desc_div.classList.add('place-info');
+
+	const description = document.createElement('p');
 	description.textContent = "Description:" + place.place.description;
 	description.classList.add('description');
-	placeDetails.appendChild(description);
+
+	place_desc_div.appendChild(description);
+	placeDetails.appendChild(place_desc_div);
 
 	// price
 	const price = document.createElement('p');
-	price.textContent = "Price per night" + place.place.price;
+	price.textContent = "Price per night $" + place.place.price;
 	price.classList.add('price');
 	placeDetails.appendChild(price);
 
@@ -243,6 +249,7 @@ function displayPlaceDetails(place) {
 		item.classList.add('amenity-item');
 		amenitiesList.appendChild(item);
 	});
+	amenitiesList.classList.add('amenity-list');
 	placeDetails.appendChild(amenitiesList);
 
 	// reviews
