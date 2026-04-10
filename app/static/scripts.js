@@ -22,11 +22,14 @@ function getCookie(name) {
 function checkAuthentication() {
 	const token = getCookie('access_token');
 	const loginLink = document.getElementById('login-link');
+	const profileLink = document.getElementById('profile-link');
 
 	if (!token) {
 		loginLink.style.display = 'block';
+		profileLink.style.display = 'none';
 	} else {
 		loginLink.style.display = 'none';
+		profileLink.style.display = 'block';
 	}
 	return token;
 }
@@ -78,7 +81,6 @@ function IndexPageFunction(access_token){
 	});
 	fetchPlaces(access_token);
 }
-
 
 async function fetchPlaces(token) {
 	await fetch("/api/v1/places", {
