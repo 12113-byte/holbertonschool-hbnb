@@ -44,7 +44,7 @@ class ReviewList(Resource):
         data = api.payload
 
         #get place being reviewd to check ownership
-        place = facade.get_place(data['place_id'])
+        place = facade.get_place(data.get('place_id'))
         if not place:
             return {"error": "Place not found"}, 404
         

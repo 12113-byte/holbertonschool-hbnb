@@ -169,7 +169,7 @@ class HBnBFacade:
 
         review = Review(**review_data)
         self.review_repo.add(review)
-        place.add_review(review)
+        #place.add_review(review)
         return review
 
     def get_review(self, review_id):
