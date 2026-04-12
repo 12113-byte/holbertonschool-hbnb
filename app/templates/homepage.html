@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>HBnb - Home</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-        <script  src="{{ url_for('static', filename='scripts.js')}}"></script>
+        <script  src="{{ url_for('static', filename='scripts.js')}}">Dark</script>
     </head>
     <body>
         <!-- Header -->
@@ -13,12 +13,27 @@
         <main>
             <section class="welcome">
                 <h1>Welcome to the HBnB website</h1>
-                <p>Find your perfect place to stay</p>
+                <p>Your home away from home.</p>
                 <p>This project was created as part of the Holberton
-                    School curriculum s a full-stack AirBnB clone.
+                    School curriculum of full-stack AirBnB clone.
                 </p>
                 <p>Browse available places, leave reviews,
                     and explore our platform.</p>
+            </section>
+
+            <section class="features">
+                <div class="feature-card">
+                    <h3>Find a Place</h3>
+                    <p>Browse hundreds of unique stays curated just for you.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Leave Reviews</h3>
+                    <p>Share your experience and help others find their perfect stay.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Secure & simple</h3>
+                    <p>Easy login, safe booking and a smooth experience every time.</p>
+                </div>
             </section>
 
         <!-- Footer -->
