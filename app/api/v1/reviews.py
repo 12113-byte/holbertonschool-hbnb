@@ -41,16 +41,15 @@ class ReviewList(Resource):
         """Create a new reviews"""
         # get who is making the request from their token
         current_user_id = get_jwt_identity()
-
         data = api.payload
 
         #get place being reviewd to check ownership
-        place = facade.get_place(data['place_id'])
+        place = facade.get_place(data.get('place_id'))
         if not place:
             return {"error": "Place not found"}, 404
         
         #users cannot review their own place
-        if place.owner_id == current_user_id:
+        if place.user_id == current_user_id:
             return {"error": "You cannot review your own place"}, 400
         
         # check if user already reviewed this place
@@ -64,8 +63,11 @@ class ReviewList(Resource):
 
         try:
             new_review = facade.create_review(data) #create review using facade method including validation
-            return {"id": new_review.id, "rating": new_review.rating, "place": new_review.place.id, "user": new_review.user.id}, 201
+            print("review made")
+            print(new_review)
+            return {"id": new_review.id, "rating": new_review.rating, "place_id": new_review.place_id, "user_id": new_review.user_id}, 201
         except Exception as e:
+            print("review err")
             return {"error": str(e)}, 400 # handles invalid input
 
     # GET is public, anyone can see all reviews

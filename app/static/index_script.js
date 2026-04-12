@@ -18,23 +18,59 @@ function checkAuthentication() {
 	} else {
 		loginLink.style.display = 'none';
 	}
-	fetchPlaces(token);
 }
 
-function SetPriceVals(){
-	const price_filer_values = ['All', 10, 50, 100]
+
+function createPriceFilter(){
 	const price_filter = document.getElementById('price-filter');
+	if (!price_filter) {
+		return;
+	}
+
+	const price_filer_values = ['All', 10, 50, 100]
 	for (let i = 0; i < price_filer_values.length; i++){
 		let option = document.createElement("option");
 		option.text = price_filer_values[i];
 		price_filter.add(option);
 	}
+
+	document.getElementById('price-filter').addEventListener('change', (event) => {
+		const price_filter_val = document.getElementById('price-filter').value;
+		const places_list = document.body.getElementsByTagName('div')
+		for(let i = 0; i < places_list.length; i++)
+		{
+			if (price_filter_val == "All")
+			{
+				places_list[i].style.display = "block";
+			}
+			else
+			{
+				let place_price = places_list[i].getElementsByTagName('span')[0].innerHTML;
+				if (place_price != undefined)
+				{
+					if (Number(place_price) > Number(price_filter_val))
+					{
+						places_list[i].style.display = "none";
+					}
+					else
+					{
+						places_list[i].style.display = "block";
+					}
+				}
+			}
+		}
+	});
+}
+
+
+function SetPriceVals(){
+
 }
 
 async function fetchPlaces(token) {
 	await fetch("/api/v1/places", {
 		method: "GET",
-		headers: {"Authorization": token ? 'Bearer ' + token : ''}
+		headers: {"Authorization": token}
 	}).then(function (response){
 		return response.json();
 	}).then(function (response){
@@ -44,13 +80,14 @@ async function fetchPlaces(token) {
 
 function displayPlaces(places) {
 	const places_list = document.getElementById('places-list');
-	/*
-	 *	while(places_list.firstChild){
-	 *		places_list.removeChild(places_list.firstChild);
-		}
-*/
+	while(places_list.firstChild){
+		places_list.removeChild(places_list.firstChild);
+	}
+
+	console.log(places);
 	for(let i = 0; i < places.length; i++)
 	{
+
 		let place = document.createElement("div");
 		let place_title = document.createElement("h2");
 		let place_desc = document.createElement("p");
@@ -82,30 +119,5 @@ function ClickDiv(evt){
 document.addEventListener('DOMContentLoaded', () => {
 	checkAuthentication()
 	SetPriceVals()
-	document.getElementById('price-filter').addEventListener('change', (event) => {
-		const price_filter_val = document.getElementById('price-filter').value;
-		const places_list = document.body.getElementsByTagName('div')
-		for(let i = 0; i < places_list.length; i++)
-		{
-			if (price_filter_val == "All")
-			{
-				places_list[i].style.display = "block";
-			}
-			else
-			{
-				let place_price = places_list[i].getElementsByTagName('span')[0].innerHTML;
-				if (place_price != undefined)
-				{
-					if (Number(place_price) > Number(price_filter_val))
-					{
-						places_list[i].style.display = "none";
-					}
-					else
-					{
-						places_list[i].style.display = "block";
-					}
-				}
-			}
-		}
-	});
+
 });

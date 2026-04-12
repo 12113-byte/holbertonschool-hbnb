@@ -7,7 +7,8 @@ class Place(BaseModel):
     __tablename__ = 'places'
 
     title = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(100), nullable=False)
+    image_url = db.Column(db.String(255), nullable=True)
+    description = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
@@ -18,9 +19,10 @@ class Place(BaseModel):
     amenities = db.relationship('Amenity', secondary=AssociationTable.__table__, backref='place', lazy=True)
     # relationships
 
-    def __init__(self, title, description, price, latitude, longitude, user_id):
+    def __init__(self, title, description, price, latitude, longitude, user_id, image=None):
         super().__init__()
         self.title = title
+        self.image = image
         self.description = description
         self.price = price
         self.latitude = latitude

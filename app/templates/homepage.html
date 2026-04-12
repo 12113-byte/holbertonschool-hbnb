@@ -1,7 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HBnb - Home</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <script  src="{{ url_for('static', filename='scripts.js')}}"></script>
     </head>
+    <body>
+        <!-- Header -->
+        {% include 'header.html' %}
+        <main>
+            <section class="welcome">
+                <h1>Welcome to the HBnB website</h1>
+                <p>Find your perfect place to stay</p>
+                <p>This project was created as part of the Holberton
+                    School curriculum s a full-stack AirBnB clone.
+                </p>
+                <p>Browse available places, leave reviews,
+                    and explore our platform.</p>
+            </section>
+
+        <!-- Footer -->
+        {% include 'footer.html' %}
+    </body>
 
 </html>

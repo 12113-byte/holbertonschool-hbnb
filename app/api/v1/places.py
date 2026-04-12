@@ -42,11 +42,12 @@ review_model = api.model('PlaceReview', {
 #Place Format
 place_model = api.model('Place', {
     'title': fields.String(required=True, description='Title of the place'),
+    'image_url': fields.String(required=False, description='Image of the place'),
     'description': fields.String(description='Description of the place'),
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    # owner_id removed - now comes from JWT token, not request
+    # user_id removed - now comes from JWT token, not request
     'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
     'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
@@ -62,14 +63,14 @@ class PlaceList(Resource):
     def post(self):
         """Creates new Place"""
         # get_jwt_identity() reads the user ID which was stored in token at login
-        # safer than trusting owner_id from request body
+        # safer than trusting user_id from request body
         current_user_id = get_jwt_identity()
 
         data = api.payload
 
-        # setting owner_id from token, not what client sent
+        # setting user_id from token, not what client sent
         # prevents users from creating places on behalf of other users
-        data['owner_id'] = current_user_id
+        data['user_id'] = current_user_id
 
         try:
             place = facade.create_place(data)
@@ -77,11 +78,12 @@ class PlaceList(Resource):
             return {
                 "id": place.id,
                 "title": place.title,
+                "image_url": place.image_url,
                 "description": place.description,
                 "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude,
-                "owner_id": place.user_id
+                "user_id": place.user_id
             }, 201
 
         except Exception as e:
@@ -97,6 +99,7 @@ class PlaceList(Resource):
         return [{
             "id": p.id,
             "title": p.title,
+            "image_url": p.image_url,
             "description": p.description,
             "price": p.price,
             "latitude": p.latitude,
@@ -120,8 +123,9 @@ class PlaceResource(Resource):
             "place": {
                 "id": place_id,
                 "title": place.title,
+                "image_url": place.image_url,
                 "description": place.description,
-                "price": p.price,
+                "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude
             },
@@ -167,7 +171,7 @@ class PlaceResource(Resource):
             return {"error": "Place not found"}, 404
 
         # ownership check: does place belong to this user? if no: block them
-        # place.owner_id is who owns the place, user_id is who's asking
+        # place.user_id is who owns the place, user_id is who's asking
         # bypass for admin
         if not is_admin and place.user_id != user_id:
             return {"error": "Unauthorised action"}, 403
