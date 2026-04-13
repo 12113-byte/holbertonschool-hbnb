@@ -245,6 +245,11 @@ function displayPlaceDetails(place) {
 	});
 	placeDetails.appendChild(amenitiesList);
 
+    // function for stars in rating
+    function getStars(rating) {
+    return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+    }
+
 	// reviews
 	const reviewsTitle = document.createElement('h3');
 	reviewsTitle.textContent = 'Reviews';
@@ -253,7 +258,7 @@ function displayPlaceDetails(place) {
 
 	place.reviews.forEach(review => {
 		const reviewDiv = document.createElement('div');
-		reviewDiv.textContent = `Rating: ${review.rating} - ${review.text}`;
+		reviewDiv.textContent = `Rating: ${getStars(review.rating)} - ${review.text}`;
 		placeDetails.appendChild(reviewDiv);
 	});
 }

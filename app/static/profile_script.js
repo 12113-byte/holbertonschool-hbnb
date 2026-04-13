@@ -11,3 +11,4 @@ document.addEventListener('DOMContentLoaded', () => {
     const extracted_name = token.split('=');
     return extracted_name[1];
 }
+

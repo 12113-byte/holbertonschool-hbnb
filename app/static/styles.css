@@ -309,3 +309,27 @@ hr {
 }
 
 .welcome a:hover { opacity: 0.85; }
+
+#login-form {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 70px;
+    margin: 20px auto;
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+}
+
+#login-form button {
+    background-color: purple;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    cursor: pointer;
+    
+}
+
+#login-form h2 {
+    padding-bottom: 1rem;
+}

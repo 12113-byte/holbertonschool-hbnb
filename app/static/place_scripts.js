@@ -83,19 +83,19 @@ function displayPlaceDetails(place) {
 
     // description
     const description = document.createElement('p')
-    description.textContent = "Description:" + place.place.description;
+    description.textContent = "Description: " + place.place.description;
     description.classList.add('description');
     placeDetails.appendChild(description);
 
     // price
     const price = document.createElement('p');
-    price.textContent = "Price per night" + place.place.price;
+    price.textContent = "$" + place.place.price + " AUD per night";
     price.classList.add('price');
     placeDetails.appendChild(price);
 
     // owner
     const owner = document.createElement('p');
-    owner.textContent = "Owner" + place.owner.first_name + " " + place.owner.last_name;
+    owner.textContent = "Owner: " + place.owner.first_name + " " + place.owner.last_name;
     owner.classList.add('owner');
     placeDetails.appendChild(owner);
 
