@@ -12,13 +12,18 @@
         {% include 'header.html' %}
         <main>
             <section class="welcome">
-                <h1>Welcome to the HBnB website</h1>
-                <p>Your home away from home.</p>
-                <p>This project was created as part of the Holberton
+                <div class="welcome-text">
+                    <h1>Welcome to the HBnB website</h1>
+                    <p>Your home away from home.</p>
+                    <p>This project was created as part of the Holberton
                     School curriculum of full-stack AirBnB clone.
-                </p>
-                <p>Browse available places, leave reviews,
+                    </p>
+                    <p>Browse available places, leave reviews,
                     and explore our platform.</p>
+                </div>
+            <div class="hero-house">
+                <img src="{{ url_for('static', filename='images/house.png') }}" alt="3D house" />
+            </div>
             </section>
 
             <section class="features">
