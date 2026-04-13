@@ -273,6 +273,55 @@ function displayPlaceDetails(place) {
 /*
 * Add Review Functions
 */
+// Adding a display message upon successful submission
+function showSuccessAlert(message) {
+	const toast = document.createElement("div");
+	if (message == undefined)
+	{
+		message = "Success!"
+	}
+	toast.textContent = message;
+	toast.style.cssText = `
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: #4CAF50;
+	color: white;
+	padding: 16px 32px;
+	border-radius: 12px;
+	font-size: 16px;
+	box-shadow: 0 4px 12px rgba(0,0,0,0,2);
+	z-index: 9999;
+	animation: fadeIn 0.3s ease;
+	`;
+	document.body.appendChild(toast);
+	setTimeout(() => toast.remove(), 3000);
+}
+function showErrorAlert(message) {
+	const toast = document.createElement("div");
+	if (message == undefined)
+	{
+		message = "Unexpected Error Occurred"
+	}
+	toast.textContent = message;
+	toast.style.cssText = `
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: #CC3535;
+	color: white;
+	padding: 16px 32px;
+	border-radius: 12px;
+	font-size: 16px;
+	box-shadow: 0 4px 12px rgba(0,0,0,0,2);
+	z-index: 9999;
+	animation: fadeIn 0.3s ease;
+	`;
+	document.body.appendChild(toast);
+	setTimeout(() => toast.remove(), 3000);
+}
 function ReviewPageFunction(access_token){
 	const reviewForm = document.getElementById('review-form');
 	if (!reviewForm){
@@ -297,7 +346,7 @@ function ReviewPageFunction(access_token){
 //Make AJAX request to submit review
 async function submitReview(token, placeId, reviewText, rating) {
 	try {
-		const response = await fetch('/api/v1/reviews', {
+		const response = await fetch('/api/v1/reviews/', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -309,17 +358,22 @@ async function submitReview(token, placeId, reviewText, rating) {
 				rating: parseInt(rating)
 			})
 		});
-		console.log(response);
-		if (!response.ok)
-		{
-			throw new Error(response)
-		}
-		alert('Review submitted successfully!');
-		document.getElementById('review-form').reset();
-		window.location.href = "/";
+		handleResponse(response);
 	} catch (err) {
-		console.error('Error submitting review', err);
-		alert(err.status + " - " + err.statusText);
+		console.error(err.message);
+	}
+}
+
+//Handle API response
+async function handleResponse(response) {
+	let res = await response.json()
+	if (response.ok) {
+		showSuccessAlert("Review submitted!");
+		document.getElementById('review-form').reset();
+	} else {
+		console.log(res.error);
+		showErrorAlert(res.error);
+		//alert(res.error);
 	}
 }
 /*

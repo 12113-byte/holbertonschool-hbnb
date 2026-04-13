@@ -12,7 +12,7 @@
 
 
 // Adding a display message upon successful submission
-function showSuccessAlert(message = "Rewview submitted!") {
+function showSuccessAlert(message = "Review submitted!") {
 	const toast = document.createElement("div");
 	toast.textContent = message;
 	toast.style.cssText = `
@@ -67,34 +67,34 @@ function checkAuthentication() {
 		}
 	});
 
-	//Make AJAX request to submit review
-		async function submitReview(token, placeId, reviewText, rating) {
-		try {
-			const response = await fetch('/api/v1/reviews/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${token}`
-				},
-				body: JSON.stringify({
-					place_id: placeId,
-					text: reviewText,
-					rating: parseInt(rating)
-				})
-			});
-			handleResponse(response);
-		} catch (err) {
-			console.error('Error submitting review', err);
-			alert('Failed to submit review');
-		}
+//Make AJAX request to submit review
+async function submitReview(token, placeId, reviewText, rating) {
+	try {
+		const response = await fetch('/api/v1/reviews/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			},
+			body: JSON.stringify({
+				place_id: placeId,
+				text: reviewText,
+				rating: parseInt(rating)
+			})
+		});
+		handleResponse(response);
+	} catch (err) {
+		console.error('Error submitting review', err);
+		alert('Failed to submit review');
 	}
+}
 
-	//Handle API response
-		async function handleResponse(response) {
-		if (response.ok) {
-			showSuccessAlert('Your review was successfully submitted!');
-			document.getElementById('review-form').reset();
-		} else {
-			alert('Failed to submit review');
-		}
+//Handle API response
+async function handleResponse(response) {
+	if (response.ok) {
+		showSuccessAlert('Your review was successfully submitted!');
+		document.getElementById('review-form').reset();
+	} else {
+		alert('Failed to submit review');
 	}
+}
