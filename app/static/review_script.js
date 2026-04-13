@@ -89,12 +89,15 @@ async function submitReview(token, placeId, reviewText, rating) {
 	}
 }
 
-//Handle API response
-async function handleResponse(response) {
-	if (response.ok) {
-		showSuccessAlert('Your review was successfully submitted!');
-		document.getElementById('review-form').reset();
-	} else {
-		alert('Failed to submit review');
+	//Handle API response
+		async function handleResponse(response) {
+		if (response.ok) {
+			showSuccessAlert('Your review was successfully submitted!');
+			document.getElementById('review-form').reset();
+		} else {
+			const data = await response.json();
+			const message = data.error || 'Failed to submit review';
+			showErrorAlert(message);
+		}
 	}
-}
+

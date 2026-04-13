@@ -13,9 +13,7 @@
 body {
     background-color: #f4f4f4;
     color: #333;
-    /* background: linear-gradient(135deg, #f9c6d0, #c6e0f9, #c6f9d4, #f9f0c6, #e0c6f9);
-    background-size: 400% 400%;
-    animation: gradientShift 8s ease infinite; */
+    background: linear-gradient(to right, #FFFACD, #ADD8E6); 
 }
 
 header {
@@ -88,15 +86,19 @@ flex-wrap: wrap;
     display: flex;
     flex-direction: column;
     margin: 20px;
-    padding: 10px;
-    border: 1px solid purple;
-    border-radius: 10px;
+    padding: 2rem;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
     width: 250px;
     height: 350px;
+    text-align: center;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
 }
 
 .place-card:hover {
-    transform: scale(1.01);
+    transform: scale(-8px);
     box-shadow: 0 0 10px rgba(150, 150, 150, 0.75);
     cursor: pointer;
 }
@@ -173,23 +175,19 @@ flex-wrap: wrap;
     background-color: #9d07ee;
     color: white;
     padding: 10px 20px;
-    border: none;
     border-radius: 10px;
+    border: 1px solid purple;
     cursor: pointer;
+    box-shadow: 0 6px 0 #4a0072;
     margin-top: 14px;
     font-size: 14px;
-    transition: transform 250ms;
+    transition: translateY(0);
     align-self: center;
 }
 
-#review-form button:hover {
-    background-color: #0056b3;
-    transform: translateY(-10px);
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+#review-form button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px #4a0072;
 }
 
 
@@ -201,8 +199,10 @@ flex-wrap: wrap;
     border-radius: 10px;
     padding: 2rem;
     margin: 2rem auto;
-    width: 600px;
-    border: 1px solid purple;
+    max-width: 900px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0px 8px 24px rgba(0,0,0,0.08);
 }
 .back-button {
     display: inline-block;
@@ -261,11 +261,12 @@ flex-wrap: wrap;
     border-radius: 10px;
     padding: 1rem;
     margin: 1rem 0;
-    border: 1px solid purple;
+    border: 1px solid #e0e0e0;
 }
 #reviews {
     width: 500px;
     margin: 2rem auto;
+    padding: 2rem;
 }
 .price {
     font-weight: bold;
@@ -277,10 +278,19 @@ flex-wrap: wrap;
     border-radius: 10px;
     border: 1px solid purple;
     cursor: pointer;
+    box-shadow: 0 6px 0 #4a0072;
+    transform: translateY(0);
+    transition: transform 0.1s, box-shadow 0.1s;
 }
+
+#add-review button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #4a0072;
+}
+
 hr {
     border: purple;
-    border-top: 1px solid purple;
+    border-top: 1px solid #e0e0e0;
     margin: 1rem 0;
 }
 
@@ -477,15 +487,6 @@ login-form
 #login-form h2 {
     padding-bottom: 1rem;
 }
-
-/*
-keyframe gradient body
-*/
-/* @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-} */
 
 #login-form label {
     display: block;
