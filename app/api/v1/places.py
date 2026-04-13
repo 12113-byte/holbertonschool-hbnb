@@ -176,10 +176,18 @@ class PlaceResource(Resource):
             return {"error": "Unauthorised action"}, 403
         
         data = api.payload
-        try:
-            updated = facade.update_place(place_id, data)
-            return {"message": "Place updated successfully"}, 200
 
+        merged = {
+            'title': data.get('title', place.title),
+            'description': data.get('description', place.description),
+            'price': data.get('price', place.price),
+            'latitude': data.get('latitude', place.latitude),
+            'longitude': data.get('longitude', place.longitude),
+        }
+
+        try:
+            facade.update_place(place_id, merged)
+            return {"message": "Place updated successfully"}, 200
         except Exception as e:
             return {"error": str(e)}, 400
 

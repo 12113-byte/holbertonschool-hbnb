@@ -114,7 +114,7 @@ flex-wrap: wrap;
     align-self: center;
 }
 /*
- Places/index page
+* Places/index page
  */
 
 #review-form {
@@ -338,4 +338,25 @@ hr {
 
 #login-form h2 {
     padding-bottom: 1rem;
+}
+
+/*
+* Edit form for admin and owner
+*/
+
+.edit-form {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 70px;
+    margin: 20px auto;
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+}
+
+.edit-input {
+    border: 1px solid purple;
+    border-radius: 5px;
+    padding: 2px 6px;
+    margin-left: 5px;
 }

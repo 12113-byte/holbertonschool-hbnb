@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <script src="{{ url_for('static', filename='scripts.js')}}" defer></script>
+</head>
+<body>
+    {% include 'header.html' %}
+    <main>
+        <section id="profile-details">
+            <!-- dynamically filled by js file -->
+        </section>
+        <section id="profile-places">
+            <!-- dynamically filled by js file -->
+        </section>
+        <section id="profile-reviews">
+            <!-- dynamically filled by js file -->
+        </section>
+    </main>
+    {% include 'footer.html' %}
+</body>
+</html>

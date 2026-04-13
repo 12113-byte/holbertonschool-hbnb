@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const access_token = checkAuthentication();
 	setupLoginForm();
+	setupLogout();
 	IndexPageFunction(access_token);
 	PlacePageFunction(access_token);
 	ReviewPageFunction(access_token);
+	ProfilePageFunction(access_token);
 });
 /*
 * Common functions
@@ -23,15 +25,23 @@ function checkAuthentication() {
 	const token = getCookie('access_token');
 	const loginLink = document.getElementById('login-link');
 	const profileLink = document.getElementById('profile-link');
+	const logoutLink = document.getElementById('logout-link');
 
 	if (!token) {
 		loginLink.style.display = 'block';
 		profileLink.style.display = 'none';
+		logoutLink.style.display = 'none';
 	} else {
 		loginLink.style.display = 'none';
 		profileLink.style.display = 'block';
+		logoutLink.style.display = 'block';
 	}
 	return token;
+}
+
+    // function for stars in rating
+function getStars(rating) {
+	return '★'.repeat(rating) + '☆'.repeat(5 - rating);
 }
 /*
 * Common functions
@@ -147,11 +157,16 @@ async function OpenPlace(evt){
 function PlacePageFunction(access_token){
 	const placeDetails = document.getElementById('place-details');
 	const addReviewSection = document.getElementById('add-review');
-	const AddReviewBtn = document.getElementById('add_review_btn');
+	const AddReviewBtn = document.getElementById('add_review_button');
 	const placeId = getPlaceIdFromURL();
-	if (!placeDetails) {
+
+	if (!placeDetails) return;
+
+	if (!AddReviewBtn) {
+		console.error('add_review_button not found in DOM');
 		return;
 	}
+
 	if (!access_token) {
 		addReviewSection.style.display = 'none';
 	} else {
@@ -189,87 +204,188 @@ async function fetchPlaceDetails(token, placeId) {
 			throw new Error(`HTTP error! Status: ${response.status}`);
 		}
 		const data = await response.json();
-		displayPlaceDetails(data);
+		let currentUser = null; // fetching current user, if logged in
+		if (token) {
+			const userResponse = await fetch('/api/v1/users/me', {
+				headers: { 'Authorization': `Bearer ${token}` }
+			});
+			if (userResponse.ok) {
+				currentUser = await userResponse.json();
+			}
+		}
+		displayPlaceDetails(data, currentUser);
 	} catch (error) {
 		console.error('Fetch error:', error);
 	}
 }
 
-function displayPlaceDetails(place) {
-	// Clear the current content of the place details section
-	const placeDetails = document.getElementById('place-details');
-
-	placeDetails.innerHTML = '';
-	// Create elements to display the place details (name, description, price, amenities and reviews)
-	// Append the created elements to the place details section
-	// title
-	const title = document.createElement('h2');
-	title.textContent = place.place.title;
-	title.classList.add('title');
-	placeDetails.appendChild(title);
 
 
-	// images
-	const images = document.createElement('img');
-	images.src = place.place.image_url;
-	images.classList.add('img');
-	placeDetails.appendChild(images);
+function displayPlaceDetails(place, currentUser) {
+    const placeDetails = document.getElementById('place-details');
 
-	// description
-	const place_desc_div = document.createElement('div');
-	place_desc_div.classList.add('place-info');
+    // safer than innerHTML = ''
+    placeDetails.replaceChildren();
 
-	const description = document.createElement('p');
-	description.textContent = "Description:" + place.place.description;
-	description.classList.add('description');
+    // title
+    const title = document.createElement('h2');
+    title.textContent = place.place.title;
+    title.classList.add('title');
+    placeDetails.appendChild(title);
 
-	place_desc_div.appendChild(description);
-	placeDetails.appendChild(place_desc_div);
+    // image
+    const image = document.createElement('img');
+    image.src = place.place.image_url;
+    image.classList.add('place-image');
+    placeDetails.appendChild(image);
 
-	// price
-	const price = document.createElement('p');
-	price.textContent = "Price per night $" + place.place.price;
-	price.classList.add('price');
-	placeDetails.appendChild(price);
+    // place-info div (the two-column row)
+    const placeInfoDiv = document.createElement('div');
+    placeInfoDiv.classList.add('place-info');
 
-	// owner
-	const owner = document.createElement('p');
-	owner.textContent = "Owner" + place.owner.first_name + " " + place.owner.last_name;
-	owner.classList.add('owner');
-	placeDetails.appendChild(owner);
+    // left side: description + owner grouped together
+    const leftDiv = document.createElement('div');
 
-	// amenities
-	const amenitiesTitle = document.createElement('h3');
-	amenitiesTitle.textContent = 'Amenities';
-	amenitiesTitle.classList.add('amenities-title');
-	placeDetails.appendChild(amenitiesTitle);
+    const description = document.createElement('p');
+    description.textContent = "Description: " + place.place.description;
+    description.classList.add('description');
 
-	const amenitiesList = document.createElement('ul');
-	place.amenities.forEach(amenity => {
-		const item = document.createElement('li');
-		item.textContent = amenity.name;
-		item.classList.add('amenity-item');
-		amenitiesList.appendChild(item);
+    const owner = document.createElement('p');
+    owner.textContent = "Owner: " + place.owner.first_name + " " + place.owner.last_name;
+    owner.classList.add('owner');
+
+    leftDiv.appendChild(description);
+    leftDiv.appendChild(owner);
+
+    // right side: price
+    const price = document.createElement('p');
+    price.textContent = "Price per night: $" + place.place.price;
+    price.classList.add('price');
+
+    placeInfoDiv.appendChild(leftDiv);
+    placeInfoDiv.appendChild(price);
+    placeDetails.appendChild(placeInfoDiv);
+
+	// checking if current user is owner or admin
+	const isOwner = currentUser && currentUser.id === place.owner.id;
+	const isAdmin = currentUser && currentUser.is_admin;
+
+	if (isOwner || isAdmin) {
+		const editButton = document.createElement('button');
+		editButton.textContent = 'Edit Place';
+		editButton.classList.add('booking-button');
+		editButton.addEventListener('click', () => {
+			showPlaceEditForm(place, currentUser);
+		});
+		placeDetails.appendChild(editButton);
+	}
+
+    // divider
+    const hr = document.createElement('hr');
+    placeDetails.appendChild(hr);
+
+    // amenities
+    const amenitiesTitle = document.createElement('h3');
+    amenitiesTitle.textContent = 'Amenities';
+    amenitiesTitle.classList.add('amenities-title');
+    placeDetails.appendChild(amenitiesTitle);
+
+    const amenitiesList = document.createElement('ul');
+    amenitiesList.classList.add('amenities-list');
+    place.amenities.forEach(amenity => {
+        const item = document.createElement('li');
+        item.textContent = amenity.name;
+        item.classList.add('amenity-item');
+        amenitiesList.appendChild(item);
+    });
+    placeDetails.appendChild(amenitiesList);
+
+    // reviews
+    const reviewsSection = document.getElementById('reviews');
+    reviewsSection.replaceChildren();
+
+    const reviewsTitle = document.createElement('h3');
+    reviewsTitle.textContent = 'Reviews';
+    reviewsTitle.classList.add('review-title');
+    reviewsSection.appendChild(reviewsTitle);
+
+    place.reviews.forEach(review => {
+        const reviewDiv = document.createElement('div');
+        reviewDiv.classList.add('review');
+        reviewDiv.textContent = `${getStars(review.rating)} - ${review.comment}`;
+        reviewsSection.appendChild(reviewDiv);
+    });
+}
+
+function showPlaceEditForm(place, currentUser) {
+	const existing = document.getElementById('place-edit-form');
+	if (existing) { existing.remove(); return; }
+
+	const form = document.createElement('div');
+	form.id = 'place-edit-form';
+
+	const fields = [
+		{ label: 'Title', field: 'title', value: place.place.title },
+		{ label: 'Description', field: 'description', value: place.place.description },
+		{ label: 'Price', field: 'price', value: place.place.price },
+	];
+
+	// additional fields for admin
+	if (currentUser.is_admin) {
+		fields.push(
+		{ label: 'Latitude', field: 'latitude', value: place.place.latitude },
+		{ label: 'Longitude', field: 'longitude', value: place.place.longitude },
+		);
+	}
+
+	fields.forEach(({ label, field, value }) => {
+		const row = document.createElement('p');
+		const strong = document.createElement('strong');
+		strong.textContent = `${label}: `;
+
+		const input = document.createElement('input');
+		input.value = value;
+		input.dataset.field = field;
+
+		row.appendChild(strong);
+		row.appendChild(input);
+		form.appendChild(row);
 	});
-	amenitiesList.classList.add('amenity-list');
-	placeDetails.appendChild(amenitiesList);
 
-    // function for stars in rating
-    function getStars(rating) {
-    return '★'.repeat(rating) + '☆'.repeat(5 - rating);
-    }
+	const saveButton = document.createElement('button');
+	saveButton.textContent = 'Save Changes';
+	saveButton.classList.add('booking-button');
+	saveButton.addEventListener('click', async () => {
+		const inputs = form.querySelectorAll('input');
+		const data = {};
+		const numericFields = ['price', 'latitude', 'longitude'];
+		inputs.forEach(input => {
+			const val = input.value;
+			data[input.dataset.field] = numericFields.includes(input.dataset.field) ? parseFloat(val) : val;
+		});
 
-	// reviews
-	const reviewsTitle = document.createElement('h3');
-	reviewsTitle.textContent = 'Reviews';
-	reviewsTitle.classList.add('review-title');
-	placeDetails.appendChild(reviewsTitle);
+		const token = getCookie('access_token');
+		const response = await fetch(`/api/v1/places/${place.place.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			},
+			body: JSON.stringify(data)
+		});
 
-	place.reviews.forEach(review => {
-		const reviewDiv = document.createElement('div');
-		reviewDiv.textContent = `Rating: ${getStars(review.rating)} - ${review.text}`;
-		placeDetails.appendChild(reviewDiv);
+		if (response.ok) {
+			showSuccessAlert('Place updated!');
+			form.remove();
+			fetchPlaceDetails(token, place.place.id);
+		} else {
+			const err = await response.json();
+			showErrorAlert(err.error || 'Update failed');
+		}
 	});
+
+	form.appendChild(saveButton);
+	document.getElementById('place-details').appendChild(form);
 }
 /*
 * Place Page Functions
@@ -449,4 +565,292 @@ function showLoginError(message) {
 * login page functions
 */
 
+/*
+* Logout page functions
+*/
 
+function setupLogout() {
+	const logoutLink = document.getElementById('logout-link');
+	if (!logoutLink) return;
+
+	logoutLink.addEventListener('click', (event) => {
+		event.preventDefault();
+		document.cookie = 'access_token=; max-age=0; path=/;';
+		window.location.href = '/';
+	});
+}
+
+/*
+* Logout page function
+*/
+
+/*
+* Profil Page functions
+*/
+
+function ProfilePageFunction(access_token) {
+	const profileDetails = document.getElementById('profile-details');
+	if (!profileDetails) return;
+
+	if (!access_token) {
+		window.location.href = '/login';
+		return;
+	}
+	fetchProfile(access_token);
+}
+
+async function fetchProfile(token) {
+	try {
+		const response = await fetch('/api/v1/users/me', {
+			headers: { 'Authorization': `Bearer ${token}` }
+		});
+		if (!response.ok) throw new Error('Failed to fetch profile');
+		const user = await response.json();
+		displayProfile(user, token);
+	} catch (error) {
+		console.error('Profile fetch error', error);
+	}
+}
+
+function displayProfile(user, token) {
+	// User Info
+	const profileDetails = document.getElementById('profile-details');
+	profileDetails.replaceChildren();
+
+	const heading = document.createElement('h2');
+	heading.textContent = `${user.first_name} ${user.last_name}`;
+	heading.classList.add('title');
+
+	const email = document.createElement('p');
+	email.textContent = `Email: ${user.email}`;
+
+	const userId = document.createElement('p');
+	userId.textContent = `User ID: ${user.id}`;
+	userId.classList.add('owner');
+
+	const editInfoButton = document.createElement('button');
+	editInfoButton.textContent = 'Edit Information';
+	editInfoButton.classList.add('booking-button');
+	editInfoButton.addEventListener('click', () => {
+		showUserEditForm(user, token);
+	});
+
+	profileDetails.appendChild(heading);
+	profileDetails.appendChild(email);
+	profileDetails.appendChild(userId);
+	profileDetails.appendChild(editInfoButton);
+
+	displayProfilePlaces(user.places, token);
+	displayProfileReviews(user.reviews, token);
+}
+
+function displayProfilePlaces(places, token) {
+	const section = document.getElementById('profile-places');
+	section.replaceChildren();
+
+	const title = document.createElement('h3');
+	title.textContent = 'My Places';
+	title.classList.add('amenities-title');
+	section.appendChild(title);
+
+	places.forEach(place => {
+		const card = document.createElement('div');
+		card.classList.add('place-card');
+
+		const cardTitle = document.createElement('h2');
+		cardTitle.textContent = place.title;
+		cardTitle.style.cursor = 'pointer';
+		cardTitle.addEventListener('click', () => {
+			window.location.href = '/place?id=' + place.id;
+		});
+
+        const cardDesc = document.createElement('p');
+        cardDesc.textContent = place.description;
+        cardDesc.classList.add('place-desc');
+
+        const cardPrice = document.createElement('p');
+        cardPrice.textContent = `$${place.price} per night`;
+        cardPrice.classList.add('place-price');
+
+        card.appendChild(cardTitle);
+        card.appendChild(cardDesc);
+        card.appendChild(cardPrice);
+		section.appendChild(card);
+	});
+}
+
+function displayProfileReviews(reviews, token) {
+	const section = document.getElementById('profile-reviews');
+	section.replaceChildren();
+
+	const title = document.createElement('h3');
+	title.textContent = 'My Reviews';
+	title.classList.add('review-title');
+	section.appendChild(title);
+
+	reviews.forEach(review => {
+		const reviewDiv = document.createElement('div');
+		reviewDiv.classList.add('review');
+
+		// updateable fields
+		const fields = [
+			{ label: 'Rating', field: 'rating', value: review.rating },
+			{ label: 'Review', field: 'text', value: review.text }
+		];
+
+		fields.forEach(({ label, field, value }) => {
+			const p = document.createElement('p');
+			const strong = document.createElement('strong');
+			strong.textContent = `${label}: `;
+
+			const span = document.createElement('span');
+			span.classList.add('editable');
+			span.dataset.field = field;
+			span.dataset.id = review.id;
+			span.dataset.type ='review';
+			span.textContent = field == 'rating' ? getStars(value) : value;
+
+			p.appendChild(strong);
+			p.appendChild(span);
+			reviewDiv.appendChild(p);
+		});
+
+		section.appendChild(reviewDiv);
+	});
+}
+
+function setupInlineEditing(token) {
+	document.querySelectorAll('.editable').forEach(span => {
+		span.style.cursor = 'pointer';
+		span.title = 'Click to edit';
+
+		span.addEventListener('click', function () {
+			if (this.querySelector('input')) return; // already editing
+
+			const original = this.textContent;
+			const field = this.dataset.field;
+			const id = this.dataset.id;
+			const type = this.dataset.type || 'place';
+
+			const input = document.createElement('input');
+			input.value = original;
+			this.textContent = '';
+			this.appendChild(input);
+			input.focus();
+
+			input.addEventListener('keydown', async (e) => {
+				if (e.key === 'Enter') {
+					const newValue = input.value.trim();
+					const success = await saveEdit(token, type, id, field, newValue);
+					span.textContent = success ? newValue : original;
+				}
+				if (e.key === 'Escape') {
+					span.textContent = original;
+				}
+			});
+
+			input.addEventListener('blur', async () => {
+				const newValue = input.value.trim();
+				const success = await saveEdit(token, type, id, field, newValue);
+				span.textContent = success ? newValue : original;
+			});
+		});
+	});
+}
+
+async function saveEdit(token, type, id, field, newValue) {
+    const url = type === 'review'
+        ? `/api/v1/reviews/${id}`
+        : `/api/v1/places/${id}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ [field]: newValue })
+        });
+        if (response.ok) {
+            showSuccessAlert('Saved!');
+            return true;
+        } else {
+            const err = await response.json();
+            showErrorAlert(err.error || 'Update failed');
+            return false;
+        }
+    } catch (error) {
+        showErrorAlert('Something went wrong');
+        return false;
+    }
+}
+
+function showUserEditForm(user, token) {
+	const existing = document.getElementById('user-edit-form');
+	if (existing) { existing.remove(); return; }
+
+	const form = document.createElement('div');
+	form.id = 'user-edit-form';
+	form.classList.add('edit-form');
+
+	const fields = [
+		{ label: 'First Name', field: 'first_name', value: user.first_name },
+		{ label: 'Last Name', field: 'last_name', value: user.last_name }
+	];
+
+	// extra options for admin
+	if (user.is_admin) {
+		fields.push({ label: 'Email', field: 'email', value: user.email });
+	}
+
+	fields.forEach(({ label, field, value }) => {
+		const row = document.createElement('p');
+        const strong = document.createElement('strong');
+        strong.textContent = `${label}: `;
+
+        const input = document.createElement('input');
+        input.value = value;
+        input.dataset.field = field;
+		input.classList.add('edit-input');
+
+        row.appendChild(strong);
+        row.appendChild(input);
+        form.appendChild(row);
+	});
+
+	const saveButton = document.createElement('button');
+	saveButton.textContent = 'Save Changes';
+    saveButton.classList.add('booking-button');
+    saveButton.addEventListener('click', async () => {
+        const inputs = form.querySelectorAll('input');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.dataset.field] = input.value;
+        });
+
+        const response = await fetch(`/api/v1/users/${user.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            showSuccessAlert('Information updated!');
+            form.remove();
+            fetchProfile(token); // reload profile to show updated values
+        } else {
+            const err = await response.json();
+            showErrorAlert(err.error || 'Update failed');
+        }
+    });
+
+    form.appendChild(saveButton);
+    document.getElementById('profile-details').appendChild(form);
+}
+/*
+* Profil Page functions
+*/

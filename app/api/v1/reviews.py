@@ -117,7 +117,7 @@ class ReviewResource(Resource):
         # checking if user is admin
         is_admin = current_user.get('is_admin', False)
         # extracting id
-        user_id = current_user.get('id')
+        user_id = get_jwt_identity()
 
         # fetch review first to check ownership
         review = facade.get_review(review_id)

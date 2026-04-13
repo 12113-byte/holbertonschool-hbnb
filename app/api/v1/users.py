@@ -50,6 +50,25 @@ class UserList(Resource):
 
         except Exception as e:
             api.abort(400, str(e))
+
+@api.route('/me') # user profile
+class CurrentUser(Resource):
+    @jwt_required()
+    def get(self):
+        """Get currently logged-in user profile"""
+        user_id = get_jwt_identity()
+        user = facade.get_user(user_id)
+        if not user:
+            return {'error': 'User not found'}, 404
+        return {
+            'id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'is_admin': user.is_admin,
+            'places': [{'id': p.id, 'title': p.title, 'description': p.description, 'price': p.price} for p in user.places],
+            'reviews': [{'id': r.id, 'text': r.text, 'rating': r.rating} for r in user.reviews]
+        }, 200
     
 @api.route('/<user_id>')
 class UserResource(Resource):
@@ -70,7 +89,6 @@ class UserResource(Resource):
     @api.response(403, 'Unauthorised action')
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input data')
-    @jwt_required()
     def put(self, user_id):
         """Update a user by ID"""
         # get who is making request from token
@@ -78,7 +96,7 @@ class UserResource(Resource):
         # checking if user is admin
         is_admin = current_user.get('is_admin', False)
         # extracting token id
-        token_user_id = current_user.get('id')
+        token_user_id = get_jwt_identity()
 
         # retrieving data from request
         data = api.payload
