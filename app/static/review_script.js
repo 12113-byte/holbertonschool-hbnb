@@ -108,6 +108,7 @@ function checkAuthentication() {
 		async function handleResponse(response) {
 		if (response.ok) {
 			showSuccessAlert('Your review was successfully submitted!');
+			launchConfetti();
 			document.getElementById('review-form').reset();
 		} else {
 			const data = await response.json();
