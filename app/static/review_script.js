@@ -10,6 +10,30 @@
 		return null;
 	}
 
+
+// Adding a display message upon successful submission
+function showSuccessAlert(message = "Review submitted!") {
+	const toast = document.createElement("div");
+	toast.textContent = message;
+	toast.style.cssText = `
+		position: fixed;
+		top: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		background: #4CAF50;
+		color: white;
+		padding: 16px 32px;
+		border-radius: 12px;
+		font-size: 16px;
+		box-shadow: 0 4px 12px rgba(0,0,0,0,2);
+		z-index: 9999;
+		animation: fadeIn 0.3s ease;
+	`;
+	docuemnt.body.appendChild(toast);
+	setTimeout(() => toast.remove(), 3000);
+}
+
+
 //Check authentication - redirect if no token
 function checkAuthentication() {
 		const token = getCookie('access_token');
@@ -37,40 +61,40 @@ function checkAuthentication() {
 			reviewForm.addEventListener('submit', async (event) => {
 				event.preventDefault();
 				const reviewText = document.getElementById('review').value;
-				const rating = document.getElementByID('rating').value;
+				const rating = document.getElementById('rating').value;
 				await submitReview(token, placeId, reviewText, rating);
 			});
 		}
 	});
 
-	//Make AJAX request to submit review
-		async function submitReview(token, placeId, reviewText, rating) {
-		try {
-			const response = await fetch('/api/v1/reviews/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${token}`
-				},
-				body: JSON.stringify({
-					place_id: placeId,
-					text: reviewText,
-					rating: parseInt(rating)
-				})
-			});
-			handleResponse(response);
-		} catch (err) {
-			console.error('Error submitting review', err);
-			alert('Failed to submit review');
-		}
+//Make AJAX request to submit review
+async function submitReview(token, placeId, reviewText, rating) {
+	try {
+		const response = await fetch('/api/v1/reviews/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			},
+			body: JSON.stringify({
+				place_id: placeId,
+				text: reviewText,
+				rating: parseInt(rating)
+			})
+		});
+		handleResponse(response);
+	} catch (err) {
+		console.error('Error submitting review', err);
+		alert('Failed to submit review');
 	}
+}
 
-	//Handle API response
-		async function handleResponse(response) {
-		if (response.ok) {
-			alert('Review submitted successfully!');
-			document.getElementById('review-form').reset();
-		} else {
-			alert('Failed to submit review');
-		}
+//Handle API response
+async function handleResponse(response) {
+	if (response.ok) {
+		showSuccessAlert('Your review was successfully submitted!');
+		document.getElementById('review-form').reset();
+	} else {
+		alert('Failed to submit review');
 	}
+}
