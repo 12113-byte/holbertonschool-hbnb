@@ -13,6 +13,9 @@
 body {
     background-color: #f4f4f4;
     color: #333;
+    /* background: linear-gradient(135deg, #f9c6d0, #c6e0f9, #c6f9d4, #f9f0c6, #e0c6f9);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite; */
 }
 
 header {
@@ -125,6 +128,8 @@ flex-wrap: wrap;
     background-color: white;
     width: 100%;
     max-width: 500px;
+    display: flex;
+    flex-direction: column;
 }
 
 #review-form h2 {
@@ -174,6 +179,7 @@ flex-wrap: wrap;
     margin-top: 14px;
     font-size: 14px;
     transition: transform 250ms;
+    align-self: center;
 }
 
 #review-form button:hover {
@@ -385,4 +391,67 @@ feature boxes - hompage
 
 .feature-card:hover {
     transform: translateY(-8px);
+}
+
+/*
+login-form
+*/
+
+#login-form {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 70px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#login-form button {
+    background-color: purple;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #4a0072;
+    transform: translateY(0);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+#login-form button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #4a0072;
+}
+
+#login-form h2 {
+    padding-bottom: 1rem;
+}
+
+/*
+keyframe gradient body
+*/
+/* @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+} */
+
+#login-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+#login-form input {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }
