@@ -195,7 +195,7 @@ flex-wrap: wrap;
     border-radius: 10px;
     padding: 2rem;
     margin: 2rem auto;
-    max-width: 900px;
+    width: 600px;
     border: 1px solid purple;
 }
 .back-button {
@@ -258,7 +258,7 @@ flex-wrap: wrap;
     border: 1px solid purple;
 }
 #reviews {
-    max-width: 900px;
+    width: 500px;
     margin: 2rem auto;
 }
 .price {

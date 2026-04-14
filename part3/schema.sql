@@ -56,7 +56,7 @@ VALUES (
 );
 INSERT INTO users (id, first_name, last_name, email, password, is_admin)
 VALUES (
-    '36y9050e-zzz4-4c3b-9731-9f487208bhc2',
+    '2ca1f05a-720e-47f9-be39-1171e212312d',
     'User',
     'Example',
     'user@hbnb.io',
@@ -66,7 +66,7 @@ VALUES (
 
 INSERT INTO places (id, title, description, image_url, price, latitude, longitude, user_id)
 VALUES (
-    '36b7050e-aaa3-4c3b-9731-9f487208zzy2',
+    '3b022b58-796a-4a14-90b2-2e35fc7f1b98',
     'Brand New Apartment',
     'New Apartment that looks amazing! Freshly squeezed',
     'testlinklol',
@@ -75,10 +75,67 @@ VALUES (
     '12',
     '36c9050e-ddd3-4c3b-9731-9f487208bbc1'
 );
+INSERT INTO places (id, title, description, image_url, price, latitude, longitude, user_id)
+VALUES (
+    '3ec67d3a-0c14-4e0f-950d-9b1b343c5815',
+    'Old Apartment',
+    'Ancient, Haunted, filled with ghosts, spiders, and ghost-spiders',
+    'testlinklol',
+    '75',
+    '50',
+    '-7',
+    '36c9050e-ddd3-4c3b-9731-9f487208bbc1'
+);
+INSERT INTO places (id, title, description, image_url, price, latitude, longitude, user_id)
+VALUES (
+    'aee46255-37ff-44f1-9cef-5460147ecae8',
+    'Apartment',
+    'It is actually a house',
+    'testlinklol',
+    '1150',
+    '56',
+    '33',
+    '2ca1f05a-720e-47f9-be39-1171e212312d'
+);
 
 -- inserting amenities 
 INSERT INTO amenities (id, name) VALUES ('78c49624-1d50-4b6b-a909-a83a82bbb08b', 'WiFi');
 INSERT INTO amenities (id, name) VALUES ('e92d4244-823f-48e2-b4f2-d02e3f64845e', 'Swimming Pool');
 INSERT INTO amenities (id, name) VALUES ('058d929a-a677-4eff-8db0-ea88f4c20bba', 'Air Conditioning');
+
+-- Wifi and AC into New Apartment --
+INSERT INTO amenityplacemap (id, place_id, amenity_id)
+VALUES (
+    '8d01ecb5-5802-482b-8114-c35e8178c55d',
+    '3b022b58-796a-4a14-90b2-2e35fc7f1b98',
+    '78c49624-1d50-4b6b-a909-a83a82bbb08b'
+);
+
+INSERT INTO amenityplacemap (id, place_id, amenity_id)
+VALUES (
+    '84b40606-6461-49c8-85b9-8d2a7cf93565',
+    '3b022b58-796a-4a14-90b2-2e35fc7f1b98',
+    '058d929a-a677-4eff-8db0-ea88f4c20bba'
+);
+
+-- Wifi, Simming and AC into Apartment --
+INSERT INTO amenityplacemap (id, place_id, amenity_id)
+VALUES (
+    '391df0f0-850a-4c68-b981-5b135daa1327',
+    'aee46255-37ff-44f1-9cef-5460147ecae8',
+    '78c49624-1d50-4b6b-a909-a83a82bbb08b'
+);
+INSERT INTO amenityplacemap (id, place_id, amenity_id)
+VALUES (
+    'b4fbbc7e-8607-4ef5-8954-ce49f3abf0c6',
+    'aee46255-37ff-44f1-9cef-5460147ecae8',
+    'e92d4244-823f-48e2-b4f2-d02e3f64845e'
+);
+INSERT INTO amenityplacemap (id, place_id, amenity_id)
+VALUES (
+    '7a6b8ded-d806-43b0-8d97-071436744a30',
+    'aee46255-37ff-44f1-9cef-5460147ecae8',
+    '058d929a-a677-4eff-8db0-ea88f4c20bba'
+);
 
 

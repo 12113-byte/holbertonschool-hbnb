@@ -12,7 +12,7 @@ from flask_restx import Namespace, Resource, fields
 # jwt_required: blocks endpoint if no valid token is provided
 # get_jwt_identity: retrieves user ID stored inside JWT token
 # get_jwt: retrieves everything in token, including is_admin
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt, verify_jwt_in_request
 from app.services import facade
 
 #Created namespace
@@ -113,13 +113,18 @@ class PlaceResource(Resource):
     @api.response(404, 'Place not found')
     def get(self, place_id):
         """Get a specific Place"""
+        #check the users so the place can be edited
+        current_user_id = verify_jwt_in_request(optional=True)
+        user = None
+        if current_user_id is not None:
+            user = facade.get_user(current_user_id[1]['sub'])
+
         place = facade.get_place(place_id)
 
         if not place:
             return {"error": "Place not found"}, 404
 
-        return {
-            "place": {
+        place_details = {
                 "id": place_id,
                 "title": place.title,
                 "image_url": place.image_url,
@@ -127,24 +132,24 @@ class PlaceResource(Resource):
                 "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude
-            },
-            # Owner relationship
-            "owner": {
-                "id": place.user.id,
-                "first_name": place.user.first_name,
-                "last_name": place.user.last_name,
-                "email": place.user.email
-            },
-            "reviews" : [
-            {
-                "id": r.id,
-                "text": r.text,
-                "rating": r.rating,
-                "user_id": r.user_id
-            } for r in place.reviews
-            ],
-            "amenities": [{"id": a.id, "name": a.name} for a in place.amenities],
-            }, 200
+                }
+        owner_details = {
+            "id": place.user.id,
+            "first_name": place.user.first_name,
+            "last_name": place.user.last_name,
+            "email": place.user.email
+            }
+        if user is not None:
+            if place.user.id == user.id or user.is_admin == True:
+                owner_details["auth"] = "True"
+
+        return_dict = {}
+        return_dict["place"] = place_details
+        return_dict["owner"] = owner_details
+        return_dict["reviews"] = [{"id": r.id, "text": r.text, "rating": r.rating, "user_id": r.user_id} for r in place.reviews]
+        return_dict["amenities"] = [{"id": a.id, "name": a.name} for a in place.amenities]
+
+        return return_dict, 200
 
     # ---------------------------------
 

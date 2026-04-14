@@ -69,7 +69,7 @@ class CurrentUser(Resource):
             'places': [{'id': p.id, 'title': p.title, 'description': p.description, 'price': p.price} for p in user.places],
             'reviews': [{'id': r.id, 'text': r.text, 'rating': r.rating} for r in user.reviews]
         }, 200
-    
+
 @api.route('/<user_id>')
 class UserResource(Resource):
     # GET is public, anyone can loop up a user profile
