@@ -1,8 +1,3 @@
-/* 
- * This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks.
- * You'll probably need to override some of theese styles.
- */
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -61,16 +56,17 @@ ul li a {
     text-decoration: none;
 }
 ul li a:hover {
-    border: 1px solid purple;
+    border: 1px solid tomato;
     border-radius: 10px;
 }
 .search-bar {
     padding: 8px 15px;
+    margin-left: 1%;
     border-radius: 20px;
-    border: 1px solid purple;
+    border: 1px solid tomato;
 }
 .search-bar:focus {
-    border-color: purple;
+    border-color: tomato;
 }
 
 /*
@@ -172,13 +168,13 @@ flex-wrap: wrap;
 }
 
 #review-form button {
-    background-color: #9d07ee;
+    background-color: tomato;
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
-    border: 1px solid purple;
+    border: 1px solid tomato;
     cursor: pointer;
-    box-shadow: 0 6px 0 #4a0072;
+    box-shadow: 0 6px 0 rgba(255, 99, 71, 0.71);
     margin-top: 14px;
     font-size: 14px;
     transition: translateY(0);
@@ -187,7 +183,7 @@ flex-wrap: wrap;
 
 #review-form button:active {
     transform: translateY(4px);
-    box-shadow: 0 2px #4a0072;
+    box-shadow: 0 2px rgba(255, 99, 71, 0.71);
 }
 
 
@@ -198,8 +194,9 @@ flex-wrap: wrap;
 #place-details {
     border-radius: 10px;
     padding: 2rem;
-    margin: 2rem auto;
+    width: 90%;
     max-width: 900px;
+    margin: 5% auto;
     background: white;
     border: 1px solid #e0e0e0;
     box-shadow: 0px 8px 24px rgba(0,0,0,0.08);
@@ -208,7 +205,7 @@ flex-wrap: wrap;
 }
 .back-button {
     display: inline-block;
-    color: purple;
+    color: tomato;
     font-weight: bold;
     padding: 10px;
 }
@@ -227,6 +224,7 @@ flex-wrap: wrap;
     font-size: 16px;
     color: #333;
     margin: 10px 0;
+    padding-top: 30px;
 }
 .place-info {
     display: flex;
@@ -235,11 +233,11 @@ flex-wrap: wrap;
     margin: 1rem 0;
 }
 .booking-button {
-    background-color: purple;
+    background-color: tomato;
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
-    border: 1px solid purple;
+    border: 1px solid tomato;
     cursor: pointer;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -267,9 +265,15 @@ flex-wrap: wrap;
     border: 1px solid #e0e0e0;
 }
 #reviews {
-    width: 500px;
-    margin: 2rem auto;
+    border-radius: 10px;
     padding: 2rem;
+    width: 90%;
+    max-width: 900px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0px 8px 24px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
 }
 .price {
     font-size: 1.3rem;
@@ -278,24 +282,25 @@ flex-wrap: wrap;
     margin: 0.5rem 0;
 }
 #add-review button {
-    background-color: purple;
+    background-color: tomato;
     color: white;
     padding: 10px 20px;
+    margin-top: 15%;
     border-radius: 10px;
-    border: 1px solid purple;
+    border: 1px solid tomato;
     cursor: pointer;
-    box-shadow: 0 6px 0 #4a0072;
+    box-shadow: 0 6px 0 rgba(255, 99, 71, 0.71);
     transform: translateY(0);
     transition: transform 0.1s, box-shadow 0.1s;
 }
 
 #add-review button:active {
     transform: translateY(4px);
-    box-shadow: 0 2px 0 #4a0072;
+    box-shadow: 0 2px 0 rgba(255, 99, 71, 0.71);
 }
 
 hr {
-    border: purple;
+    border: tomato;
     border-top: 1px solid #e0e0e0;
     margin: 1rem 0;
 }
@@ -360,7 +365,7 @@ hero house - homepage
 .welcome a {
     display: inline-block;
     margin-top: 24px;
-    background-color: purple;
+    background-color: tomato;
     color: white;
     text-decoration: none;
     padding: 12px 28px;
@@ -382,11 +387,11 @@ hero house - homepage
 }
 
 #login-form button {
-    background-color: purple;
+    background-color: tomato;
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
-    border: 1px solid purple;
+    border: 1px solid tomato;
     cursor: pointer;
     
 }
@@ -410,7 +415,7 @@ hero house - homepage
 }
 
 .edit-input {
-    border: 1px solid purple;
+    border: 1px solid tomato;
     border-radius: 5px;
     padding: 2px 6px;
     margin-left: 5px;
@@ -474,20 +479,20 @@ login-form
 }
 
 #login-form button {
-    background-color: purple;
+    background-color: tomato;
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
-    border: 1px solid purple;
+    border: 1px solid tomato;
     cursor: pointer;
-    box-shadow: 0 6px 0 #4a0072;
+    box-shadow: 0 6px 0 rgba(255, 99, 71, 0.71);
     transform: translateY(0);
     transition: transform 0.1s, box-shadow 0.1s;
 }
 
 #login-form button:active {
     transform: translateY(4px);
-    box-shadow: 0 2px 0 #4a0072;
+    box-shadow: 0 2px 0 rgba(255, 99, 71, 0.71);
 }
 
 #login-form h2 {
@@ -506,4 +511,59 @@ login-form
     padding: 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
+}
+
+/*
+* User Profile
+*/
+
+/* Profile details */
+
+#profile-details h2 {
+    padding-bottom: 1rem;
+    display: flex;
+}
+#profile-details {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 70px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#profile-details p {
+    padding: 10px;
+}
+
+#profile-places h3 {
+    padding-top: 1rem;
+    width: 100%;
+}
+
+#profile-places {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    max-width: 900px;
+}
+
+#place-card {
+    margin-top: 1rem;
+}
+
+#profile-reviews {
+    width: 90%;
+    max-width: 900px;
+}
+.review-title {
+    padding-top: 1rem;
+    width: 100%;
+    text-align: left !important;
 }
