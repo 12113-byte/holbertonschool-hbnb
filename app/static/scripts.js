@@ -47,11 +47,16 @@ function getStars(rating) {
 function createPlaceCards(place){
     let card = document.createElement("div");
     let place_title = document.createElement("h2");
+    let image = document.createElement('img');
     let place_desc = document.createElement("p");
     let place_price = document.createElement("p");
     let place_price_span = document.createElement("span");
 
     place_title.innerHTML = place.title;
+
+    image.src = place.image_url;
+    image.classList.add('place-image-thumb');
+
     place_desc.innerHTML = place.description;
     place_desc.classList.add("place-desc");
 
@@ -62,6 +67,7 @@ function createPlaceCards(place){
     place_price.classList.add("place-price");
 
     card.append(place_title);
+    card.appendChild(image);
     card.append(place_desc);
     card.append(place_price);
 
